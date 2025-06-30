@@ -57,6 +57,7 @@ export default {
 </script>
 
 <style scoped>
+  @import 'framework7/css/bundle';
 .custom-navbar {
   background-color: #f5f5f5 !important;
   color: #000 !important;
