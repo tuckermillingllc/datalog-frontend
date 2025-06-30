@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
 import Framework7 from 'framework7/lite-bundle';
-import 'framework7/css/framework7.bundle.css';
 import Framework7Vue, { registerComponents } from 'framework7-vue/bundle';
 import 'node_modules/framework7/framework7-bundle.css';
 import App from './App.vue';
