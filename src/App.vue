@@ -1,14 +1,13 @@
 <template>
-  <f7-app :routes="routes">
-    <f7-view main url="/"></f7-view>
-  </f7-app>
+  <LogList />
 </template>
 
 <script>
+import LogList from './components/LogList.vue';
 import routes from './routes';
 
 export default {
-  name: 'App',
+  components: { LogList },
   data() {
     return {
       routes

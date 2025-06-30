@@ -9,5 +9,8 @@ Framework7.use(Framework7Vue);
 const app = createApp(App);
 registerComponents(app);
 
-// Pass routes to Framework7-Vue root component via props
+// Inject routes into the Framework7 app
+app.config.globalProperties.$f7routes = routes;
+
 app.mount('#app');
+
