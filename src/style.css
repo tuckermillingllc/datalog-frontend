@@ -93,3 +93,10 @@ html, body, #app {
   align-items: center;
   justify-content: space-between; /* keep title and buttons spaced */
 }
+header, .navbar, .logs-header {
+  margin-top: env(safe-area-inset-top);
+  padding-top: 15px; /* or whatever suits your design */
+  background: white; /* or your background color */
+  z-index: 10; /* to keep above other content */
+  position: relative; /* or fixed/sticky if appropriate */
+}

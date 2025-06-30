@@ -1,5 +1,5 @@
 <template>
-  <f7-page>
+  <f7-page class="safe-areas">
     <f7-navbar title="Logs" class="custom-navbar" />
     <f7-list v-if="logs.length">
       <f7-list-item
@@ -58,8 +58,10 @@ export default {
 
 <style scoped>
 .custom-navbar {
-  background-color: #f5f5f5 !important; /* or your page background color */
-  color: #000 !important; /* adjust text color if needed */
-  box-shadow: none !important; /* removes shadow */
+  background-color: #f5f5f5 !important;
+  color: #000 !important;
+  box-shadow: none !important;
+  padding-top: env(safe-area-inset-top); /* additional padding if needed */
 }
+
 </style>
