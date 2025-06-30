@@ -80,8 +80,8 @@ button:focus-visible {
 /* Add safe area padding for iOS status bar */
 html, body, #app {
   background-color: #242424;
-  padding-top: env(safe-area-inset-top);
-  padding-top: constant(safe-area-inset-top);
+  min-height: calc(100% + env(safe-area-inset-top));
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   margin: 0;
   height: 100%;
 }
