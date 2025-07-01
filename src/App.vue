@@ -78,12 +78,6 @@ body.ios header {
   height: calc(56px + env(safe-area-inset-top));
 }
 
-header h1 {
-  font-size: clamp(20px, 5vw, 28px);
-  font-weight: 600;
-  margin: 0;
-}
-
 .app-container {
   max-width: 1200px;
   margin: 0 auto;
