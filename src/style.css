@@ -13,25 +13,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: inherit;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+html, body, #app {
+  background-color: #f5f5f5;
+  min-height: 100%;
+  margin: 0;
+  height: 100%;
 }
 
 body.ios {
-  /* Remove padding-top from body to avoid double stacking */
   padding-top: 0;
 }
 
@@ -44,12 +44,26 @@ body.ios header {
   box-sizing: border-box;
 }
 
+header {
+  background-color: #42b883;
+  color: white;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
 header h1 {
   font-size: clamp(20px, 5vw, 28px);
   line-height: 1.2;
+  font-weight: 600;
   margin: 0;
 }
 
+/* Button style */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -58,8 +72,9 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  color: white;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background-color 0.25s;
 }
 button:hover {
   border-color: #646cff;
@@ -69,43 +84,102 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.card {
-  padding: 2em;
+/* Global links */
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
 }
 
+/* App wrapper */
 #app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  width: 100%;
 }
 
+/* Cards */
+.card {
+  padding: 2em;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Logs header (title + input + button layout) */
+.logs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.logs-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  flex: 1 1 auto;
+}
+
+.logs-header input {
+  flex: 2 1 200px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.logs-header button {
+  padding: 8px 16px;
+  background-color: #42b883;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Responsive layout for logs-header on mobile */
+@media (max-width: 640px) {
+  .logs-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .logs-header h2 {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .logs-header input,
+  .logs-header button {
+    width: 100%;
+  }
+}
+
+/* Light mode override */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
   }
+
+  body, html, #app {
+    background-color: #ffffff;
+  }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
+    color: #333;
   }
-}
-
-/* Add safe area padding for iOS status bar */
-html, body, #app {
-  background-color: #242424;
-  min-height: 100%;
-  margin: 0;
-  height: 100%;
-}
-
-.f7-navbar .navbar-inner {
-  height: calc(44px + env(safe-area-inset-top));
-  padding-left: 16px;
-  padding-right: 16px; /* add some breathing room on sides */
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* keep title and buttons spaced */
 }
