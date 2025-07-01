@@ -344,4 +344,30 @@ onMounted(() => {
 .btn-close:hover {
   background-color: #555;
 }
+
+@media (max-width: 640px) {
+  .list-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-section {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .filter-section input,
+  .filter-section button {
+    width: 100%;
+  }
+
+  .filter-section button {
+    margin-top: 8px;
+  }
+
+  .list-header h2 {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+}
 </style>
