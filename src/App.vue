@@ -60,28 +60,28 @@ body {
   line-height: 1.5;
 }
 
-body.ios {
-  padding-top: env(safe-area-inset-top);
-}
-
-body.ios header {
-  padding-top: calc(16px + env(safe-area-inset-top));
-}
-
-#app {
-  min-height: 100vh;
-}
-
 header {
   background-color: #42b883;
   color: white;
-  padding: 16px 20px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* iOS safe-area support */
+body.ios header {
+  padding-top: env(safe-area-inset-top);
+  height: calc(56px + env(safe-area-inset-top));
 }
 
 header h1 {
-  font-size: 24px;
+  font-size: clamp(20px, 5vw, 28px);
   font-weight: 600;
+  margin: 0;
 }
 
 .app-container {
