@@ -30,6 +30,17 @@ body {
   min-height: 100vh;
 }
 
+body.ios {
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+body.ios header {
+  padding-top: calc(16px + env(safe-area-inset-top));
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -77,6 +88,17 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+@supports (padding: env(safe-area-inset-top)) {
+  body.ios {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  body.ios header {
+    padding-top: calc(16px + env(safe-area-inset-top));
+  }
+}
+
 /* Add safe area padding for iOS status bar */
 html, body, #app {
   background-color: #242424;

@@ -36,6 +36,13 @@
 import { ref } from 'vue'
 import LarvaeLogForm from './components/LarvaeLogForm.vue'
 import LarvaeLogList from './components/LarvaeLogList.vue'
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+    document.body.classList.add('ios')
+  }
+})
 
 const activeTab = ref('form')
 </script>
@@ -51,6 +58,14 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background-color: #f5f5f5;
   line-height: 1.5;
+}
+
+body.ios {
+  padding-top: env(safe-area-inset-top);
+}
+
+body.ios header {
+  padding-top: calc(16px + env(safe-area-inset-top));
 }
 
 #app {

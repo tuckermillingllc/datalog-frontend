@@ -11,6 +11,10 @@ const app = createApp(App);
 registerComponents(app);
 const pinia = createPinia()
 
+if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+  document.body.classList.add('ios');
+}
+
 // Inject routes into the Framework7 app
 app.config.globalProperties.$f7routes = routes;
 
