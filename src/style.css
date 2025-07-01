@@ -31,19 +31,23 @@ body {
 }
 
 body.ios {
-  padding-top: env(safe-area-inset-top);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  padding-bottom: env(safe-area-inset-bottom);
+  /* Remove padding-top from body to avoid double stacking */
+  padding-top: 0;
 }
 
 body.ios header {
-  padding-top: calc(16px + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+  height: calc(56px + env(safe-area-inset-top));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+header h1 {
+  font-size: clamp(20px, 5vw, 28px);
+  line-height: 1.2;
+  margin: 0;
 }
 
 button {
@@ -89,24 +93,14 @@ button:focus-visible {
   }
 }
 
-@supports (padding: env(safe-area-inset-top)) {
-  body.ios {
-    padding-top: env(safe-area-inset-top);
-  }
-
-  body.ios header {
-    padding-top: calc(16px + env(safe-area-inset-top));
-  }
-}
-
 /* Add safe area padding for iOS status bar */
 html, body, #app {
   background-color: #242424;
-  min-height: calc(100% + env(safe-area-inset-top));
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  min-height: 100%;
   margin: 0;
   height: 100%;
 }
+
 .f7-navbar .navbar-inner {
   height: calc(44px + env(safe-area-inset-top));
   padding-left: 16px;
@@ -114,11 +108,4 @@ html, body, #app {
   display: flex;
   align-items: center;
   justify-content: space-between; /* keep title and buttons spaced */
-}
-header, .navbar, .logs-header {
-  margin-top: env(safe-area-inset-top);
-  padding-top: 15px; /* or whatever suits your design */
-  background: white; /* or your background color */
-  z-index: 10; /* to keep above other content */
-  position: relative; /* or fixed/sticky if appropriate */
 }
