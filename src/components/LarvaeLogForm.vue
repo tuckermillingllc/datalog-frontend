@@ -278,10 +278,21 @@ input[type="text"],
 input[type="number"],
 textarea {
   width: 100%;
-  padding: 8px 12px;
+  padding: 10px 14px;  /* Increased padding for better touch targets */
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  border-radius: 6px;  /* Slightly more rounded */
+  font-size: 16px;  /* Increased to prevent zoom on mobile */
+  background-color: #f9f9f9;
+  transition: all 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #42b883;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(66, 184, 131, 0.1);
 }
 
 input[type="checkbox"] {
@@ -294,14 +305,17 @@ textarea {
 
 .calculated-preview {
   background-color: #f5f5f5;
-  padding: 15px;
-  border-radius: 4px;
-  margin: 20px 0;
+  padding: 16px;
+  border-radius: 6px;
+  margin: 16px 0;  /* Reduced margins */
+  border: 1px solid #e0e0e0;
 }
 
 .calculated-preview h3 {
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
   color: #666;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .calculated-grid {
@@ -323,8 +337,35 @@ textarea {
 
 .form-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 30px;
+  gap: 12px;
+  margin-top: 24px;  /* Reduced from 30px */
+}
+
+/* Add responsive design for mobile */
+@media (max-width: 640px) {
+  .larvae-log-form {
+    padding: 16px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .form-group {
+    margin-bottom: 12px;
+  }
+  
+  .calculated-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
 }
 
 .btn-primary,
