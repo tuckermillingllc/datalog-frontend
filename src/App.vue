@@ -120,10 +120,6 @@ body.ios header {
     padding: 12px 16px;
   }
 
-  header h1 {
-    font-size: 20px;
-  }
-
   .app-container {
     padding: 12px;
   }
