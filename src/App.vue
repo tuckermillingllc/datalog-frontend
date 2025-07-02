@@ -1228,48 +1228,75 @@ body.neonate-theme-active .framework7-root {
   background: #9C27B0 !important;
 }
 
-/* Menu list styling with theme colors - corrected */
+/* Menu list styling with theme colors - corrected with higher specificity */
 .panel-left .list.menu-list .list-item.item-selected {
-  background: #007AFF !important;
   color: white !important;
-  border-radius: 8px;
-  margin: 4px 16px;
+  border-radius: 8px !important;
+  margin: 4px 16px !important;
 }
 
 .panel-left .list.menu-list .list-item.item-selected .item-inner {
   background: transparent !important;
-  border-radius: 8px;
+  border-radius: 8px !important;
 }
 
 .panel-left .list.menu-list .list-item.item-selected .item-title {
   color: white !important;
-  font-weight: 600;
+  font-weight: 600 !important;
 }
 
 .panel-left .list.menu-list .list-item.item-selected .item-media .icon {
   color: white !important;
 }
 
-/* Theme-specific menu item colors */
-.panel-left .list.menu-list .list-item.larvae-selected {
+/* Theme-specific menu item colors with higher specificity */
+.panel-left .list.menu-list .list-item.item-selected.larvae-selected,
+.panel-left .list.menu-list .list-item.larvae-selected.item-selected {
   background: linear-gradient(135deg, #4CAF50, #8BC34A) !important;
 }
 
-.panel-left .list.menu-list .list-item.prepupae-selected {
+.panel-left .list.menu-list .list-item.item-selected.prepupae-selected,
+.panel-left .list.menu-list .list-item.prepupae-selected.item-selected {
   background: linear-gradient(135deg, #2196F3, #03A9F4) !important;
 }
 
-.panel-left .list.menu-list .list-item.neonate-selected {
+.panel-left .list.menu-list .list-item.item-selected.neonate-selected,
+.panel-left .list.menu-list .list-item.neonate-selected.item-selected {
   background: linear-gradient(135deg, #9C27B0, #E91E63) !important;
 }
 
-.panel-left .list.menu-list .list-item.microwave-selected {
+.panel-left .list.menu-list .list-item.item-selected.microwave-selected,
+.panel-left .list.menu-list .list-item.microwave-selected.item-selected {
   background: linear-gradient(135deg, #FF9800, #FFC107) !important;
 }
 
 /* Home menu item - default theme when selected */
 .panel-left .list.menu-list .list-item.item-selected:not(.larvae-selected):not(.prepupae-selected):not(.neonate-selected):not(.microwave-selected) {
   background: linear-gradient(135deg, #42b883, #66c999) !important;
+}
+
+/* Override any Framework7 default active states */
+.panel-left .list.menu-list .list-item.item-selected,
+.panel-left .list.menu-list .list-item.list-item-selected,
+.panel-left .list.menu-list .list-item-selected {
+  background: #007AFF !important;
+}
+
+/* Re-apply theme colors after Framework7 override */
+.panel-left .list.menu-list .list-item.item-selected.larvae-selected {
+  background: linear-gradient(135deg, #4CAF50, #8BC34A) !important;
+}
+
+.panel-left .list.menu-list .list-item.item-selected.prepupae-selected {
+  background: linear-gradient(135deg, #2196F3, #03A9F4) !important;
+}
+
+.panel-left .list.menu-list .list-item.item-selected.neonate-selected {
+  background: linear-gradient(135deg, #9C27B0, #E91E63) !important;
+}
+
+.panel-left .list.menu-list .list-item.item-selected.microwave-selected {
+  background: linear-gradient(135deg, #FF9800, #FFC107) !important;
 }
 
 /* Menu item hover effects */
