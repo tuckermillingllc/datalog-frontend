@@ -15,7 +15,7 @@
               link="#" 
               title="Home" 
               @click="navigateTo('home')"
-              :class="{ 'menu-item-active': currentPage === 'home' }"
+              :class="{ 'item-selected': currentPage === 'home' }"
             >
               <f7-icon slot="media" f7="house" />
             </f7-list-item>
@@ -23,7 +23,7 @@
               link="#" 
               title="Larvae Logs" 
               @click="navigateTo('larvae')"
-              :class="{ 'menu-item-active menu-item-larvae': currentPage === 'larvae' }"
+              :class="{ 'item-selected larvae-selected': currentPage === 'larvae' }"
             >
               <f7-icon slot="media" ios="f7:ant"/>
             </f7-list-item>
@@ -31,7 +31,7 @@
               link="#" 
               title="Prepupae Logs" 
               @click="navigateTo('prepupae')"
-              :class="{ 'menu-item-active menu-item-prepupae': currentPage === 'prepupae' }"
+              :class="{ 'item-selected prepupae-selected': currentPage === 'prepupae' }"
             >
               <f7-icon slot="media" ios="f7:cube_box"/>
             </f7-list-item>
@@ -39,7 +39,7 @@
               link="#" 
               title="Neonate Logs" 
               @click="navigateTo('neonates')"
-              :class="{ 'menu-item-active menu-item-neonate': currentPage === 'neonates' }"
+              :class="{ 'item-selected neonate-selected': currentPage === 'neonates' }"
             >
               <f7-icon slot="media" ios="f7:circle_grid_3x3"/>
             </f7-list-item>
@@ -47,7 +47,7 @@
               link="#" 
               title="Microwave Logs" 
               @click="navigateTo('microwave')"
-              :class="{ 'menu-item-active menu-item-microwave': currentPage === 'microwave' }"
+              :class="{ 'item-selected microwave-selected': currentPage === 'microwave' }"
             >
               <f7-icon slot="media" ios="f7:bolt"/>
             </f7-list-item>
@@ -1228,74 +1228,89 @@ body.neonate-theme-active .framework7-root {
   background: #9C27B0 !important;
 }
 
-/* Menu list styling with theme colors */
-.list.menu-list .list-item.menu-item-active {
+/* Menu list styling with theme colors - corrected */
+.panel-left .list.menu-list .list-item.item-selected {
+  background: #007AFF !important;
   color: white !important;
   border-radius: 8px;
-  margin: 2px 8px;
+  margin: 4px 16px;
 }
 
-.list.menu-list .list-item.menu-item-active .item-inner {
+.panel-left .list.menu-list .list-item.item-selected .item-inner {
+  background: transparent !important;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
 }
 
-.list.menu-list .list-item.menu-item-active .item-title {
+.panel-left .list.menu-list .list-item.item-selected .item-title {
   color: white !important;
   font-weight: 600;
 }
 
-.list.menu-list .list-item.menu-item-larvae.menu-item-active {
-  background: linear-gradient(135deg, var(--larvae-color), var(--larvae-color-light)) !important;
-}
-
-.list.menu-list .list-item.menu-item-prepupae.menu-item-active {
-  background: linear-gradient(135deg, var(--prepupae-color), var(--prepupae-color-light)) !important;
-}
-
-.list.menu-list .list-item.menu-item-neonate.menu-item-active {
-  background: linear-gradient(135deg, var(--neonate-color), var(--neonate-color-light)) !important;
-}
-
-.list.menu-list .list-item.menu-item-microwave.menu-item-active {
-  background: linear-gradient(135deg, var(--microwave-color), var(--microwave-color-light)) !important;
-}
-
-/* Home menu item - default theme */
-.list.menu-list .list-item.menu-item-active:not(.menu-item-larvae):not(.menu-item-prepupae):not(.menu-item-neonate):not(.menu-item-microwave) {
-  background: linear-gradient(135deg, #42b883, #66c999) !important;
-}
-
-/* Menu item icons */
-.list.menu-list .list-item.menu-item-active .item-media .icon {
+.panel-left .list.menu-list .list-item.item-selected .item-media .icon {
   color: white !important;
 }
 
-/* Hover effects for menu items */
-.list.menu-list .list-item:not(.menu-item-active):hover {
-  background: rgba(0, 0, 0, 0.05);
+/* Theme-specific menu item colors */
+.panel-left .list.menu-list .list-item.larvae-selected {
+  background: linear-gradient(135deg, #4CAF50, #8BC34A) !important;
+}
+
+.panel-left .list.menu-list .list-item.prepupae-selected {
+  background: linear-gradient(135deg, #2196F3, #03A9F4) !important;
+}
+
+.panel-left .list.menu-list .list-item.neonate-selected {
+  background: linear-gradient(135deg, #9C27B0, #E91E63) !important;
+}
+
+.panel-left .list.menu-list .list-item.microwave-selected {
+  background: linear-gradient(135deg, #FF9800, #FFC107) !important;
+}
+
+/* Home menu item - default theme when selected */
+.panel-left .list.menu-list .list-item.item-selected:not(.larvae-selected):not(.prepupae-selected):not(.neonate-selected):not(.microwave-selected) {
+  background: linear-gradient(135deg, #42b883, #66c999) !important;
+}
+
+/* Menu item hover effects */
+.panel-left .list.menu-list .list-item:not(.item-selected):hover {
+  background: rgba(0, 0, 0, 0.05) !important;
   border-radius: 8px;
+  margin: 4px 16px;
+  transition: all 0.2s ease;
+}
+
+.panel-left .list.menu-list .list-item:not(.item-selected):hover .item-inner {
+  background: transparent !important;
+  border-radius: 8px;
+}
+
+/* Override Framework7 default menu list styling */
+.panel-left .list.menu-list .list-item {
   margin: 2px 8px;
-  transition: all 0.3s ease;
-}
-
-.list.menu-list .list-item:not(.menu-item-active):hover .item-inner {
   border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
-/* Panel styling */
+.panel-left .list.menu-list .list-item .item-inner {
+  border-radius: 8px;
+  min-height: 48px;
+  align-items: center;
+}
+
+/* Panel general styling */
 .panel-left {
-  background: #f8f9fa;
+  background: #f8f9fa !important;
 }
 
 .panel-left .navbar {
-  background: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
 }
 
 .panel-left .navbar .nav-title {
-  font-weight: 700;
-  color: #333;
+  font-weight: 700 !important;
+  color: #333 !important;
 }
 
 /* iOS status bar styling - default */
