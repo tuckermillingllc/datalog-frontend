@@ -31,12 +31,11 @@
     <!-- Main View -->
     <f7-view main>
       <f7-page>
-        <f7-navbar :title="getPageTitle()">
+        <f7-navbar :title="getPageTitle()" :left-text="false">
           <f7-nav-left>
-        <f7-link panel-open="left" icon-ios="f7:bars" icon-md="material:menu" />
-      </f7-nav-left>
-      <!-- Remove any f7-nav-right that might be interfering -->
-    </f7-navbar>
+            <f7-link panel-open="left" icon-ios="f7:bars" icon-md="material:menu" />
+          </f7-nav-left>
+        </f7-navbar>
 
         <!-- Home Page -->
         <f7-block v-if="currentPage === 'home'">
