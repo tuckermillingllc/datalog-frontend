@@ -249,7 +249,7 @@
                       </div>
                     </f7-col>
                   </f7-row>
-                  <div v-if="log.row_number" class="log-field">
+                  <div v-if="log.row_number" class="log-field full-width">
                     <span class="field-label">Row:</span>
                     <span class="field-value">{{ log.row_number }}</span>
                   </div>
@@ -1551,6 +1551,13 @@ body.microwave-theme-active .framework7-root {
 }
 
 .log-field:last-child {
+  border-bottom: none;
+}
+
+.log-field.full-width {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: none;
 }
 
