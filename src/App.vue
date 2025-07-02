@@ -17,8 +17,11 @@
             <f7-list-item link="#" title="Larvae Logs" @click="navigateTo('larvae')">
               <f7-icon slot="media" ios="f7:ant"/>
             </f7-list-item>
-            <f7-list-item link="#" title="Container Logs" @click="navigateTo('container')">
+            <f7-list-item link="#" title="Prepupae Logs" @click="navigateTo('prepupae')">
               <f7-icon slot="media" ios="f7:cube_box"/>
+            </f7-list-item>
+            <f7-list-item link="#" title="Neonate Logs" @click="navigateTo('neonates')">
+              <f7-icon slot="media" ios="f7:circle_grid_3x3"/>
             </f7-list-item>
             <f7-list-item link="#" title="Microwave Logs" @click="navigateTo('microwave')">
               <f7-icon slot="media" ios="f7:bolt"/>
@@ -30,8 +33,8 @@
 
     <!-- Main View -->
     <f7-view main>
-      <f7-page>
-        <f7-navbar>
+      <f7-page :class="getPageClass()">
+        <f7-navbar :class="getNavbarClass()">
           <f7-nav-left>
             <f7-link panel-open="left" icon-f7="bars" />
           </f7-nav-left>
@@ -42,42 +45,49 @@
         </f7-navbar>
 
         <!-- Home Page -->
-      <f7-block v-if="currentPage === 'home'">
-        <f7-block-title class="text-align-center">Welcome to DataLog System</f7-block-title>
-        <f7-block class="text-align-center">
-          <p>Select a logging system to get started</p>
-        </f7-block>
-          
+        <f7-block v-if="currentPage === 'home'">
+          <f7-block-title class="text-align-center">Welcome to DataLog System</f7-block-title>
+          <f7-block class="text-align-center">
+            <p>Select a logging system to get started</p>
+          </f7-block>
+            
           <f7-block>
-  <div class="nav-buttons">
-    <f7-button class="nav-button larvae-button" @click="navigateTo('larvae')">
-      <div class="button-content">
-        <h3>Larvae Logs</h3>
-        <p>Track larvae feeding and development</p>
-      </div>
-    </f7-button>
-    
-    <f7-button class="nav-button container-button" @click="navigateTo('container')">
-      <div class="button-content">
-        <h3>Container Logs</h3>
-        <p>Monitor container conditions</p>
-      </div>
-    </f7-button>
-    
-    <f7-button class="nav-button microwave-button" @click="navigateTo('microwave')">
-      <div class="button-content">
-        <h3>Microwave Logs</h3>
-        <p>Production run tracking</p>
-      </div>
-    </f7-button>
-  </div>
-</f7-block>
-          
+            <div class="nav-buttons">
+              <f7-button class="nav-button larvae-button" @click="navigateTo('larvae')">
+                <div class="button-content">
+                  <h3>Larvae Logs</h3>
+                  <p>Track larvae feeding and development</p>
+                </div>
+              </f7-button>
+              
+              <f7-button class="nav-button prepupae-button" @click="navigateTo('prepupae')">
+                <div class="button-content">
+                  <h3>Prepupae Logs</h3>
+                  <p>Monitor prepupae container conditions</p>
+                </div>
+              </f7-button>
+              
+              <f7-button class="nav-button neonate-button" @click="navigateTo('neonates')">
+                <div class="button-content">
+                  <h3>Neonate Logs</h3>
+                  <p>Track neonate container management</p>
+                </div>
+              </f7-button>
+              
+              <f7-button class="nav-button microwave-button" @click="navigateTo('microwave')">
+                <div class="button-content">
+                  <h3>Microwave Logs</h3>
+                  <p>Production run tracking</p>
+                </div>
+              </f7-button>
+            </div>
+          </f7-block>
+            
           <!-- Quick Stats -->
           <f7-block-title>Quick Stats</f7-block-title>
           <f7-block>
             <f7-row>
-              <f7-col width="33">
+              <f7-col width="25">
                 <f7-card>
                   <f7-card-content class="stat-card">
                     <div class="stat-number">{{ totalLogs }}</div>
@@ -85,7 +95,7 @@
                   </f7-card-content>
                 </f7-card>
               </f7-col>
-              <f7-col width="33">
+              <f7-col width="25">
                 <f7-card>
                   <f7-card-content class="stat-card">
                     <div class="stat-number">{{ todayLogs }}</div>
@@ -93,11 +103,19 @@
                   </f7-card-content>
                 </f7-card>
               </f7-col>
-              <f7-col width="33">
+              <f7-col width="25">
                 <f7-card>
                   <f7-card-content class="stat-card">
-                    <div class="stat-number">3</div>
+                    <div class="stat-number">4</div>
                     <div class="stat-label">Active Systems</div>
+                  </f7-card-content>
+                </f7-card>
+              </f7-col>
+              <f7-col width="25">
+                <f7-card>
+                  <f7-card-content class="stat-card">
+                    <div class="stat-number">{{ runningRuns }}</div>
+                    <div class="stat-label">Active Runs</div>
                   </f7-card-content>
                 </f7-card>
               </f7-col>
@@ -106,12 +124,12 @@
         </f7-block>
 
         <!-- Larvae Page -->
-        <f7-block v-if="currentPage === 'larvae'">
+        <f7-block v-if="currentPage === 'larvae'" class="larvae-theme">
           <f7-block-title>Larvae Logs</f7-block-title>
           
-          <f7-segmented raised>
-            <f7-button :class="{ 'button-active': larvaeTab === 'form' }" @click="larvaeTab = 'form'">New Log</f7-button>
-            <f7-button :class="{ 'button-active': larvaeTab === 'list' }" @click="larvaeTab = 'list'">View Logs</f7-button>
+          <f7-segmented raised class="larvae-segmented">
+            <f7-button :class="{ 'button-active larvae-active': larvaeTab === 'form' }" @click="larvaeTab = 'form'">New Log</f7-button>
+            <f7-button :class="{ 'button-active larvae-active': larvaeTab === 'list' }" @click="larvaeTab = 'list'">View Logs</f7-button>
           </f7-segmented>
           
           <div v-if="larvaeTab === 'form'">
@@ -174,7 +192,7 @@
                 v-model:value="larvaeForm.notes"
               />
             </f7-list>
-            <f7-button fill @click="submitLarvaeLog" :disabled="submitting">
+            <f7-button fill class="larvae-button-fill" @click="submitLarvaeLog" :disabled="submitting">
               {{ submitting ? 'Saving...' : 'Save Larvae Log' }}
             </f7-button>
           </div>
@@ -197,174 +215,168 @@
           </div>
         </f7-block>
 
-        <!-- Container Page -->
-        <f7-block v-if="currentPage === 'container'">
-          <f7-block-title>Container Logs</f7-block-title>
+        <!-- Prepupae Page -->
+        <f7-block v-if="currentPage === 'prepupae'" class="prepupae-theme">
+          <f7-block-title>Prepupae Logs</f7-block-title>
           
-          <f7-segmented raised>
-            <f7-button :class="{ 'button-active': containerTab === 'prepupae' }" @click="containerTab = 'prepupae'">Prepupae</f7-button>
-            <f7-button :class="{ 'button-active': containerTab === 'neonates' }" @click="containerTab = 'neonates'">Neonates</f7-button>
+          <f7-segmented raised class="prepupae-segmented">
+            <f7-button :class="{ 'button-active prepupae-active': prepupaeTab === 'form' }" @click="prepupaeTab = 'form'">New Log</f7-button>
+            <f7-button :class="{ 'button-active prepupae-active': prepupaeTab === 'list' }" @click="prepupaeTab = 'list'">View Logs</f7-button>
           </f7-segmented>
           
-          <!-- Prepupae Sub-tabs -->
-          <div v-if="containerTab === 'prepupae'">
-            <f7-segmented>
-              <f7-button :class="{ 'button-active': prepupaeSubTab === 'new' }" @click="prepupaeSubTab = 'new'">New Log</f7-button>
-              <f7-button :class="{ 'button-active': prepupaeSubTab === 'view' }" @click="prepupaeSubTab = 'view'">View Logs</f7-button>
-            </f7-segmented>
-            
-            <div v-if="prepupaeSubTab === 'new'">
-              <f7-list>
-                <f7-list-input 
-                  label="Username" 
-                  type="text" 
-                  placeholder="Enter username"
-                  v-model:value="prepupaeForm.username"
-                  required 
-                />
-                <f7-list-input 
-                  label="Temperature (°F)" 
-                  type="number" 
-                  step="0.01"
-                  placeholder="Enter temperature"
-                  v-model:value="prepupaeForm.temperature"
-                />
-                <f7-list-input 
-                  label="Humidity (%)" 
-                  type="number" 
-                  step="0.01"
-                  placeholder="Enter humidity"
-                  v-model:value="prepupaeForm.humidity"
-                />
-                <f7-list-input 
-                  label="Prepupae Tubs Added" 
-                  type="number" 
-                  placeholder="Number of tubs"
-                  v-model:value="prepupaeForm.prepupae_tubs_added"
-                />
-                <f7-list-input 
-                  label="Egg Nests Replaced" 
-                  type="number" 
-                  placeholder="Number of nests"
-                  v-model:value="prepupaeForm.egg_nests_replaced"
-                />
-                <f7-list-input 
-                  label="Notes" 
-                  type="textarea" 
-                  placeholder="Additional notes..."
-                  v-model:value="prepupaeForm.notes"
-                />
-              </f7-list>
-              <f7-button fill @click="submitPrepupaeLog" :disabled="submitting">
-                {{ submitting ? 'Saving...' : 'Save Prepupae Log' }}
-              </f7-button>
-            </div>
-            
-            <div v-if="prepupaeSubTab === 'view'">
-              <f7-list v-if="prepupaeLogs.length > 0">
-                <f7-list-item 
-                  v-for="log in prepupaeLogs" 
-                  :key="log.id"
-                  :title="log.username"
-                  :subtitle="formatDate(log.timestamp)"
-                  :text="`Temp: ${log.temperature || 'N/A'}°F, Humidity: ${log.humidity || 'N/A'}%`"
-                >
-                  <f7-icon slot="media" ios="f7:doc_text"  />
-                </f7-list-item>
-              </f7-list>
-              <f7-block v-else>
-                <p class="text-align-center color-gray">No prepupae logs found.</p>
-              </f7-block>
-            </div>
+          <div v-if="prepupaeTab === 'form'">
+            <f7-list>
+              <f7-list-input 
+                label="Username" 
+                type="text" 
+                placeholder="Enter username"
+                v-model:value="prepupaeForm.username"
+                required 
+              />
+              <f7-list-input 
+                label="Temperature (°F)" 
+                type="number" 
+                step="0.01"
+                placeholder="Enter temperature"
+                v-model:value="prepupaeForm.temperature"
+              />
+              <f7-list-input 
+                label="Humidity (%)" 
+                type="number" 
+                step="0.01"
+                placeholder="Enter humidity"
+                v-model:value="prepupaeForm.humidity"
+              />
+              <f7-list-input 
+                label="Prepupae Tubs Added" 
+                type="number" 
+                placeholder="Number of tubs"
+                v-model:value="prepupaeForm.prepupae_tubs_added"
+              />
+              <f7-list-input 
+                label="Egg Nests Replaced" 
+                type="number" 
+                placeholder="Number of nests"
+                v-model:value="prepupaeForm.egg_nests_replaced"
+              />
+              <f7-list-input 
+                label="Notes" 
+                type="textarea" 
+                placeholder="Additional notes..."
+                v-model:value="prepupaeForm.notes"
+              />
+            </f7-list>
+            <f7-button fill class="prepupae-button-fill" @click="submitPrepupaeLog" :disabled="submitting">
+              {{ submitting ? 'Saving...' : 'Save Prepupae Log' }}
+            </f7-button>
           </div>
           
-          <!-- Neonates Sub-tabs -->
-          <div v-if="containerTab === 'neonates'">
-            <f7-segmented>
-              <f7-button :class="{ 'button-active': neonatesSubTab === 'new' }" @click="neonatesSubTab = 'new'">New Log</f7-button>
-              <f7-button :class="{ 'button-active': neonatesSubTab === 'view' }" @click="neonatesSubTab = 'view'">View Logs</f7-button>
-            </f7-segmented>
-            
-            <div v-if="neonatesSubTab === 'new'">
-              <f7-list>
-                <f7-list-input 
-                  label="Username" 
-                  type="text" 
-                  placeholder="Enter username"
-                  v-model:value="neonateForm.username"
-                  required 
-                />
-                <f7-list-input 
-                  label="Temperature (°F)" 
-                  type="number" 
-                  step="0.01"
-                  placeholder="Enter temperature"
-                  v-model:value="neonateForm.temperature"
-                />
-                <f7-list-input 
-                  label="Humidity (%)" 
-                  type="number" 
-                  step="0.01"
-                  placeholder="Enter humidity"
-                  v-model:value="neonateForm.humidity"
-                />
-                <f7-list-input 
-                  label="Bait Tubs Replaced" 
-                  type="number" 
-                  placeholder="Number of bait tubs"
-                  v-model:value="neonateForm.bait_tubs_replaced"
-                />
-                <f7-list-input 
-                  label="Shelf Tubs Removed" 
-                  type="number" 
-                  placeholder="Number of shelf tubs"
-                  v-model:value="neonateForm.shelf_tubs_removed"
-                />
-                <f7-list-input 
-                  label="Egg Nests Replaced" 
-                  type="number" 
-                  placeholder="Number of nests"
-                  v-model:value="neonateForm.egg_nests_replaced"
-                />
-                <f7-list-input 
-                  label="Notes" 
-                  type="textarea" 
-                  placeholder="Additional notes..."
-                  v-model:value="neonateForm.notes"
-                />
-              </f7-list>
-              <f7-button fill @click="submitNeonateLog" :disabled="submitting">
-                {{ submitting ? 'Saving...' : 'Save Neonate Log' }}
-              </f7-button>
-            </div>
-            
-            <div v-if="neonatesSubTab === 'view'">
-              <f7-list v-if="neonateLogs.length > 0">
-                <f7-list-item 
-                  v-for="log in neonateLogs" 
-                  :key="log.id"
-                  :title="log.username"
-                  :subtitle="formatDate(log.timestamp)"
-                  :text="`Temp: ${log.temperature || 'N/A'}°F, Bait: ${log.bait_tubs_replaced || 'N/A'}`"
-                >
-                  <f7-icon slot="media" ios="f7:doc_text" />
-                </f7-list-item>
-              </f7-list>
-              <f7-block v-else>
-                <p class="text-align-center color-gray">No neonate logs found.</p>
-              </f7-block>
-            </div>
+          <div v-if="prepupaeTab === 'list'">
+            <f7-list v-if="prepupaeLogs.length > 0">
+              <f7-list-item 
+                v-for="log in prepupaeLogs" 
+                :key="log.id"
+                :title="log.username"
+                :subtitle="formatDate(log.timestamp)"
+                :text="`Temp: ${log.temperature || 'N/A'}°F, Humidity: ${log.humidity || 'N/A'}%`"
+              >
+                <f7-icon slot="media" ios="f7:doc_text"  />
+              </f7-list-item>
+            </f7-list>
+            <f7-block v-else>
+              <p class="text-align-center color-gray">No prepupae logs found.</p>
+            </f7-block>
+          </div>
+        </f7-block>
+
+        <!-- Neonates Page -->
+        <f7-block v-if="currentPage === 'neonates'" class="neonate-theme">
+          <f7-block-title>Neonate Logs</f7-block-title>
+          
+          <f7-segmented raised class="neonate-segmented">
+            <f7-button :class="{ 'button-active neonate-active': neonateTab === 'form' }" @click="neonateTab = 'form'">New Log</f7-button>
+            <f7-button :class="{ 'button-active neonate-active': neonateTab === 'list' }" @click="neonateTab = 'list'">View Logs</f7-button>
+          </f7-segmented>
+          
+          <div v-if="neonateTab === 'form'">
+            <f7-list>
+              <f7-list-input 
+                label="Username" 
+                type="text" 
+                placeholder="Enter username"
+                v-model:value="neonateForm.username"
+                required 
+              />
+              <f7-list-input 
+                label="Temperature (°F)" 
+                type="number" 
+                step="0.01"
+                placeholder="Enter temperature"
+                v-model:value="neonateForm.temperature"
+              />
+              <f7-list-input 
+                label="Humidity (%)" 
+                type="number" 
+                step="0.01"
+                placeholder="Enter humidity"
+                v-model:value="neonateForm.humidity"
+              />
+              <f7-list-input 
+                label="Bait Tubs Replaced" 
+                type="number" 
+                placeholder="Number of bait tubs"
+                v-model:value="neonateForm.bait_tubs_replaced"
+              />
+              <f7-list-input 
+                label="Shelf Tubs Removed" 
+                type="number" 
+                placeholder="Number of shelf tubs"
+                v-model:value="neonateForm.shelf_tubs_removed"
+              />
+              <f7-list-input 
+                label="Egg Nests Replaced" 
+                type="number" 
+                placeholder="Number of nests"
+                v-model:value="neonateForm.egg_nests_replaced"
+              />
+              <f7-list-input 
+                label="Notes" 
+                type="textarea" 
+                placeholder="Additional notes..."
+                v-model:value="neonateForm.notes"
+              />
+            </f7-list>
+            <f7-button fill class="neonate-button-fill" @click="submitNeonateLog" :disabled="submitting">
+              {{ submitting ? 'Saving...' : 'Save Neonate Log' }}
+            </f7-button>
+          </div>
+          
+          <div v-if="neonateTab === 'list'">
+            <f7-list v-if="neonateLogs.length > 0">
+              <f7-list-item 
+                v-for="log in neonateLogs" 
+                :key="log.id"
+                :title="log.username"
+                :subtitle="formatDate(log.timestamp)"
+                :text="`Temp: ${log.temperature || 'N/A'}°F, Bait: ${log.bait_tubs_replaced || 'N/A'}`"
+              >
+                <f7-icon slot="media" ios="f7:doc_text" />
+              </f7-list-item>
+            </f7-list>
+            <f7-block v-else>
+              <p class="text-align-center color-gray">No neonate logs found.</p>
+            </f7-block>
           </div>
         </f7-block>
 
         <!-- Microwave Page -->
-        <f7-block v-if="currentPage === 'microwave'">
+        <f7-block v-if="currentPage === 'microwave'" class="microwave-theme">
           <f7-block-title>Microwave Logs</f7-block-title>
           
-          <f7-segmented raised>
-            <f7-button :class="{ 'button-active': microwaveTab === 'new' }" @click="microwaveTab = 'new'">New Run</f7-button>
-            <f7-button :class="{ 'button-active': microwaveTab === 'view' }" @click="microwaveTab = 'view'">View Logs</f7-button>
-            <f7-button :class="{ 'button-active': microwaveTab === 'update' }" @click="microwaveTab = 'update'">Update Results</f7-button>
+          <f7-segmented raised class="microwave-segmented">
+            <f7-button :class="{ 'button-active microwave-active': microwaveTab === 'new' }" @click="microwaveTab = 'new'">New Run</f7-button>
+            <f7-button :class="{ 'button-active microwave-active': microwaveTab === 'view' }" @click="microwaveTab = 'view'">View Logs</f7-button>
+            <f7-button :class="{ 'button-active microwave-active': microwaveTab === 'update' }" @click="microwaveTab = 'update'">Update Results</f7-button>
           </f7-segmented>
           
           <div v-if="microwaveTab === 'new'">
@@ -437,7 +449,7 @@
                 v-model:value="productionForm.notes"
               />
             </f7-list>
-            <f7-button fill @click="submitProductionRun" :disabled="submitting">
+            <f7-button fill class="microwave-button-fill" @click="submitProductionRun" :disabled="submitting">
               {{ submitting ? 'Saving...' : 'Start Production Run' }}
             </f7-button>
           </div>
@@ -492,13 +504,13 @@
               
               <f7-block v-if="calculatedYield">
                 <f7-card>
-                  <f7-card-content class="yield-card">
+                  <f7-card-content class="yield-card microwave-yield">
                     <h3>Calculated Yield: {{ calculatedYield }}%</h3>
                   </f7-card-content>
                 </f7-card>
               </f7-block>
 
-              <f7-button fill @click="updateProductionRun" :disabled="submitting">
+              <f7-button fill class="microwave-button-fill" @click="updateProductionRun" :disabled="submitting">
                 {{ submitting ? 'Updating...' : 'Update Results' }}
               </f7-button>
             </div>
@@ -535,9 +547,8 @@ import { f7 } from 'framework7-vue'
 // Navigation state
 const currentPage = ref('home')
 const larvaeTab = ref('form')
-const containerTab = ref('prepupae')
-const prepupaeSubTab = ref('new')
-const neonatesSubTab = ref('new')
+const prepupaeTab = ref('form')
+const neonateTab = ref('form')
 const microwaveTab = ref('new')
 
 // Form state
@@ -547,6 +558,7 @@ const selectedRunId = ref('')
 // Stats
 const totalLogs = ref('---')
 const todayLogs = ref('---')
+const runningRuns = ref('---')
 
 // Form data
 const larvaeForm = ref({
@@ -655,10 +667,31 @@ const getPageTitle = () => {
   const titles = {
     home: 'DataLog System',
     larvae: 'Larvae Logs',
-    container: 'Container Logs',
+    prepupae: 'Prepupae Logs',
+    neonates: 'Neonate Logs',
     microwave: 'Microwave Logs'
   }
   return titles[currentPage.value] || 'DataLog'
+}
+
+const getPageClass = () => {
+  const classes = {
+    larvae: 'larvae-page',
+    prepupae: 'prepupae-page',
+    neonates: 'neonate-page',
+    microwave: 'microwave-page'
+  }
+  return classes[currentPage.value] || ''
+}
+
+const getNavbarClass = () => {
+  const classes = {
+    larvae: 'larvae-navbar',
+    prepupae: 'prepupae-navbar',
+    neonates: 'neonate-navbar',
+    microwave: 'microwave-navbar'
+  }
+  return classes[currentPage.value] || ''
 }
 
 const loadAllData = async () => {
@@ -675,6 +708,7 @@ const loadQuickStats = async () => {
   try {
     totalLogs.value = '---'
     todayLogs.value = '---'
+    runningRuns.value = incompleteRuns.value.length
   } catch (error) {
     console.error('Error loading stats:', error)
   }
@@ -735,7 +769,7 @@ const resetLarvaeForm = () => {
   }
 }
 
-// Container methods
+// Prepupae methods
 const submitPrepupaeLog = async () => {
   submitting.value = true
   try {
@@ -765,6 +799,7 @@ const submitPrepupaeLog = async () => {
   }
 }
 
+// Neonate methods
 const submitNeonateLog = async () => {
   submitting.value = true
   try {
@@ -905,6 +940,7 @@ const loadMicrowaveLogs = async () => {
     const response = await fetch('https://datalog-backend.onrender.com/api/microwave-logs')
     if (response.ok) {
       microwaveLogs.value = await response.json()
+      runningRuns.value = incompleteRuns.value.length
     }
   } catch (error) {
     console.error('Error loading microwave logs:', error)
@@ -974,11 +1010,91 @@ const getLogSummary = (log) => {
   --f7-theme-color: #42b883;
   --f7-theme-color-rgb: 66, 184, 131;
   
+  /* Color scheme definitions */
+  --larvae-color: #4CAF50;
+  --larvae-color-light: #8BC34A;
+  --larvae-color-rgb: 76, 175, 80;
+  
+  --prepupae-color: #2196F3;
+  --prepupae-color-light: #03A9F4;
+  --prepupae-color-rgb: 33, 150, 243;
+  
+  --neonate-color: #9C27B0;
+  --neonate-color-light: #E91E63;
+  --neonate-color-rgb: 156, 39, 176;
+  
+  --microwave-color: #FF9800;
+  --microwave-color-light: #FFC107;
+  --microwave-color-rgb: 255, 152, 0;
+  
   /* iOS status bar color matching */
   --f7-bars-bg-color: #f7f7f8;
   --f7-bars-bg-color-rgb: 247, 247, 248;
   --f7-navbar-bg-color: #f7f7f8;
   --f7-navbar-bg-color-rgb: 247, 247, 248;
+}
+
+/* Page-specific themes */
+.larvae-page {
+  --f7-theme-color: var(--larvae-color);
+  --f7-theme-color-rgb: var(--larvae-color-rgb);
+}
+
+.prepupae-page {
+  --f7-theme-color: var(--prepupae-color);
+  --f7-theme-color-rgb: var(--prepupae-color-rgb);
+}
+
+.neonate-page {
+  --f7-theme-color: var(--neonate-color);
+  --f7-theme-color-rgb: var(--neonate-color-rgb);
+}
+
+.microwave-page {
+  --f7-theme-color: var(--microwave-color);
+  --f7-theme-color-rgb: var(--microwave-color-rgb);
+}
+
+/* Navbar theming */
+.larvae-navbar {
+  background: linear-gradient(135deg, var(--larvae-color), var(--larvae-color-light)) !important;
+  color: white !important;
+}
+
+.prepupae-navbar {
+  background: linear-gradient(135deg, var(--prepupae-color), var(--prepupae-color-light)) !important;
+  color: white !important;
+}
+
+.neonate-navbar {
+  background: linear-gradient(135deg, var(--neonate-color), var(--neonate-color-light)) !important;
+  color: white !important;
+}
+
+.microwave-navbar {
+  background: linear-gradient(135deg, var(--microwave-color), var(--microwave-color-light)) !important;
+  color: white !important;
+}
+
+.larvae-navbar .navbar-inner,
+.prepupae-navbar .navbar-inner,
+.neonate-navbar .navbar-inner,
+.microwave-navbar .navbar-inner {
+  color: white !important;
+}
+
+.larvae-navbar .link,
+.prepupae-navbar .link,
+.neonate-navbar .link,
+.microwave-navbar .link {
+  color: white !important;
+}
+
+.larvae-navbar .nav-title,
+.prepupae-navbar .nav-title,
+.neonate-navbar .nav-title,
+.microwave-navbar .nav-title {
+  color: white !important;
 }
 
 /* iOS status bar styling */
@@ -993,6 +1109,55 @@ const getLogSummary = (log) => {
 
 .button-active {
   background-color: var(--f7-theme-color) !important;
+  color: white !important;
+}
+
+/* Segmented control theming */
+.larvae-active {
+  background-color: var(--larvae-color) !important;
+  color: white !important;
+}
+
+.prepupae-active {
+  background-color: var(--prepupae-color) !important;
+  color: white !important;
+}
+
+.neonate-active {
+  background-color: var(--neonate-color) !important;
+  color: white !important;
+}
+
+.microwave-active {
+  background-color: var(--microwave-color) !important;
+  color: white !important;
+}
+
+.larvae-segmented .segmented .button.button-active,
+.prepupae-segmented .segmented .button.button-active,
+.neonate-segmented .segmented .button.button-active,
+.microwave-segmented .segmented .button.button-active {
+  color: white !important;
+}
+
+/* Button theming */
+.larvae-button-fill {
+  background: linear-gradient(135deg, var(--larvae-color), var(--larvae-color-light)) !important;
+  color: white !important;
+}
+
+.prepupae-button-fill {
+  background: linear-gradient(135deg, var(--prepupae-color), var(--prepupae-color-light)) !important;
+  color: white !important;
+}
+
+.neonate-button-fill {
+  background: linear-gradient(135deg, var(--neonate-color), var(--neonate-color-light)) !important;
+  color: white !important;
+}
+
+.microwave-button-fill {
+  background: linear-gradient(135deg, var(--microwave-color), var(--microwave-color-light)) !important;
   color: white !important;
 }
 
@@ -1031,6 +1196,10 @@ const getLogSummary = (log) => {
   background: linear-gradient(135deg, #4CAF50, #8BC34A);
   color: white;
   border-radius: 8px;
+}
+
+.microwave-yield {
+  background: linear-gradient(135deg, var(--microwave-color), var(--microwave-color-light)) !important;
 }
 
 .yield-card h3 {
@@ -1076,14 +1245,43 @@ const getLogSummary = (log) => {
 }
 
 .larvae-button {
-  background: linear-gradient(135deg, #4CAF50, #8BC34A) !important;
+  background: linear-gradient(135deg, var(--larvae-color), var(--larvae-color-light)) !important;
 }
 
-.container-button {
-  background: linear-gradient(135deg, #2196F3, #03A9F4) !important;
+.prepupae-button {
+  background: linear-gradient(135deg, var(--prepupae-color), var(--prepupae-color-light)) !important;
+}
+
+.neonate-button {
+  background: linear-gradient(135deg, var(--neonate-color), var(--neonate-color-light)) !important;
 }
 
 .microwave-button {
-  background: linear-gradient(135deg, #FF9800, #FFC107) !important;
+  background: linear-gradient(135deg, var(--microwave-color), var(--microwave-color-light)) !important;
+}
+
+/* Theme-specific backgrounds */
+.larvae-theme {
+  background: rgba(76, 175, 80, 0.05);
+  border-radius: 12px;
+  margin: 0.5rem;
+}
+
+.prepupae-theme {
+  background: rgba(33, 150, 243, 0.05);
+  border-radius: 12px;
+  margin: 0.5rem;
+}
+
+.neonate-theme {
+  background: rgba(156, 39, 176, 0.05);
+  border-radius: 12px;
+  margin: 0.5rem;
+}
+
+.microwave-theme {
+  background: rgba(255, 152, 0, 0.05);
+  border-radius: 12px;
+  margin: 0.5rem;
 }
 </style>
