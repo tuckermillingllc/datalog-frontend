@@ -233,6 +233,10 @@
                         <span class="field-label">lb Feed:</span>
                         <span class="field-value">{{ log.lb_feed || 'N/A' }}</span>
                       </div>
+                      <div v-if="log.row_number" class="log-field">
+                        <span class="field-label">Row:</span>
+                        <span class="field-value">{{ log.row_number }}</span>
+                      </div>
                     </f7-col>
                     <f7-col width="50">
                       <div class="log-field">
@@ -249,10 +253,6 @@
                       </div>
                     </f7-col>
                   </f7-row>
-                  <div v-if="log.row_number" class="log-field full-width">
-                    <span class="field-label">Row:</span>
-                    <span class="field-value">{{ log.row_number }}</span>
-                  </div>
                 </f7-card-content>
               </f7-card>
             </div>
@@ -1551,13 +1551,6 @@ body.microwave-theme-active .framework7-root {
 }
 
 .log-field:last-child {
-  border-bottom: none;
-}
-
-.log-field.full-width {
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: none;
 }
 
