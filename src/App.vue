@@ -10,20 +10,45 @@
       <f7-view>
         <f7-page>
           <f7-navbar title="DataLog" />
-          <f7-list>
-            <f7-list-item link="#" title="Home" @click="navigateTo('home')">
+          <f7-list menu-list>
+            <f7-list-item 
+              link="#" 
+              title="Home" 
+              @click="navigateTo('home')"
+              :class="{ 'menu-item-active': currentPage === 'home' }"
+            >
               <f7-icon slot="media" f7="house" />
             </f7-list-item>
-            <f7-list-item link="#" title="Larvae Logs" @click="navigateTo('larvae')">
+            <f7-list-item 
+              link="#" 
+              title="Larvae Logs" 
+              @click="navigateTo('larvae')"
+              :class="{ 'menu-item-active menu-item-larvae': currentPage === 'larvae' }"
+            >
               <f7-icon slot="media" ios="f7:ant"/>
             </f7-list-item>
-            <f7-list-item link="#" title="Prepupae Logs" @click="navigateTo('prepupae')">
+            <f7-list-item 
+              link="#" 
+              title="Prepupae Logs" 
+              @click="navigateTo('prepupae')"
+              :class="{ 'menu-item-active menu-item-prepupae': currentPage === 'prepupae' }"
+            >
               <f7-icon slot="media" ios="f7:cube_box"/>
             </f7-list-item>
-            <f7-list-item link="#" title="Neonate Logs" @click="navigateTo('neonates')">
+            <f7-list-item 
+              link="#" 
+              title="Neonate Logs" 
+              @click="navigateTo('neonates')"
+              :class="{ 'menu-item-active menu-item-neonate': currentPage === 'neonates' }"
+            >
               <f7-icon slot="media" ios="f7:circle_grid_3x3"/>
             </f7-list-item>
-            <f7-list-item link="#" title="Microwave Logs" @click="navigateTo('microwave')">
+            <f7-list-item 
+              link="#" 
+              title="Microwave Logs" 
+              @click="navigateTo('microwave')"
+              :class="{ 'menu-item-active menu-item-microwave': currentPage === 'microwave' }"
+            >
               <f7-icon slot="media" ios="f7:bolt"/>
             </f7-list-item>
           </f7-list>
@@ -1203,8 +1228,74 @@ body.neonate-theme-active .framework7-root {
   background: #9C27B0 !important;
 }
 
-body.microwave-theme-active .framework7-root {
-  background: #FF9800 !important;
+/* Menu list styling with theme colors */
+.list.menu-list .list-item.menu-item-active {
+  color: white !important;
+  border-radius: 8px;
+  margin: 2px 8px;
+}
+
+.list.menu-list .list-item.menu-item-active .item-inner {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.list.menu-list .list-item.menu-item-active .item-title {
+  color: white !important;
+  font-weight: 600;
+}
+
+.list.menu-list .list-item.menu-item-larvae.menu-item-active {
+  background: linear-gradient(135deg, var(--larvae-color), var(--larvae-color-light)) !important;
+}
+
+.list.menu-list .list-item.menu-item-prepupae.menu-item-active {
+  background: linear-gradient(135deg, var(--prepupae-color), var(--prepupae-color-light)) !important;
+}
+
+.list.menu-list .list-item.menu-item-neonate.menu-item-active {
+  background: linear-gradient(135deg, var(--neonate-color), var(--neonate-color-light)) !important;
+}
+
+.list.menu-list .list-item.menu-item-microwave.menu-item-active {
+  background: linear-gradient(135deg, var(--microwave-color), var(--microwave-color-light)) !important;
+}
+
+/* Home menu item - default theme */
+.list.menu-list .list-item.menu-item-active:not(.menu-item-larvae):not(.menu-item-prepupae):not(.menu-item-neonate):not(.menu-item-microwave) {
+  background: linear-gradient(135deg, #42b883, #66c999) !important;
+}
+
+/* Menu item icons */
+.list.menu-list .list-item.menu-item-active .item-media .icon {
+  color: white !important;
+}
+
+/* Hover effects for menu items */
+.list.menu-list .list-item:not(.menu-item-active):hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  margin: 2px 8px;
+  transition: all 0.3s ease;
+}
+
+.list.menu-list .list-item:not(.menu-item-active):hover .item-inner {
+  border-radius: 8px;
+}
+
+/* Panel styling */
+.panel-left {
+  background: #f8f9fa;
+}
+
+.panel-left .navbar {
+  background: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.panel-left .navbar .nav-title {
+  font-weight: 700;
+  color: #333;
 }
 
 /* iOS status bar styling - default */
