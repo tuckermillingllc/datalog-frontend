@@ -174,7 +174,7 @@
                 :subtitle="formatDate(log.timestamp)"
                 :text="`Age: ${log.days_of_age} days, Weight: ${log.larva_weight}mg`"
               >
-                <f7-icon slot="media" ios="f7:doc_text" md="material:description" />
+                <f7-icon slot="media" ios="f7:doc_text"  />
               </f7-list-item>
             </f7-list>
             <f7-block v-else>
@@ -255,7 +255,7 @@
                   :subtitle="formatDate(log.timestamp)"
                   :text="`Temp: ${log.temperature || 'N/A'}°F, Humidity: ${log.humidity || 'N/A'}%`"
                 >
-                  <f7-icon slot="media" ios="f7:doc_text" md="material:description" />
+                  <f7-icon slot="media" ios="f7:doc_text"  />
                 </f7-list-item>
               </f7-list>
               <f7-block v-else>
@@ -333,7 +333,7 @@
                   :subtitle="formatDate(log.timestamp)"
                   :text="`Temp: ${log.temperature || 'N/A'}°F, Bait: ${log.bait_tubs_replaced || 'N/A'}`"
                 >
-                  <f7-icon slot="media" ios="f7:doc_text" md="material:description" />
+                  <f7-icon slot="media" ios="f7:doc_text" />
                 </f7-list-item>
               </f7-list>
               <f7-block v-else>
@@ -501,7 +501,7 @@
                 :badge="getStatus(log)"
                 :badge-color="getStatusColor(log)"
               >
-                <f7-icon slot="media" ios="f7:bolt" md="material:microwave" />
+                <f7-icon slot="media" ios="f7:bolt"  />
               </f7-list-item>
             </f7-list>
             <f7-block v-else>
