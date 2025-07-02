@@ -210,17 +210,29 @@
           </div>
           
           <div v-if="larvaeTab === 'list'">
-            <f7-list v-if="larvaeLogs.length > 0">
-              <f7-list-item 
-                v-for="log in larvaeLogs" 
-                :key="log.id"
-                :title="log.username"
-                :subtitle="formatDate(log.timestamp)"
-                :text="`Age: ${log.days_of_age} days, Weight: ${log.larva_weight}mg`"
-              >
-                <f7-icon slot="media" ios="f7:doc_text"  />
-              </f7-list-item>
-            </f7-list>
+            <f7-card v-if="larvaeLogs.length > 0">
+              <f7-card-header>Recent Larvae Logs</f7-card-header>
+              <f7-card-content>
+                <f7-data-table>
+                  <f7-data-table-head>
+                    <f7-data-table-row>
+                      <f7-data-table-cell>User</f7-data-table-cell>
+                      <f7-data-table-cell>Age (days)</f7-data-table-cell>
+                      <f7-data-table-cell>Weight (mg)</f7-data-table-cell>
+                      <f7-data-table-cell>Date</f7-data-table-cell>
+                    </f7-data-table-row>
+                  </f7-data-table-head>
+                  <f7-data-table-body>
+                    <f7-data-table-row v-for="log in larvaeLogs" :key="log.id">
+                      <f7-data-table-cell>{{ log.username }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ log.days_of_age || 'N/A' }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ log.larva_weight || 'N/A' }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ formatDate(log.timestamp) }}</f7-data-table-cell>
+                    </f7-data-table-row>
+                  </f7-data-table-body>
+                </f7-data-table>
+              </f7-card-content>
+            </f7-card>
             <f7-block v-else>
               <p class="text-align-center color-gray">No larvae logs found.</p>
             </f7-block>
@@ -284,17 +296,31 @@
           </div>
           
           <div v-if="prepupaeTab === 'list'">
-            <f7-list v-if="prepupaeLogs.length > 0">
-              <f7-list-item 
-                v-for="log in prepupaeLogs" 
-                :key="log.id"
-                :title="log.username"
-                :subtitle="formatDate(log.timestamp)"
-                :text="`Temp: ${log.temperature || 'N/A'}°F, Humidity: ${log.humidity || 'N/A'}%`"
-              >
-                <f7-icon slot="media" ios="f7:doc_text"  />
-              </f7-list-item>
-            </f7-list>
+            <f7-card v-if="prepupaeLogs.length > 0">
+              <f7-card-header>Recent Prepupae Logs</f7-card-header>
+              <f7-card-content>
+                <f7-data-table>
+                  <f7-data-table-head>
+                    <f7-data-table-row>
+                      <f7-data-table-cell>User</f7-data-table-cell>
+                      <f7-data-table-cell>Temp (°F)</f7-data-table-cell>
+                      <f7-data-table-cell>Humidity (%)</f7-data-table-cell>
+                      <f7-data-table-cell>Tubs Added</f7-data-table-cell>
+                      <f7-data-table-cell>Date</f7-data-table-cell>
+                    </f7-data-table-row>
+                  </f7-data-table-head>
+                  <f7-data-table-body>
+                    <f7-data-table-row v-for="log in prepupaeLogs" :key="log.id">
+                      <f7-data-table-cell>{{ log.username }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ log.temperature || 'N/A' }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ log.humidity || 'N/A' }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ log.prepupae_tubs_added || 'N/A' }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ formatDate(log.timestamp) }}</f7-data-table-cell>
+                    </f7-data-table-row>
+                  </f7-data-table-body>
+                </f7-data-table>
+              </f7-card-content>
+            </f7-card>
             <f7-block v-else>
               <p class="text-align-center color-gray">No prepupae logs found.</p>
             </f7-block>
@@ -364,17 +390,31 @@
           </div>
           
           <div v-if="neonateTab === 'list'">
-            <f7-list v-if="neonateLogs.length > 0">
-              <f7-list-item 
-                v-for="log in neonateLogs" 
-                :key="log.id"
-                :title="log.username"
-                :subtitle="formatDate(log.timestamp)"
-                :text="`Temp: ${log.temperature || 'N/A'}°F, Bait: ${log.bait_tubs_replaced || 'N/A'}`"
-              >
-                <f7-icon slot="media" ios="f7:doc_text" />
-              </f7-list-item>
-            </f7-list>
+            <f7-card v-if="neonateLogs.length > 0">
+              <f7-card-header>Recent Neonate Logs</f7-card-header>
+              <f7-card-content>
+                <f7-data-table>
+                  <f7-data-table-head>
+                    <f7-data-table-row>
+                      <f7-data-table-cell>User</f7-data-table-cell>
+                      <f7-data-table-cell>Temp (°F)</f7-data-table-cell>
+                      <f7-data-table-cell>Humidity (%)</f7-data-table-cell>
+                      <f7-data-table-cell>Bait Tubs</f7-data-table-cell>
+                      <f7-data-table-cell>Date</f7-data-table-cell>
+                    </f7-data-table-row>
+                  </f7-data-table-head>
+                  <f7-data-table-body>
+                    <f7-data-table-row v-for="log in neonateLogs" :key="log.id">
+                      <f7-data-table-cell>{{ log.username }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ log.temperature || 'N/A' }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ log.humidity || 'N/A' }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ log.bait_tubs_replaced || 'N/A' }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ formatDate(log.timestamp) }}</f7-data-table-cell>
+                    </f7-data-table-row>
+                  </f7-data-table-body>
+                </f7-data-table>
+              </f7-card-content>
+            </f7-card>
             <f7-block v-else>
               <p class="text-align-center color-gray">No neonate logs found.</p>
             </f7-block>
@@ -529,19 +569,33 @@
           </div>
           
           <div v-if="microwaveTab === 'view'">
-            <f7-list v-if="microwaveLogs.length > 0">
-              <f7-list-item 
-                v-for="log in microwaveLogs" 
-                :key="log.id"
-                :title="log.username"
-                :subtitle="formatDate(log.timestamp)"
-                :text="getLogSummary(log)"
-                :badge="getStatus(log)"
-                :badge-color="getStatusColor(log)"
-              >
-                <f7-icon slot="media" ios="f7:bolt"  />
-              </f7-list-item>
-            </f7-list>
+            <f7-card v-if="microwaveLogs.length > 0">
+              <f7-card-header>Production Run Logs</f7-card-header>
+              <f7-card-content>
+                <f7-data-table>
+                  <f7-data-table-head>
+                    <f7-data-table-row>
+                      <f7-data-table-cell>User</f7-data-table-cell>
+                      <f7-data-table-cell>Power Gen 1</f7-data-table-cell>
+                      <f7-data-table-cell>Belt Speed</f7-data-table-cell>
+                      <f7-data-table-cell>Status</f7-data-table-cell>
+                      <f7-data-table-cell>Date</f7-data-table-cell>
+                    </f7-data-table-row>
+                  </f7-data-table-head>
+                  <f7-data-table-body>
+                    <f7-data-table-row v-for="log in microwaveLogs" :key="log.id">
+                      <f7-data-table-cell>{{ log.username }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ log.microwave_power_gen1 || 'N/A' }}</f7-data-table-cell>
+                      <f7-data-table-cell>{{ log.belt_speed || 'N/A' }}</f7-data-table-cell>
+                      <f7-data-table-cell>
+                        <f7-badge :color="getStatusColor(log)">{{ getStatus(log) }}</f7-badge>
+                      </f7-data-table-cell>
+                      <f7-data-table-cell>{{ formatDate(log.timestamp) }}</f7-data-table-cell>
+                    </f7-data-table-row>
+                  </f7-data-table-body>
+                </f7-data-table>
+              </f7-card-content>
+            </f7-card>
             <f7-block v-else>
               <p class="text-align-center color-gray">No production logs found.</p>
             </f7-block>
