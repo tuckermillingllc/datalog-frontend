@@ -107,7 +107,7 @@
           <f7-block-title>Quick Stats</f7-block-title>
           <f7-block>
             <f7-row>
-              <f7-col width="25">
+              <f7-col width="33">
                 <f7-card>
                   <f7-card-content class="stat-card">
                     <div class="stat-number">{{ totalLogs }}</div>
@@ -115,7 +115,7 @@
                   </f7-card-content>
                 </f7-card>
               </f7-col>
-              <f7-col width="25">
+              <f7-col width="33">
                 <f7-card>
                   <f7-card-content class="stat-card">
                     <div class="stat-number">{{ todayLogs }}</div>
@@ -123,15 +123,7 @@
                   </f7-card-content>
                 </f7-card>
               </f7-col>
-              <f7-col width="25">
-                <f7-card>
-                  <f7-card-content class="stat-card">
-                    <div class="stat-number">4</div>
-                    <div class="stat-label">Active Systems</div>
-                  </f7-card-content>
-                </f7-card>
-              </f7-col>
-              <f7-col width="25">
+              <f7-col width="33">
                 <f7-card>
                   <f7-card-content class="stat-card">
                     <div class="stat-number">{{ runningRuns }}</div>
