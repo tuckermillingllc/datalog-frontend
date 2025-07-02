@@ -1063,46 +1063,96 @@ const getLogSummary = (log) => {
   --f7-navbar-bg-color: var(--microwave-color);
 }
 
-/* Navbar theming */
+/* Navbar theming - more specific selectors */
+.larvae-page .navbar,
+.larvae-page .navbar-bg,
 .larvae-navbar {
-  background: linear-gradient(135deg, var(--larvae-color), var(--larvae-color-light)) !important;
+  background: var(--larvae-color) !important;
+  background-color: var(--larvae-color) !important;
   color: white !important;
 }
 
+.prepupae-page .navbar,
+.prepupae-page .navbar-bg,
 .prepupae-navbar {
-  background: linear-gradient(135deg, var(--prepupae-color), var(--prepupae-color-light)) !important;
+  background: var(--prepupae-color) !important;
+  background-color: var(--prepupae-color) !important;
   color: white !important;
 }
 
+.neonate-page .navbar,
+.neonate-page .navbar-bg,
 .neonate-navbar {
-  background: linear-gradient(135deg, var(--neonate-color), var(--neonate-color-light)) !important;
+  background: var(--neonate-color) !important;
+  background-color: var(--neonate-color) !important;
   color: white !important;
 }
 
+.microwave-page .navbar,
+.microwave-page .navbar-bg,
 .microwave-navbar {
-  background: linear-gradient(135deg, var(--microwave-color), var(--microwave-color-light)) !important;
+  background: var(--microwave-color) !important;
+  background-color: var(--microwave-color) !important;
   color: white !important;
 }
 
+/* Navbar content styling */
+.larvae-page .navbar-inner,
 .larvae-navbar .navbar-inner,
+.prepupae-page .navbar-inner,
 .prepupae-navbar .navbar-inner,
+.neonate-page .navbar-inner,
 .neonate-navbar .navbar-inner,
+.microwave-page .navbar-inner,
 .microwave-navbar .navbar-inner {
   color: white !important;
 }
 
+.larvae-page .navbar .link,
 .larvae-navbar .link,
+.prepupae-page .navbar .link,
 .prepupae-navbar .link,
+.neonate-page .navbar .link,
 .neonate-navbar .link,
+.microwave-page .navbar .link,
 .microwave-navbar .link {
   color: white !important;
 }
 
+.larvae-page .navbar .nav-title,
 .larvae-navbar .nav-title,
+.prepupae-page .navbar .nav-title,
 .prepupae-navbar .nav-title,
+.neonate-page .navbar .nav-title,
 .neonate-navbar .nav-title,
+.microwave-page .navbar .nav-title,
 .microwave-navbar .nav-title {
   color: white !important;
+}
+
+/* iOS specific navbar fixes */
+.ios.larvae-page .navbar,
+.ios.larvae-page .navbar-bg {
+  background: var(--larvae-color) !important;
+  background-color: var(--larvae-color) !important;
+}
+
+.ios.prepupae-page .navbar,
+.ios.prepupae-page .navbar-bg {
+  background: var(--prepupae-color) !important;
+  background-color: var(--prepupae-color) !important;
+}
+
+.ios.neonate-page .navbar,
+.ios.neonate-page .navbar-bg {
+  background: var(--neonate-color) !important;
+  background-color: var(--neonate-color) !important;
+}
+
+.ios.microwave-page .navbar,
+.ios.microwave-page .navbar-bg {
+  background: var(--microwave-color) !important;
+  background-color: var(--microwave-color) !important;
 }
 
 /* iOS status bar styling - default */
@@ -1117,44 +1167,79 @@ const getLogSummary = (log) => {
 
 /* Status bar area theming for themed pages */
 .larvae-page .framework7-root,
-.larvae-page .statusbar {
+.larvae-page .statusbar,
+.larvae-page .ios-edges {
   background: var(--larvae-color) !important;
 }
 
 .prepupae-page .framework7-root,
-.prepupae-page .statusbar {
+.prepupae-page .statusbar,
+.prepupae-page .ios-edges {
   background: var(--prepupae-color) !important;
 }
 
 .neonate-page .framework7-root,
-.neonate-page .statusbar {
+.neonate-page .statusbar,
+.neonate-page .ios-edges {
   background: var(--neonate-color) !important;
 }
 
 .microwave-page .framework7-root,
-.microwave-page .statusbar {
+.microwave-page .statusbar,
+.microwave-page .ios-edges {
   background: var(--microwave-color) !important;
 }
 
 /* iOS specific status bar theming */
 .ios.larvae-page,
-.ios.larvae-page .framework7-root {
+.ios.larvae-page .framework7-root,
+.ios.larvae-page .statusbar {
   background: var(--larvae-color) !important;
 }
 
 .ios.prepupae-page,
-.ios.prepupae-page .framework7-root {
+.ios.prepupae-page .framework7-root,
+.ios.prepupae-page .statusbar {
   background: var(--prepupae-color) !important;
 }
 
 .ios.neonate-page,
-.ios.neonate-page .framework7-root {
+.ios.neonate-page .framework7-root,
+.ios.neonate-page .statusbar {
   background: var(--neonate-color) !important;
 }
 
 .ios.microwave-page,
-.ios.microwave-page .framework7-root {
+.ios.microwave-page .framework7-root,
+.ios.microwave-page .statusbar {
   background: var(--microwave-color) !important;
+}
+
+/* Additional iOS Safari fixes */
+@supports (-webkit-appearance: none) {
+  .ios.larvae-page .view,
+  .ios.larvae-page .page {
+    --f7-navbar-bg-color: var(--larvae-color);
+    --f7-bars-bg-color: var(--larvae-color);
+  }
+  
+  .ios.prepupae-page .view,
+  .ios.prepupae-page .page {
+    --f7-navbar-bg-color: var(--prepupae-color);
+    --f7-bars-bg-color: var(--prepupae-color);
+  }
+  
+  .ios.neonate-page .view,
+  .ios.neonate-page .page {
+    --f7-navbar-bg-color: var(--neonate-color);
+    --f7-bars-bg-color: var(--neonate-color);
+  }
+  
+  .ios.microwave-page .view,
+  .ios.microwave-page .page {
+    --f7-navbar-bg-color: var(--microwave-color);
+    --f7-bars-bg-color: var(--microwave-color);
+  }
 }
 
 .button-active {
