@@ -31,10 +31,14 @@
     <!-- Main View -->
     <f7-view main>
       <f7-page>
-        <f7-navbar :title="getPageTitle()" :left-text="false">
+        <f7-navbar>
           <f7-nav-left>
             <f7-link panel-open="left" icon-f7="bars" />
           </f7-nav-left>
+          <f7-nav-title>{{ getPageTitle() }}</f7-nav-title>
+          <f7-nav-right>
+            <!-- Empty right side -->
+          </f7-nav-right>
         </f7-navbar>
 
         <!-- Home Page -->
