@@ -541,7 +541,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { f7 } from 'framework7-vue'
 
 // Navigation state
@@ -634,6 +634,10 @@ const f7params = {
     swipe: true,
     swipeActiveArea: 50,
     swipeCloseOpposite: true
+  },
+  // Theme configuration
+  colors: {
+    primary: '#42b883'
   }
 }
 
@@ -655,7 +659,56 @@ const calculatedYield = computed(() => {
 // Lifecycle
 onMounted(() => {
   loadAllData()
+  
+  // Apply dynamic theming after F7 initialization
+  setTimeout(() => {
+    applyPageTheme()
+  }, 100)
 })
+
+// Watch for page changes to update theme
+const currentPageWatcher = computed(() => currentPage.value)
+watch(currentPageWatcher, () => {
+  setTimeout(() => {
+    applyPageTheme()
+  }, 50)
+})
+
+// Dynamic theme application
+const applyPageTheme = () => {
+  const root = document.documentElement
+  const body = document.body
+  
+  // Remove existing theme classes
+  body.classList.remove('larvae-theme-active', 'prepupae-theme-active', 'neonate-theme-active', 'microwave-theme-active')
+  
+  // Apply theme based on current page
+  switch(currentPage.value) {
+    case 'larvae':
+      body.classList.add('larvae-theme-active')
+      root.style.setProperty('--f7-navbar-bg-color', '#4CAF50')
+      root.style.setProperty('--f7-bars-bg-color', '#4CAF50')
+      break
+    case 'prepupae':
+      body.classList.add('prepupae-theme-active')
+      root.style.setProperty('--f7-navbar-bg-color', '#2196F3')
+      root.style.setProperty('--f7-bars-bg-color', '#2196F3')
+      break
+    case 'neonates':
+      body.classList.add('neonate-theme-active')
+      root.style.setProperty('--f7-navbar-bg-color', '#9C27B0')
+      root.style.setProperty('--f7-bars-bg-color', '#9C27B0')
+      break
+    case 'microwave':
+      body.classList.add('microwave-theme-active')
+      root.style.setProperty('--f7-navbar-bg-color', '#FF9800')
+      root.style.setProperty('--f7-bars-bg-color', '#FF9800')
+      break
+    default:
+      root.style.setProperty('--f7-navbar-bg-color', '#f7f7f8')
+      root.style.setProperty('--f7-bars-bg-color', '#f7f7f8')
+  }
+}
 
 // Methods
 const navigateTo = (page) => {
@@ -1063,96 +1116,95 @@ const getLogSummary = (log) => {
   --f7-navbar-bg-color: var(--microwave-color);
 }
 
-/* Navbar theming - more specific selectors */
-.larvae-page .navbar,
-.larvae-page .navbar-bg,
-.larvae-navbar {
-  background: var(--larvae-color) !important;
-  background-color: var(--larvae-color) !important;
+/* Aggressive theming overrides using CSS custom properties and body classes */
+body.larvae-theme-active {
+  --f7-navbar-bg-color: #4CAF50 !important;
+  --f7-bars-bg-color: #4CAF50 !important;
+  --f7-navbar-text-color: #ffffff !important;
+  --f7-navbar-link-color: #ffffff !important;
+}
+
+body.prepupae-theme-active {
+  --f7-navbar-bg-color: #2196F3 !important;
+  --f7-bars-bg-color: #2196F3 !important;
+  --f7-navbar-text-color: #ffffff !important;
+  --f7-navbar-link-color: #ffffff !important;
+}
+
+body.neonate-theme-active {
+  --f7-navbar-bg-color: #9C27B0 !important;
+  --f7-bars-bg-color: #9C27B0 !important;
+  --f7-navbar-text-color: #ffffff !important;
+  --f7-navbar-link-color: #ffffff !important;
+}
+
+body.microwave-theme-active {
+  --f7-navbar-bg-color: #FF9800 !important;
+  --f7-bars-bg-color: #FF9800 !important;
+  --f7-navbar-text-color: #ffffff !important;
+  --f7-navbar-link-color: #ffffff !important;
+}
+
+/* Force navbar styling with highest specificity */
+body.larvae-theme-active .navbar,
+body.larvae-theme-active .navbar-bg,
+body.larvae-theme-active .navbar-inner {
+  background: #4CAF50 !important;
+  background-color: #4CAF50 !important;
   color: white !important;
 }
 
-.prepupae-page .navbar,
-.prepupae-page .navbar-bg,
-.prepupae-navbar {
-  background: var(--prepupae-color) !important;
-  background-color: var(--prepupae-color) !important;
+body.prepupae-theme-active .navbar,
+body.prepupae-theme-active .navbar-bg,
+body.prepupae-theme-active .navbar-inner {
+  background: #2196F3 !important;
+  background-color: #2196F3 !important;
   color: white !important;
 }
 
-.neonate-page .navbar,
-.neonate-page .navbar-bg,
-.neonate-navbar {
-  background: var(--neonate-color) !important;
-  background-color: var(--neonate-color) !important;
+body.neonate-theme-active .navbar,
+body.neonate-theme-active .navbar-bg,
+body.neonate-theme-active .navbar-inner {
+  background: #9C27B0 !important;
+  background-color: #9C27B0 !important;
   color: white !important;
 }
 
-.microwave-page .navbar,
-.microwave-page .navbar-bg,
-.microwave-navbar {
-  background: var(--microwave-color) !important;
-  background-color: var(--microwave-color) !important;
+body.microwave-theme-active .navbar,
+body.microwave-theme-active .navbar-bg,
+body.microwave-theme-active .navbar-inner {
+  background: #FF9800 !important;
+  background-color: #FF9800 !important;
   color: white !important;
 }
 
-/* Navbar content styling */
-.larvae-page .navbar-inner,
-.larvae-navbar .navbar-inner,
-.prepupae-page .navbar-inner,
-.prepupae-navbar .navbar-inner,
-.neonate-page .navbar-inner,
-.neonate-navbar .navbar-inner,
-.microwave-page .navbar-inner,
-.microwave-navbar .navbar-inner {
+/* Text color overrides */
+body.larvae-theme-active .navbar .link,
+body.larvae-theme-active .navbar .nav-title,
+body.prepupae-theme-active .navbar .link,
+body.prepupae-theme-active .navbar .nav-title,
+body.neonate-theme-active .navbar .link,
+body.neonate-theme-active .navbar .nav-title,
+body.microwave-theme-active .navbar .link,
+body.microwave-theme-active .navbar .nav-title {
   color: white !important;
 }
 
-.larvae-page .navbar .link,
-.larvae-navbar .link,
-.prepupae-page .navbar .link,
-.prepupae-navbar .link,
-.neonate-page .navbar .link,
-.neonate-navbar .link,
-.microwave-page .navbar .link,
-.microwave-navbar .link {
-  color: white !important;
+/* iOS status bar override */
+body.larvae-theme-active .framework7-root {
+  background: #4CAF50 !important;
 }
 
-.larvae-page .navbar .nav-title,
-.larvae-navbar .nav-title,
-.prepupae-page .navbar .nav-title,
-.prepupae-navbar .nav-title,
-.neonate-page .navbar .nav-title,
-.neonate-navbar .nav-title,
-.microwave-page .navbar .nav-title,
-.microwave-navbar .nav-title {
-  color: white !important;
+body.prepupae-theme-active .framework7-root {
+  background: #2196F3 !important;
 }
 
-/* iOS specific navbar fixes */
-.ios.larvae-page .navbar,
-.ios.larvae-page .navbar-bg {
-  background: var(--larvae-color) !important;
-  background-color: var(--larvae-color) !important;
+body.neonate-theme-active .framework7-root {
+  background: #9C27B0 !important;
 }
 
-.ios.prepupae-page .navbar,
-.ios.prepupae-page .navbar-bg {
-  background: var(--prepupae-color) !important;
-  background-color: var(--prepupae-color) !important;
-}
-
-.ios.neonate-page .navbar,
-.ios.neonate-page .navbar-bg {
-  background: var(--neonate-color) !important;
-  background-color: var(--neonate-color) !important;
-}
-
-.ios.microwave-page .navbar,
-.ios.microwave-page .navbar-bg {
-  background: var(--microwave-color) !important;
-  background-color: var(--microwave-color) !important;
+body.microwave-theme-active .framework7-root {
+  background: #FF9800 !important;
 }
 
 /* iOS status bar styling - default */
