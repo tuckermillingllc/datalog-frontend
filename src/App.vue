@@ -10,38 +10,20 @@
       <f7-view>
         <f7-page>
           <f7-navbar title="DataLog" />
-          <f7-block>
-  <f7-row>
-    <f7-col width="100">
-      <f7-button fill large class="nav-button larvae-button" @click="navigateTo('larvae')">
-        <div class="button-content">
-          <h3>Larvae Logs</h3>
-          <p>Track larvae feeding and development</p>
-        </div>
-      </f7-button>
-    </f7-col>
-  </f7-row>
-  <f7-row>
-    <f7-col width="100">
-      <f7-button fill large class="nav-button container-button" @click="navigateTo('container')">
-        <div class="button-content">
-          <h3>Container Logs</h3>
-          <p>Monitor container conditions</p>
-        </div>
-      </f7-button>
-    </f7-col>
-  </f7-row>
-  <f7-row>
-    <f7-col width="100">
-      <f7-button fill large class="nav-button microwave-button" @click="navigateTo('microwave')">
-        <div class="button-content">
-          <h3>Microwave Logs</h3>
-          <p>Production run tracking</p>
-        </div>
-      </f7-button>
-    </f7-col>
-  </f7-row>
-</f7-block>
+          <f7-list>
+            <f7-list-item link="#" title="Home" @click="navigateTo('home')">
+              <f7-icon slot="media" f7="house" />
+            </f7-list-item>
+            <f7-list-item link="#" title="Larvae Logs" @click="navigateTo('larvae')">
+              <f7-icon slot="media" ios="f7:ant"/>
+            </f7-list-item>
+            <f7-list-item link="#" title="Container Logs" @click="navigateTo('container')">
+              <f7-icon slot="media" ios="f7:cube_box"/>
+            </f7-list-item>
+            <f7-list-item link="#" title="Microwave Logs" @click="navigateTo('microwave')">
+              <f7-icon slot="media" ios="f7:bolt"/>
+            </f7-list-item>
+          </f7-list>
         </f7-page>
       </f7-view>
     </f7-panel>
@@ -66,20 +48,30 @@
           <p>Select a logging system to get started</p>
         </f7-block>
           
-          <f7-list>
-            <f7-list-item link="#" title="Larvae Logs" subtitle="Track larvae feeding and development" @click="navigateTo('larvae')">
-              <div slot="media" class="nav-icon">🐛</div>
-              <f7-icon slot="after" ios="f7:chevron_right"  />
-            </f7-list-item>
-            <f7-list-item link="#" title="Container Logs" subtitle="Monitor container conditions" @click="navigateTo('container')">
-              <div slot="media" class="nav-icon">📦</div>
-              <f7-icon slot="after" ios="f7:chevron_right"  />
-            </f7-list-item>
-            <f7-list-item link="#" title="Microwave Logs" subtitle="Production run tracking" @click="navigateTo('microwave')">
-              <div slot="media" class="nav-icon">⚡</div>
-              <f7-icon slot="after" ios="f7:chevron_right"  />
-            </f7-list-item>
-          </f7-list>
+          <f7-block>
+  <div class="nav-buttons">
+    <f7-button class="nav-button larvae-button" @click="navigateTo('larvae')">
+      <div class="button-content">
+        <h3>Larvae Logs</h3>
+        <p>Track larvae feeding and development</p>
+      </div>
+    </f7-button>
+    
+    <f7-button class="nav-button container-button" @click="navigateTo('container')">
+      <div class="button-content">
+        <h3>Container Logs</h3>
+        <p>Monitor container conditions</p>
+      </div>
+    </f7-button>
+    
+    <f7-button class="nav-button microwave-button" @click="navigateTo('microwave')">
+      <div class="button-content">
+        <h3>Microwave Logs</h3>
+        <p>Production run tracking</p>
+      </div>
+    </f7-button>
+  </div>
+</f7-block>
           
           <!-- Quick Stats -->
           <f7-block-title>Quick Stats</f7-block-title>
@@ -1047,17 +1039,25 @@ const getLogSummary = (log) => {
   font-weight: 600;
 }
 
+.nav-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
 .nav-button {
-  margin-bottom: 1rem;
+  width: 100%;
   height: auto;
   min-height: 80px;
   border-radius: 12px;
-  text-align: left;
+  border: none;
+  padding: 0;
+  display: block;
 }
 
 .button-content {
   padding: 1rem;
+  text-align: left;
   width: 100%;
 }
 
