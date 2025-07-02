@@ -38,7 +38,6 @@
         </f7-navbar>
 
         <!-- Home Page -->
-        <!-- Home Page -->
       <f7-block v-if="currentPage === 'home'">
         <f7-block-title class="text-align-center">Welcome to DataLog System</f7-block-title>
         <f7-block class="text-align-center">
