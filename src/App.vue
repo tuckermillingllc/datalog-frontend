@@ -1289,6 +1289,10 @@ body.neonate-theme-active .framework7-root {
   background: #9C27B0 !important;
 }
 
+body.microwave-theme-active .framework7-root {
+  background: #FF9800 !important;
+}
+
 /* Menu list styling with theme colors - corrected with higher specificity */
 .panel-left .list.menu-list .list-item.item-selected {
   color: white !important;
