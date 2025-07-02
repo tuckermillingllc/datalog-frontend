@@ -963,6 +963,22 @@ const getLogSummary = (log) => {
 :root {
   --f7-theme-color: #42b883;
   --f7-theme-color-rgb: 66, 184, 131;
+  
+  /* iOS status bar color matching */
+  --f7-bars-bg-color: #f7f7f8;
+  --f7-bars-bg-color-rgb: 247, 247, 248;
+  --f7-navbar-bg-color: #f7f7f8;
+  --f7-navbar-bg-color-rgb: 247, 247, 248;
+}
+
+/* iOS status bar styling */
+.ios .navbar {
+  background: var(--f7-navbar-bg-color);
+}
+
+/* Add status bar meta tag support */
+.framework7-root {
+  background: var(--f7-bars-bg-color);
 }
 
 .button-active {
