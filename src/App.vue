@@ -38,11 +38,12 @@
         </f7-navbar>
 
         <!-- Home Page -->
-        <f7-block v-if="currentPage === 'home'">
-          <f7-block-title>Welcome to DataLog System</f7-block-title>
-          <f7-block>
-            <p>Select a logging system to get started</p>
-          </f7-block>
+        <!-- Home Page -->
+      <f7-block v-if="currentPage === 'home'">
+        <f7-block-title class="text-align-center">Welcome to DataLog System</f7-block-title>
+        <f7-block class="text-align-center">
+          <p>Select a logging system to get started</p>
+        </f7-block>
           
           <f7-list>
             <f7-list-item link="#" title="Larvae Logs" subtitle="Track larvae feeding and development" @click="navigateTo('larvae')">
