@@ -12,16 +12,16 @@
           <f7-navbar title="DataLog" />
           <f7-list>
             <f7-list-item link="#" title="Home" @click="navigateTo('home')">
-              <f7-icon slot="media" ios="f7:house" md="material:home" />
+              <f7-icon slot="media" f7="house" />
             </f7-list-item>
             <f7-list-item link="#" title="Larvae Logs" @click="navigateTo('larvae')">
-              <f7-icon slot="media" ios="f7:ant" md="material:bug_report" />
+              <f7-icon slot="media" ios="f7:ant"/>
             </f7-list-item>
             <f7-list-item link="#" title="Container Logs" @click="navigateTo('container')">
-              <f7-icon slot="media" ios="f7:cube_box" md="material:inventory" />
+              <f7-icon slot="media" ios="f7:cube_box"/>
             </f7-list-item>
             <f7-list-item link="#" title="Microwave Logs" @click="navigateTo('microwave')">
-              <f7-icon slot="media" ios="f7:bolt" md="material:microwave" />
+              <f7-icon slot="media" ios="f7:bolt"/>
             </f7-list-item>
           </f7-list>
         </f7-page>
@@ -33,7 +33,7 @@
       <f7-page>
         <f7-navbar :title="getPageTitle()" :left-text="false">
           <f7-nav-left>
-            <f7-link panel-open="left" icon-ios="f7:bars" icon-md="material:menu" />
+            <f7-link panel-open="left" icon-f7="bars" />
           </f7-nav-left>
         </f7-navbar>
 
@@ -47,15 +47,15 @@
           <f7-list>
             <f7-list-item link="#" title="Larvae Logs" subtitle="Track larvae feeding and development" @click="navigateTo('larvae')">
               <div slot="media" class="nav-icon">🐛</div>
-              <f7-icon slot="after" ios="f7:chevron_right" md="material:chevron_right" />
+              <f7-icon slot="after" ios="f7:chevron_right"  />
             </f7-list-item>
             <f7-list-item link="#" title="Container Logs" subtitle="Monitor container conditions" @click="navigateTo('container')">
               <div slot="media" class="nav-icon">📦</div>
-              <f7-icon slot="after" ios="f7:chevron_right" md="material:chevron_right" />
+              <f7-icon slot="after" ios="f7:chevron_right"  />
             </f7-list-item>
             <f7-list-item link="#" title="Microwave Logs" subtitle="Production run tracking" @click="navigateTo('microwave')">
               <div slot="media" class="nav-icon">⚡</div>
-              <f7-icon slot="after" ios="f7:chevron_right" md="material:chevron_right" />
+              <f7-icon slot="after" ios="f7:chevron_right"  />
             </f7-list-item>
           </f7-list>
           
