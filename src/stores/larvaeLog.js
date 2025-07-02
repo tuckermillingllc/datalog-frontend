@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
+
 const API_URL = import.meta.env.VITE_API_URL || 'https://datalog-backend.onrender.com'
 
 export const useLarvaeLogStore = defineStore('larvaeLog', () => {
@@ -63,6 +64,31 @@ export const useLarvaeLogStore = defineStore('larvaeLog', () => {
       loading.value = false
     }
   }
+
+  async function deleteLog(id) {
+  loading.value = true
+  error.value = null
+
+  try {
+    const response = await fetch(`${API_URL}/api/logs/${id}`, {
+      method: 'DELETE'
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.detail || 'Failed to delete log')
+    }
+
+    // Remove the deleted log from the store
+    logs.value = logs.value.filter(log => log.id !== id)
+  } catch (err) {
+    error.value = err.message
+    console.error('Error deleting log:', err)
+    throw err
+  } finally {
+    loading.value = false
+  }
+}
   
   async function createLog(logData) {
     loading.value = true
@@ -142,6 +168,7 @@ export const useLarvaeLogStore = defineStore('larvaeLog', () => {
     fetchLogs,
     createLog,
     getLogById,
+    deleteLog,    
     setCurrentUser,
     clearError
   }

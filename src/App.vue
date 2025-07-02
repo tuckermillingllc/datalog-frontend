@@ -1,42 +1,82 @@
 <template>
-  <div id="app">
-    <header>
-      <h1>Larvae DataLog System</h1>
-    </header>
+  <f7-app :params="f7params">
+    <!-- Panel (Sidebar) -->
+    <f7-panel left reveal :backdrop="false">
+      <f7-view>
+        <f7-page>
+          <f7-navbar title="DataLog Menu" />
+          <f7-list>
+            <f7-list-item 
+              link="#" 
+              title="Home" 
+              @click="navigateTo('/')"
+              :class="{ 'item-selected': currentRoute === '/' }"
+            >
+              <f7-icon slot="media" ios="f7:house" md="material:home" />
+            </f7-list-item>
+            <f7-list-item 
+              link="#" 
+              title="Larvae Logs" 
+              @click="navigateTo('/larvae/')"
+              :class="{ 'item-selected': currentRoute === '/larvae/' }"
+            >
+              <f7-icon slot="media" ios="f7:ant" md="material:bug_report" />
+            </f7-list-item>
+            <f7-list-item 
+              link="#" 
+              title="Container Logs" 
+              @click="navigateTo('/container/')"
+              :class="{ 'item-selected': currentRoute === '/container/' }"
+            >
+              <f7-icon slot="media" ios="f7:cube_box" md="material:inventory" />
+            </f7-list-item>
+            <f7-list-item 
+              link="#" 
+              title="Microwave Logs" 
+              @click="navigateTo('/microwave/')"
+              :class="{ 'item-selected': currentRoute === '/microwave/' }"
+            >
+              <f7-icon slot="media" ios="f7:bolt" md="material:microwave" />
+            </f7-list-item>
+          </f7-list>
+        </f7-page>
+      </f7-view>
+    </f7-panel>
 
-    <main>
-      <div class="app-container">
-        <!-- Tab Navigation -->
-        <div class="tabs">
-          <button 
-            @click="activeTab = 'form'" 
-            :class="{ active: activeTab === 'form' }"
-          >
-            New Log
-          </button>
-          <button 
-            @click="activeTab = 'list'" 
-            :class="{ active: activeTab === 'list' }"
-          >
-            View Logs
-          </button>
-        </div>
-
-        <!-- Tab Content -->
-        <div class="tab-content">
-          <LarvaeLogForm v-if="activeTab === 'form'" />
-          <LarvaeLogList v-if="activeTab === 'list'" />
-        </div>
-      </div>
-    </main>
-  </div>
+    <!-- Main View -->
+    <f7-view main :url="initialRoute" />
+  </f7-app>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import LarvaeLogForm from './components/LarvaeLogForm.vue'
-import LarvaeLogList from './components/LarvaeLogList.vue'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+import { f7 } from 'framework7-vue'
+
+const currentRoute = ref('/')
+const initialRoute = ref('/')
+
+const f7params = {
+  name: 'DataLog',
+  theme: 'auto',
+  routes: [
+    {
+      path: '/',
+      component: () => import('./pages/HomePage.vue')
+    },
+    {
+      path: '/larvae/',
+      component: () => import('./pages/LarvaePage.vue')
+    },
+    {
+      path: '/container/',
+      component: () => import('./pages/ContainerPage.vue')
+    },
+    {
+      path: '/microwave/',
+      component: () => import('./pages/MicrowavePage.vue')
+    }
+  ]
+}
 
 onMounted(() => {
   if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
@@ -44,88 +84,21 @@ onMounted(() => {
   }
 })
 
-const activeTab = ref('form')
+const navigateTo = (route) => {
+  currentRoute.value = route
+  f7.views.main.router.navigate(route)
+  f7.panel.close()
+}
 </script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.item-selected {
+  background-color: var(--f7-list-item-selected-bg-color, rgba(0, 122, 255, 0.15));
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: #f5f5f5;
-  line-height: 1.5;
-}
-
-header {
-  background-color: #42b883;
-  color: white;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-
-/* iOS safe-area support */
-body.ios header {
-  padding-top: env(safe-area-inset-top);
-  height: calc(56px + env(safe-area-inset-top));
-}
-
-.app-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 16px;
-}
-
-.tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #e0e0e0;
-}
-
-.tabs button {
-  padding: 8px 16px;
-  background: none;
-  border: none;
-  font-size: 15px;
-  cursor: pointer;
-  color: #666;
-  border-bottom: 2px solid transparent;
-  transition: all 0.3s;
-}
-
-.tabs button.active {
-  color: #42b883;
-  border-bottom-color: #42b883;
-}
-
-.tab-content {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  min-height: 400px;
-}
-
-/* Mobile responsive */
-@media (max-width: 640px) {
-  header {
-    padding: 12px 16px;
-  }
-
-  .app-container {
-    padding: 12px;
-  }
-
-  .tabs {
-    margin-bottom: 16px;
-  }
+/* Custom color scheme */
+:root {
+  --f7-theme-color: #42b883;
+  --f7-theme-color-rgb: 66, 184, 131;
 }
 </style>

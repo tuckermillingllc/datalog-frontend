@@ -3,7 +3,9 @@ import { createPinia } from 'pinia'
 import Framework7 from 'framework7/lite-bundle';
 import Framework7Vue, { registerComponents } from 'framework7-vue/bundle';
 import App from './App.vue';
-import routes from './routes';
+
+// Import Framework7 Styles
+import 'framework7/css/bundle';
 
 Framework7.use(Framework7Vue);
 
@@ -15,9 +17,5 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
   document.body.classList.add('ios');
 }
 
-// Inject routes into the Framework7 app
-app.config.globalProperties.$f7routes = routes;
-
 app.use(pinia)
 app.mount('#app');
-
