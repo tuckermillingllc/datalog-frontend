@@ -45,11 +45,14 @@
         </f7-navbar>
 
         <!-- Home Page -->
-        <f7-block v-if="currentPage === 'home'">
-          <f7-block-title class="text-align-center">Welcome to DataLog System</f7-block-title>
-          <f7-block class="text-align-center">
-            <p>Select a logging system to get started</p>
-          </f7-block>
+        <!--
+<f7-block v-if="currentPage === 'home'">
+  <f7-block-title class="text-align-center">Welcome to DataLog System</f7-block-title>
+  <f7-block class="text-align-center">
+    <p>Select a logging system to get started</p>
+  </f7-block>
+-->
+
             
           <f7-block>
             <div class="nav-buttons">
