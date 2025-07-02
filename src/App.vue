@@ -210,29 +210,52 @@
           </div>
           
           <div v-if="larvaeTab === 'list'">
-            <f7-card v-if="larvaeLogs.length > 0">
-              <f7-card-header>Recent Larvae Logs</f7-card-header>
-              <f7-card-content>
-                <f7-data-table>
-                  <f7-data-table-head>
-                    <f7-data-table-row>
-                      <f7-data-table-cell>User</f7-data-table-cell>
-                      <f7-data-table-cell>Age (days)</f7-data-table-cell>
-                      <f7-data-table-cell>Weight (mg)</f7-data-table-cell>
-                      <f7-data-table-cell>Date</f7-data-table-cell>
-                    </f7-data-table-row>
-                  </f7-data-table-head>
-                  <f7-data-table-body>
-                    <f7-data-table-row v-for="log in larvaeLogs" :key="log.id">
-                      <f7-data-table-cell>{{ log.username }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ log.days_of_age || 'N/A' }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ log.larva_weight || 'N/A' }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ formatDate(log.timestamp) }}</f7-data-table-cell>
-                    </f7-data-table-row>
-                  </f7-data-table-body>
-                </f7-data-table>
-              </f7-card-content>
-            </f7-card>
+            <div v-if="larvaeLogs.length > 0">
+              <f7-card v-for="log in larvaeLogs" :key="log.id" class="log-card">
+                <f7-card-header>
+                  <div class="card-header-content">
+                    <div class="user-info">{{ log.username }}</div>
+                    <div class="log-date">{{ formatDate(log.timestamp) }}</div>
+                  </div>
+                </f7-card-header>
+                <f7-card-content>
+                  <f7-row>
+                    <f7-col width="50">
+                      <div class="log-field">
+                        <span class="field-label">Age:</span>
+                        <span class="field-value">{{ log.days_of_age || 'N/A' }} days</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Weight:</span>
+                        <span class="field-value">{{ log.larva_weight || 'N/A' }} mg</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">lb Feed:</span>
+                        <span class="field-value">{{ log.lb_feed || 'N/A' }}</span>
+                      </div>
+                    </f7-col>
+                    <f7-col width="50">
+                      <div class="log-field">
+                        <span class="field-label">Larva %:</span>
+                        <span class="field-value">{{ log.larva_pct || 'N/A' }}%</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">lb Larvae:</span>
+                        <span class="field-value">{{ log.lb_larvae || 'N/A' }}</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">lb Water:</span>
+                        <span class="field-value">{{ log.lb_water || 'N/A' }}</span>
+                      </div>
+                    </f7-col>
+                  </f7-row>
+                  <div v-if="log.row_number" class="log-field">
+                    <span class="field-label">Row:</span>
+                    <span class="field-value">{{ log.row_number }}</span>
+                  </div>
+                </f7-card-content>
+              </f7-card>
+            </div>
             <f7-block v-else>
               <p class="text-align-center color-gray">No larvae logs found.</p>
             </f7-block>
@@ -296,31 +319,40 @@
           </div>
           
           <div v-if="prepupaeTab === 'list'">
-            <f7-card v-if="prepupaeLogs.length > 0">
-              <f7-card-header>Recent Prepupae Logs</f7-card-header>
-              <f7-card-content>
-                <f7-data-table>
-                  <f7-data-table-head>
-                    <f7-data-table-row>
-                      <f7-data-table-cell>User</f7-data-table-cell>
-                      <f7-data-table-cell>Temp (°F)</f7-data-table-cell>
-                      <f7-data-table-cell>Humidity (%)</f7-data-table-cell>
-                      <f7-data-table-cell>Tubs Added</f7-data-table-cell>
-                      <f7-data-table-cell>Date</f7-data-table-cell>
-                    </f7-data-table-row>
-                  </f7-data-table-head>
-                  <f7-data-table-body>
-                    <f7-data-table-row v-for="log in prepupaeLogs" :key="log.id">
-                      <f7-data-table-cell>{{ log.username }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ log.temperature || 'N/A' }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ log.humidity || 'N/A' }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ log.prepupae_tubs_added || 'N/A' }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ formatDate(log.timestamp) }}</f7-data-table-cell>
-                    </f7-data-table-row>
-                  </f7-data-table-body>
-                </f7-data-table>
-              </f7-card-content>
-            </f7-card>
+            <div v-if="prepupaeLogs.length > 0">
+              <f7-card v-for="log in prepupaeLogs" :key="log.id" class="log-card">
+                <f7-card-header>
+                  <div class="card-header-content">
+                    <div class="user-info">{{ log.username }}</div>
+                    <div class="log-date">{{ formatDate(log.timestamp) }}</div>
+                  </div>
+                </f7-card-header>
+                <f7-card-content>
+                  <f7-row>
+                    <f7-col width="50">
+                      <div class="log-field">
+                        <span class="field-label">Temperature:</span>
+                        <span class="field-value">{{ log.temperature || 'N/A' }}°F</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Tubs Added:</span>
+                        <span class="field-value">{{ log.prepupae_tubs_added || 'N/A' }}</span>
+                      </div>
+                    </f7-col>
+                    <f7-col width="50">
+                      <div class="log-field">
+                        <span class="field-label">Humidity:</span>
+                        <span class="field-value">{{ log.humidity || 'N/A' }}%</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Nests Replaced:</span>
+                        <span class="field-value">{{ log.egg_nests_replaced || 'N/A' }}</span>
+                      </div>
+                    </f7-col>
+                  </f7-row>
+                </f7-card-content>
+              </f7-card>
+            </div>
             <f7-block v-else>
               <p class="text-align-center color-gray">No prepupae logs found.</p>
             </f7-block>
@@ -390,31 +422,44 @@
           </div>
           
           <div v-if="neonateTab === 'list'">
-            <f7-card v-if="neonateLogs.length > 0">
-              <f7-card-header>Recent Neonate Logs</f7-card-header>
-              <f7-card-content>
-                <f7-data-table>
-                  <f7-data-table-head>
-                    <f7-data-table-row>
-                      <f7-data-table-cell>User</f7-data-table-cell>
-                      <f7-data-table-cell>Temp (°F)</f7-data-table-cell>
-                      <f7-data-table-cell>Humidity (%)</f7-data-table-cell>
-                      <f7-data-table-cell>Bait Tubs</f7-data-table-cell>
-                      <f7-data-table-cell>Date</f7-data-table-cell>
-                    </f7-data-table-row>
-                  </f7-data-table-head>
-                  <f7-data-table-body>
-                    <f7-data-table-row v-for="log in neonateLogs" :key="log.id">
-                      <f7-data-table-cell>{{ log.username }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ log.temperature || 'N/A' }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ log.humidity || 'N/A' }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ log.bait_tubs_replaced || 'N/A' }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ formatDate(log.timestamp) }}</f7-data-table-cell>
-                    </f7-data-table-row>
-                  </f7-data-table-body>
-                </f7-data-table>
-              </f7-card-content>
-            </f7-card>
+            <div v-if="neonateLogs.length > 0">
+              <f7-card v-for="log in neonateLogs" :key="log.id" class="log-card">
+                <f7-card-header>
+                  <div class="card-header-content">
+                    <div class="user-info">{{ log.username }}</div>
+                    <div class="log-date">{{ formatDate(log.timestamp) }}</div>
+                  </div>
+                </f7-card-header>
+                <f7-card-content>
+                  <f7-row>
+                    <f7-col width="50">
+                      <div class="log-field">
+                        <span class="field-label">Temperature:</span>
+                        <span class="field-value">{{ log.temperature || 'N/A' }}°F</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Bait Tubs:</span>
+                        <span class="field-value">{{ log.bait_tubs_replaced || 'N/A' }}</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Nests Replaced:</span>
+                        <span class="field-value">{{ log.egg_nests_replaced || 'N/A' }}</span>
+                      </div>
+                    </f7-col>
+                    <f7-col width="50">
+                      <div class="log-field">
+                        <span class="field-label">Humidity:</span>
+                        <span class="field-value">{{ log.humidity || 'N/A' }}%</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Shelf Tubs:</span>
+                        <span class="field-value">{{ log.shelf_tubs_removed || 'N/A' }}</span>
+                      </div>
+                    </f7-col>
+                  </f7-row>
+                </f7-card-content>
+              </f7-card>
+            </div>
             <f7-block v-else>
               <p class="text-align-center color-gray">No neonate logs found.</p>
             </f7-block>
@@ -569,33 +614,53 @@
           </div>
           
           <div v-if="microwaveTab === 'view'">
-            <f7-card v-if="microwaveLogs.length > 0">
-              <f7-card-header>Production Run Logs</f7-card-header>
-              <f7-card-content>
-                <f7-data-table>
-                  <f7-data-table-head>
-                    <f7-data-table-row>
-                      <f7-data-table-cell>User</f7-data-table-cell>
-                      <f7-data-table-cell>Power Gen 1</f7-data-table-cell>
-                      <f7-data-table-cell>Belt Speed</f7-data-table-cell>
-                      <f7-data-table-cell>Status</f7-data-table-cell>
-                      <f7-data-table-cell>Date</f7-data-table-cell>
-                    </f7-data-table-row>
-                  </f7-data-table-head>
-                  <f7-data-table-body>
-                    <f7-data-table-row v-for="log in microwaveLogs" :key="log.id">
-                      <f7-data-table-cell>{{ log.username }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ log.microwave_power_gen1 || 'N/A' }}</f7-data-table-cell>
-                      <f7-data-table-cell>{{ log.belt_speed || 'N/A' }}</f7-data-table-cell>
-                      <f7-data-table-cell>
-                        <f7-badge :color="getStatusColor(log)">{{ getStatus(log) }}</f7-badge>
-                      </f7-data-table-cell>
-                      <f7-data-table-cell>{{ formatDate(log.timestamp) }}</f7-data-table-cell>
-                    </f7-data-table-row>
-                  </f7-data-table-body>
-                </f7-data-table>
-              </f7-card-content>
-            </f7-card>
+            <div v-if="microwaveLogs.length > 0">
+              <f7-card v-for="log in microwaveLogs" :key="log.id" class="log-card">
+                <f7-card-header>
+                  <div class="card-header-content">
+                    <div class="user-info">{{ log.username }}</div>
+                    <f7-badge :color="getStatusColor(log)">{{ getStatus(log) }}</f7-badge>
+                  </div>
+                  <div class="log-date">{{ formatDate(log.timestamp) }}</div>
+                </f7-card-header>
+                <f7-card-content>
+                  <f7-row>
+                    <f7-col width="50">
+                      <div class="log-field">
+                        <span class="field-label">Power Gen 1:</span>
+                        <span class="field-value">{{ log.microwave_power_gen1 || 'N/A' }}</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Fan Cavity 1:</span>
+                        <span class="field-value">{{ log.fan_speed_cavity1 || 'N/A' }}</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Ramp Up:</span>
+                        <span class="field-value">{{ log.num_ramp_up_tubs || 'N/A' }}</span>
+                      </div>
+                    </f7-col>
+                    <f7-col width="50">
+                      <div class="log-field">
+                        <span class="field-label">Power Gen 2:</span>
+                        <span class="field-value">{{ log.microwave_power_gen2 || 'N/A' }}</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Belt Speed:</span>
+                        <span class="field-value">{{ log.belt_speed || 'N/A' }}</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Ramp Down:</span>
+                        <span class="field-value">{{ log.num_ramp_down_tubs || 'N/A' }}</span>
+                      </div>
+                    </f7-col>
+                  </f7-row>
+                  <div v-if="log.yield_percentage" class="yield-info">
+                    <span class="field-label">Yield:</span>
+                    <span class="field-value yield-value">{{ log.yield_percentage.toFixed(1) }}%</span>
+                  </div>
+                </f7-card-content>
+              </f7-card>
+            </div>
             <f7-block v-else>
               <p class="text-align-center color-gray">No production logs found.</p>
             </f7-block>
@@ -1449,5 +1514,71 @@ body.microwave-theme-active .framework7-root {
   background: rgba(255, 152, 0, 0.05);
   border-radius: 12px;
   margin: 0.5rem;
+}
+
+/* Mobile-friendly log cards */
+.log-card {
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.user-info {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.log-date {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: right;
+}
+
+.log-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.log-field:last-child {
+  border-bottom: none;
+}
+
+.field-label {
+  font-weight: 500;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.field-value {
+  font-weight: 600;
+  color: #333;
+  text-align: right;
+}
+
+.yield-info {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.yield-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4CAF50;
 }
 </style>
