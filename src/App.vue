@@ -71,11 +71,6 @@
 
         <!-- Home Page -->
         <f7-block v-if="currentPage === 'home'">
-          <f7-block-title class="text-align-center">Welcome to DataLog System</f7-block-title>
-          <f7-block class="text-align-center">
-            <p>Select a logging system to get started</p>
-          </f7-block>
-            
           <f7-block>
             <div class="nav-buttons">
               <f7-button class="nav-button larvae-button" @click="navigateTo('larvae')">
@@ -689,6 +684,24 @@ onMounted(() => {
   setTimeout(() => {
     applyPageTheme()
   }, 100)
+  
+  // Set up mutation observer to handle Framework7 DOM changes
+  const observer = new MutationObserver(() => {
+    applyMenuTheme()
+  })
+  
+  // Start observing when panel is ready
+  setTimeout(() => {
+    const panel = document.querySelector('.panel-left')
+    if (panel) {
+      observer.observe(panel, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class']
+      })
+    }
+  }, 200)
 })
 
 // Watch for page changes to update theme
@@ -698,6 +711,13 @@ watch(currentPageWatcher, () => {
     applyPageTheme()
   }, 50)
 })
+
+// Also watch for panel open/close to reapply menu theme
+watch(() => f7.panel, () => {
+  setTimeout(() => {
+    applyMenuTheme()
+  }, 100)
+}, { deep: true })
 
 // Dynamic theme application
 const applyPageTheme = () => {
@@ -733,6 +753,47 @@ const applyPageTheme = () => {
       root.style.setProperty('--f7-navbar-bg-color', '#f7f7f8')
       root.style.setProperty('--f7-bars-bg-color', '#f7f7f8')
   }
+  
+  // Force menu item theming
+  applyMenuTheme()
+}
+
+// Apply menu theme colors directly
+const applyMenuTheme = () => {
+  setTimeout(() => {
+    const menuItems = document.querySelectorAll('.panel-left .list-item')
+    menuItems.forEach(item => {
+      // Reset all items
+      item.style.background = ''
+      item.style.color = ''
+      
+      // Apply theme to active item
+      if (item.classList.contains('item-selected')) {
+        if (item.classList.contains('larvae-selected')) {
+          item.style.background = 'linear-gradient(135deg, #4CAF50, #8BC34A)'
+          item.style.color = 'white'
+        } else if (item.classList.contains('prepupae-selected')) {
+          item.style.background = 'linear-gradient(135deg, #2196F3, #03A9F4)'
+          item.style.color = 'white'
+        } else if (item.classList.contains('neonate-selected')) {
+          item.style.background = 'linear-gradient(135deg, #9C27B0, #E91E63)'
+          item.style.color = 'white'
+        } else if (item.classList.contains('microwave-selected')) {
+          item.style.background = 'linear-gradient(135deg, #FF9800, #FFC107)'
+          item.style.color = 'white'
+        } else {
+          item.style.background = 'linear-gradient(135deg, #42b883, #66c999)'
+          item.style.color = 'white'
+        }
+        
+        // Style text and icons
+        const title = item.querySelector('.item-title')
+        const icon = item.querySelector('.icon')
+        if (title) title.style.color = 'white'
+        if (icon) icon.style.color = 'white'
+      }
+    })
+  }, 10)
 }
 
 // Methods
