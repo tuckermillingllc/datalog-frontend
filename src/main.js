@@ -6,6 +6,7 @@ import App from './App.vue';
 
 // Import Framework7 Styles
 import 'framework7/css/bundle';
+import 'framework7-icons/css/framework7-icons.css';
 
 Framework7.use(Framework7Vue);
 
