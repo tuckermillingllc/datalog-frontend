@@ -1034,25 +1034,33 @@ const getLogSummary = (log) => {
   --f7-navbar-bg-color-rgb: 247, 247, 248;
 }
 
-/* Page-specific themes */
+/* Page-specific themes - includes status bar */
 .larvae-page {
   --f7-theme-color: var(--larvae-color);
   --f7-theme-color-rgb: var(--larvae-color-rgb);
+  --f7-bars-bg-color: var(--larvae-color);
+  --f7-navbar-bg-color: var(--larvae-color);
 }
 
 .prepupae-page {
   --f7-theme-color: var(--prepupae-color);
   --f7-theme-color-rgb: var(--prepupae-color-rgb);
+  --f7-bars-bg-color: var(--prepupae-color);
+  --f7-navbar-bg-color: var(--prepupae-color);
 }
 
 .neonate-page {
   --f7-theme-color: var(--neonate-color);
   --f7-theme-color-rgb: var(--neonate-color-rgb);
+  --f7-bars-bg-color: var(--neonate-color);
+  --f7-navbar-bg-color: var(--neonate-color);
 }
 
 .microwave-page {
   --f7-theme-color: var(--microwave-color);
   --f7-theme-color-rgb: var(--microwave-color-rgb);
+  --f7-bars-bg-color: var(--microwave-color);
+  --f7-navbar-bg-color: var(--microwave-color);
 }
 
 /* Navbar theming */
@@ -1097,14 +1105,56 @@ const getLogSummary = (log) => {
   color: white !important;
 }
 
-/* iOS status bar styling */
+/* iOS status bar styling - default */
 .ios .navbar {
   background: var(--f7-navbar-bg-color);
 }
 
-/* Add status bar meta tag support */
+/* Add status bar meta tag support - default */
 .framework7-root {
   background: var(--f7-bars-bg-color);
+}
+
+/* Status bar area theming for themed pages */
+.larvae-page .framework7-root,
+.larvae-page .statusbar {
+  background: var(--larvae-color) !important;
+}
+
+.prepupae-page .framework7-root,
+.prepupae-page .statusbar {
+  background: var(--prepupae-color) !important;
+}
+
+.neonate-page .framework7-root,
+.neonate-page .statusbar {
+  background: var(--neonate-color) !important;
+}
+
+.microwave-page .framework7-root,
+.microwave-page .statusbar {
+  background: var(--microwave-color) !important;
+}
+
+/* iOS specific status bar theming */
+.ios.larvae-page,
+.ios.larvae-page .framework7-root {
+  background: var(--larvae-color) !important;
+}
+
+.ios.prepupae-page,
+.ios.prepupae-page .framework7-root {
+  background: var(--prepupae-color) !important;
+}
+
+.ios.neonate-page,
+.ios.neonate-page .framework7-root {
+  background: var(--neonate-color) !important;
+}
+
+.ios.microwave-page,
+.ios.microwave-page .framework7-root {
+  background: var(--microwave-color) !important;
 }
 
 .button-active {
