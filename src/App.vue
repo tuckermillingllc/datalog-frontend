@@ -10,20 +10,38 @@
       <f7-view>
         <f7-page>
           <f7-navbar title="DataLog" />
-          <f7-list>
-            <f7-list-item link="#" title="Home" @click="navigateTo('home')">
-              <f7-icon slot="media" f7="house" />
-            </f7-list-item>
-            <f7-list-item link="#" title="Larvae Logs" @click="navigateTo('larvae')">
-              <f7-icon slot="media" ios="f7:ant"/>
-            </f7-list-item>
-            <f7-list-item link="#" title="Container Logs" @click="navigateTo('container')">
-              <f7-icon slot="media" ios="f7:cube_box"/>
-            </f7-list-item>
-            <f7-list-item link="#" title="Microwave Logs" @click="navigateTo('microwave')">
-              <f7-icon slot="media" ios="f7:bolt"/>
-            </f7-list-item>
-          </f7-list>
+          <f7-block>
+  <f7-row>
+    <f7-col width="100">
+      <f7-button fill large class="nav-button larvae-button" @click="navigateTo('larvae')">
+        <div class="button-content">
+          <h3>Larvae Logs</h3>
+          <p>Track larvae feeding and development</p>
+        </div>
+      </f7-button>
+    </f7-col>
+  </f7-row>
+  <f7-row>
+    <f7-col width="100">
+      <f7-button fill large class="nav-button container-button" @click="navigateTo('container')">
+        <div class="button-content">
+          <h3>Container Logs</h3>
+          <p>Monitor container conditions</p>
+        </div>
+      </f7-button>
+    </f7-col>
+  </f7-row>
+  <f7-row>
+    <f7-col width="100">
+      <f7-button fill large class="nav-button microwave-button" @click="navigateTo('microwave')">
+        <div class="button-content">
+          <h3>Microwave Logs</h3>
+          <p>Production run tracking</p>
+        </div>
+      </f7-button>
+    </f7-col>
+  </f7-row>
+</f7-block>
         </f7-page>
       </f7-view>
     </f7-panel>
@@ -1027,5 +1045,45 @@ const getLogSummary = (log) => {
   margin: 0;
   font-size: 1.2rem;
   font-weight: 600;
+}
+
+
+.nav-button {
+  margin-bottom: 1rem;
+  height: auto;
+  min-height: 80px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.button-content {
+  padding: 1rem;
+  width: 100%;
+}
+
+.button-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+}
+
+.button-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  color: white;
+}
+
+.larvae-button {
+  background: linear-gradient(135deg, #4CAF50, #8BC34A) !important;
+}
+
+.container-button {
+  background: linear-gradient(135deg, #2196F3, #03A9F4) !important;
+}
+
+.microwave-button {
+  background: linear-gradient(135deg, #FF9800, #FFC107) !important;
 }
 </style>
