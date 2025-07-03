@@ -882,9 +882,10 @@ const loadAllData = async () => {
     loadLarvaeLogs(),
     loadPrepupaeLogs(),
     loadNeonateLogs(),
-    loadMicrowaveLogs(),
-    loadQuickStats()
+    loadMicrowaveLogs()
   ])
+  // Load stats after all data is loaded
+  loadQuickStats()
 }
 
 const loadQuickStats = async () => {
@@ -1517,8 +1518,11 @@ body.microwave-theme-active .framework7-root {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Center the block titles on log pages */
-.block-title {
+/* Center the block titles on log pages only */
+.larvae-theme .f7-block-title,
+.prepupae-theme .f7-block-title,
+.neonate-theme .f7-block-title,
+.microwave-theme .f7-block-title {
   text-align: center !important;
 }
 
