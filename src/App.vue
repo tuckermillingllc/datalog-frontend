@@ -1160,6 +1160,21 @@ const formatLastActive = (dateString) => {
   return date.toLocaleDateString()
 }
 
+// Belt Speed Stepper Functions
+const incrementBeltSpeed = () => {
+  const current = parseFloat(productionForm.value.belt_speed)
+  if (current < 100) {
+    productionForm.value.belt_speed = (current + 0.5).toFixed(1)
+  }
+}
+
+const decrementBeltSpeed = () => {
+  const current = parseFloat(productionForm.value.belt_speed)
+  if (current > 0) {
+    productionForm.value.belt_speed = (current - 0.5).toFixed(1)
+  }
+}
+
 // Methods
 const navigateTo = (page) => {
   currentPage.value = page
@@ -2247,6 +2262,21 @@ body.microwave-theme-active .framework7-root {
 .navbar .title {
   font-size: 22px;
   font-weight: 600;
+}
+
+/* Belt Speed Custom Stepper */
+.belt-speed-stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.belt-speed-value {
+  font-size: 16px;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: center;
+  color: var(--f7-text-color);
 }
 
 /* User Management Styles */
