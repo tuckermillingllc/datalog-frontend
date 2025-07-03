@@ -5,7 +5,7 @@ export default [
   },
 {
   path: '/larvae-logs/',
-  component: () => import('./pages/LarvaePage.vue'),
+  component: () => import('./views/LarvaeLogs.vue'),
 },
 
   {
