@@ -795,6 +795,28 @@ onMounted(() => {
   setTimeout(() => {
     applyPageTheme()
   }, 100)
+// Apply dynamic theming after F7 initialization
+  setTimeout(() => {
+    applyPageTheme()
+  }, 100)
+  
+  // ADD HAPTIC FEEDBACK HERE
+  f7.ready(() => {
+    // Panel haptic feedback
+    f7.panel.on('open', function(panel) {
+      f7.device.haptic('light')
+    })
+    
+    f7.panel.on('close', function(panel) {
+      f7.device.haptic('selection')
+    })
+    
+    // Optional: haptic during swipe
+    f7.panel.on('swipe', function(panel) {
+      f7.device.haptic('selection')
+    })
+  })
+})
 })
 
 // Watch for page changes to update theme
