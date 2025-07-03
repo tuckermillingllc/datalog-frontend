@@ -20,21 +20,6 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
 
 app.use(pinia)
 
-// Initialize Framework7 app (this was missing!)
-const f7 = new Framework7({
-  // your Framework7 config goes here
-  name: 'My App',
-  theme: 'auto',
-  // other config options...
-});
 
-// Add haptic feedback globally (use f7 instead of app)
-f7.panel.on('open', function(panel) {
-  f7.device.haptic('light')
-})
-
-f7.panel.on('close', function(panel) {
-  f7.device.haptic('selection')
-})
 
 app.mount('#app');
