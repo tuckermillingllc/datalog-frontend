@@ -229,21 +229,18 @@
             <div v-if="selectedLarvaeRunId">
               <f7-list>
                 <f7-list-input
-                  label="Final Weight (lb)"
-                  type="number"
-                  step="0.01"
-                  v-model:value="larvaeUpdateForm.final_weight"
-                  placeholder="Enter final weight"
+                  label="Post Feed Condition"
+                  type="select"
+                  v-model:value="larvaeUpdateForm.post_feed_condition"
+                  placeholder="Select condition"
                   required
-                />
-                <f7-list-input
-                  label="Survival Rate (%)"
-                  type="number"
-                  step="0.1"
-                  v-model:value="larvaeUpdateForm.survival_rate"
-                  placeholder="Enter survival rate"
-                  required
-                />
+                >
+                  <option value="">Select condition...</option>
+                  <option value="No Feed/Dry Frass">No Feed/Dry Frass</option>
+                  <option value="No Feed/Wet Frass">No Feed/Wet Frass</option>
+                  <option value="Feed Left/Dry Frass">Feed Left/Dry Frass</option>
+                  <option value="Feed Left/Wet Frass">Feed Left/Wet Frass</option>
+                </f7-list-input>
                 <f7-list-input
                   label="Additional Notes"
                   type="textarea"
@@ -251,14 +248,6 @@
                   placeholder="Additional notes..."
                 />
               </f7-list>
-              
-              <f7-block v-if="calculatedGrowthRate">
-                <f7-card>
-                  <f7-card-content class="yield-card larvae-yield">
-                    <h3>Growth Rate: {{ calculatedGrowthRate }}%</h3>
-                  </f7-card-content>
-                </f7-card>
-              </f7-block>
 
               <f7-button fill class="larvae-button-fill" @click="updateLarvaeRun" :disabled="submitting">
                 {{ submitting ? 'Updating...' : 'Update Results' }}
@@ -828,8 +817,7 @@ const updateForm = ref({
 })
 
 const larvaeUpdateForm = ref({
-  final_weight: '',
-  survival_rate: '',
+  post_feed_condition: '',
   notes: ''
 })
 
@@ -856,7 +844,7 @@ const incompleteRuns = computed(() => {
 })
 
 const incompleteLarvaeRuns = computed(() => {
-  return larvaeLogs.value.filter(log => !log.final_weight || !log.survival_rate)
+  return larvaeLogs.value.filter(log => !log.post_feed_condition)
 })
 
 const calculatedYield = computed(() => {
@@ -870,13 +858,7 @@ const calculatedYield = computed(() => {
 })
 
 const calculatedGrowthRate = computed(() => {
-  if (selectedLarvaeRun.value && larvaeUpdateForm.value.final_weight && selectedLarvaeRun.value.lb_larvae) {
-    const initialWeight = parseFloat(selectedLarvaeRun.value.lb_larvae)
-    const finalWeight = parseFloat(larvaeUpdateForm.value.final_weight)
-    if (initialWeight > 0) {
-      return (((finalWeight - initialWeight) / initialWeight) * 100).toFixed(1)
-    }
-  }
+  // Remove growth rate calculation for larvae - not needed
   return null
 })
 
@@ -1015,15 +997,27 @@ const loadQuickStats = async () => {
 const submitLarvaeLog = async () => {
   submitting.value = true
   try {
-    const formData = prepareFormData(larvaeForm.value)
-    console.log('Submitting larvae data:', formData)
+    // Only send the exact fields from the form, no auto-calculated fields
+    const larvaeData = {
+      username: larvaeForm.value.username,
+      days_of_age: larvaeForm.value.days_of_age ? Number(larvaeForm.value.days_of_age) : null,
+      larva_weight: larvaeForm.value.larva_weight ? Number(larvaeForm.value.larva_weight) : null,
+      larva_pct: larvaeForm.value.larva_pct ? Number(larvaeForm.value.larva_pct) : null,
+      lb_larvae: larvaeForm.value.lb_larvae ? Number(larvaeForm.value.lb_larvae) : null,
+      lb_feed: larvaeForm.value.lb_feed ? Number(larvaeForm.value.lb_feed) : null,
+      lb_water: larvaeForm.value.lb_water ? Number(larvaeForm.value.lb_water) : null,
+      row_number: larvaeForm.value.row_number || null,
+      notes: larvaeForm.value.notes || null
+    }
+    
+    console.log('Submitting larvae data:', larvaeData)
     
     const response = await fetch('https://datalog-backend.onrender.com/api/logs', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(larvaeData)
     })
     
     if (response.ok) {
@@ -1113,8 +1107,7 @@ const loadSelectedLarvaeRun = () => {
 
 const resetLarvaeUpdateForm = () => {
   larvaeUpdateForm.value = {
-    final_weight: '',
-    survival_rate: '',
+    post_feed_condition: '',
     notes: ''
   }
 }
