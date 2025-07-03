@@ -523,32 +523,32 @@
                 v-model:value="productionForm.fan_speed_cavity2"
               />
               <f7-list-input 
-                  label="Belt Speed" 
-                  type="number"
-                  :value="productionForm.belt_speed"
-                  @input="(e) => productionForm.belt_speed = e.target.value"
-                  :step="0.5"
-                  :min="0"
-                  :max="100"
-                  placeholder="25.0"
-                >
-                  <template v-slot:input>
-                    <div class="belt-speed-stepper">
-                      <button class="stepper-btn" @click="decrementBeltSpeed" :disabled="parseFloat(productionForm.belt_speed) <= 0">−</button>
-                      <input 
-                        type="number" 
-                        class="belt-speed-value" 
-                        :value="productionForm.belt_speed" 
-                        @input="(e) => productionForm.belt_speed = e.target.value"
-                        step="0.5" 
-                        min="0" 
-                        max="100"
-                      >
-                      <span class="belt-speed-unit">%</span>
-                      <button class="stepper-btn" @click="incrementBeltSpeed" :disabled="parseFloat(productionForm.belt_speed) >= 100">+</button>
-                    </div>
-                  </template>
-                </f7-list-input>
+                label="Belt Speed" 
+                type="number"
+                :value="productionForm.belt_speed"
+                @input="(e) => productionForm.belt_speed = e.target.value"
+                :step="0.5"
+                :min="0"
+                :max="100"
+                placeholder="25.0"
+              >
+                <template v-slot:input>
+                  <div class="belt-speed-stepper">
+                    <button class="stepper-btn" @click="decrementBeltSpeed" :disabled="parseFloat(productionForm.belt_speed) <= 0">−</button>
+                    <input 
+                      type="number" 
+                      class="belt-speed-value" 
+                      :value="productionForm.belt_speed" 
+                      @input="(e) => productionForm.belt_speed = e.target.value"
+                      step="0.5" 
+                      min="0" 
+                      max="100"
+                    >
+                    <span class="belt-speed-unit">%</span>
+                    <button class="stepper-btn" @click="incrementBeltSpeed" :disabled="parseFloat(productionForm.belt_speed) >= 100">+</button>
+                  </div>
+                </template>
+              </f7-list-input>
               <f7-list-input 
                 label="lb Larvae per Tub" 
                 type="number" 
@@ -1169,14 +1169,14 @@ const formatLastActive = (dateString) => {
 
 // Belt Speed Stepper Functions
 const incrementBeltSpeed = () => {
-  const current = parseFloat(productionForm.value.belt_speed)
+  const current = parseFloat(productionForm.value.belt_speed) || 0
   if (current < 100) {
     productionForm.value.belt_speed = (current + 0.5).toFixed(1)
   }
 }
 
 const decrementBeltSpeed = () => {
-  const current = parseFloat(productionForm.value.belt_speed)
+  const current = parseFloat(productionForm.value.belt_speed) || 0
   if (current > 0) {
     productionForm.value.belt_speed = (current - 0.5).toFixed(1)
   }
@@ -2272,10 +2272,50 @@ body.microwave-theme-active .framework7-root {
 }
 
 /* Belt Speed Custom Stepper */
+/* Belt Speed Custom Stepper */
 .belt-speed-stepper {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
+  background: rgba(0, 122, 255, 0.1);
+  border: 1px solid rgba(0, 122, 255, 0.2);
+  border-radius: 10px;
+  padding: 4px;
+  max-width: 140px;
+  margin: 0 auto;
+}
+
+.stepper-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: #FF9800;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.stepper-btn:hover {
+  background: #F57C00;
+  transform: scale(1.05);
+}
+
+.stepper-btn:active {
+  background: #E65100;
+  transform: scale(0.95);
+}
+
+.stepper-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .belt-speed-value {
@@ -2283,7 +2323,18 @@ body.microwave-theme-active .framework7-root {
   font-weight: 600;
   min-width: 40px;
   text-align: center;
-  color: var(--f7-text-color);
+  color: #333;
+  background: transparent;
+  border: none;
+  outline: none;
+  flex: 1;
+}
+
+.belt-speed-unit {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+  flex-shrink: 0;
 }
 
 /* User Management Styles */
