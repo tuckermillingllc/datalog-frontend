@@ -8,7 +8,7 @@
         </f7-navbar>
 
         <!-- Home Page -->
-        <f7-block v-if="currentPage === 'home'">
+         <f7-block v-if="currentPage === 'home'" style="margin-top: 2rem;">
           <f7-block>
             <div class="nav-buttons">
               <f7-button class="nav-button larvae-button" @click="navigateTo('larvae')">
