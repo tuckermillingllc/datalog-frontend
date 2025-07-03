@@ -1648,9 +1648,4 @@ body.microwave-theme-active .framework7-root {
   background: transparent !important;
 }
 
-/* Ensure no gray background shows through */
-.page-content {
-  background: #f7f7f8 !important;
-  padding-top: 0 !important;
-}
 </style>
