@@ -739,21 +739,6 @@ const productionForm = ref({
   notes: ''
 })
 
-const resetProductionForm = () => {
-  productionForm.value = {
-    username: '',
-    microwave_power_gen1: '75',
-    microwave_power_gen2: '65',
-    fan_speed_cavity1: '100',
-    fan_speed_cavity2: '100',
-    belt_speed: '',
-    lb_larvae_per_tub: '',
-    num_ramp_up_tubs: '',
-    num_ramp_down_tubs: '',
-    notes: ''
-  }
-}
-
 const updateForm = ref({
   tubs_live_larvae: '',
   lb_dried_larvae: '',
@@ -1592,14 +1577,14 @@ body.microwave-theme-active .framework7-root {
   justify-content: space-around;
   align-items: center;
   padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-  z-index: 1000;
+  z-index: 10000;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
 .bottom-tab-spacer {
-  height: calc(80px + env(safe-area-inset-bottom));
+  height: calc(90px + env(safe-area-inset-bottom));
 }
 
 .tab-item {
