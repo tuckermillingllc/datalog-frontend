@@ -9,7 +9,7 @@
     >
       <f7-view>
         <f7-page>
-          <f7-navbar title="DataLog" />
+          <f7-navbar title="BSFL Logger" />
           <f7-list menu-list>
             <f7-list-item 
               link="#" 
@@ -751,7 +751,7 @@ const selectedRun = ref(null)
 
 // Framework7 configuration
 const f7params = {
-  name: 'DataLog',
+  name: 'BSFL Logger',
   theme: 'auto',
   // Enable touch/swipe features
   touch: {
@@ -871,7 +871,7 @@ const getPageTitle = () => {
     neonates: 'Neonate Logs',
     microwave: 'Microwave Logs'
   }
-  return titles[currentPage.value] || 'DataLog'
+  return titles[currentPage.value] || 'BSFL Logger'
 }
 
 const getPageClass = () => {
