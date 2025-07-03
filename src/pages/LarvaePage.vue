@@ -6,7 +6,7 @@
       </f7-nav-right>
     </f7-navbar>
 
-    <!-- Segmented Control for 3 tabs -->
+    <!-- Segmented Control for tabs -->
     <f7-block>
       <f7-segmented raised>
         <f7-button 
