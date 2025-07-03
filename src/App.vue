@@ -787,7 +787,6 @@ const calculatedYield = computed(() => {
   return null
 })
 
-// Lifecycle
 onMounted(() => {
   loadAllData()
   
@@ -795,12 +794,8 @@ onMounted(() => {
   setTimeout(() => {
     applyPageTheme()
   }, 100)
-// Apply dynamic theming after F7 initialization
-  setTimeout(() => {
-    applyPageTheme()
-  }, 100)
   
-  // ADD HAPTIC FEEDBACK HERE
+  // Add haptic feedback
   f7.ready(() => {
     // Panel haptic feedback
     f7.panel.on('open', function(panel) {
@@ -816,7 +811,6 @@ onMounted(() => {
       f7.device.haptic('selection')
     })
   })
-})
 })
 
 // Watch for page changes to update theme
