@@ -1153,21 +1153,6 @@ const loadSelectedRun = () => {
   }
 }
 
-const resetProductionForm = () => {
-  productionForm.value = {
-    username: '',
-    microwave_power_gen1: '',
-    microwave_power_gen2: '',
-    fan_speed_cavity1: '',
-    fan_speed_cavity2: '',
-    belt_speed: '',
-    lb_larvae_per_tub: '',
-    num_ramp_up_tubs: '',
-    num_ramp_down_tubs: '',
-    notes: ''
-  }
-}
-
 const resetUpdateForm = () => {
   updateForm.value = {
     tubs_live_larvae: '',
