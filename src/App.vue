@@ -77,9 +77,7 @@
         </f7-block>
 
         <!-- Larvae Page -->
-        <f7-block v-if="currentPage === 'larvae'" class="larvae-theme">
-          <f7-block-title></f7-block-title>
-          
+        <f7-block v-if="currentPage === 'larvae'">
           <f7-segmented raised class="larvae-segmented">
             <f7-button :class="{ 'button-active larvae-active': larvaeTab === 'form' }" @click="larvaeTab = 'form'">New Log</f7-button>
             <f7-button :class="{ 'button-active larvae-active': larvaeTab === 'list' }" @click="larvaeTab = 'list'">View Logs</f7-button>
@@ -157,8 +155,9 @@
                 <f7-card-header>
                   <div class="card-header-content">
                     <div class="user-info">{{ log.username }}</div>
-                    <div class="log-date">{{ formatDate(log.timestamp) }}</div>
+                    <f7-badge :color="getLarvaeStatusColor(log)">{{ getLarvaeStatus(log) }}</f7-badge>
                   </div>
+                  <div class="log-date">{{ formatDate(log.timestamp) }}</div>
                 </f7-card-header>
                 <f7-card-content>
                   <f7-row>
@@ -175,6 +174,10 @@
                         <span class="field-label">lb Feed:</span>
                         <span class="field-value">{{ log.lb_feed || 'N/A' }}</span>
                       </div>
+                      <div class="log-field">
+                        <span class="field-label">lb Water:</span>
+                        <span class="field-value">{{ log.lb_water || 'N/A' }}</span>
+                      </div>
                       <div v-if="log.row_number" class="log-field">
                         <span class="field-label">Row:</span>
                         <span class="field-value">{{ log.row_number }}</span>
@@ -190,11 +193,23 @@
                         <span class="field-value">{{ log.lb_larvae || 'N/A' }}</span>
                       </div>
                       <div class="log-field">
-                        <span class="field-label">lb Water:</span>
-                        <span class="field-value">{{ log.lb_water || 'N/A' }}</span>
+                        <span class="field-label">Larvae Count:</span>
+                        <span class="field-value">{{ log.larvae_count ? log.larvae_count.toLocaleString() : 'N/A' }}</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Feed/Larvae:</span>
+                        <span class="field-value">{{ log.feed_per_larvae || 'N/A' }}</span>
+                      </div>
+                      <div class="log-field">
+                        <span class="field-label">Water/Feed Ratio:</span>
+                        <span class="field-value">{{ log.water_feed_ratio || 'N/A' }}</span>
                       </div>
                     </f7-col>
                   </f7-row>
+                  <div v-if="log.post_feed_condition" class="condition-info">
+                    <span class="field-label">Post Feed Condition:</span>
+                    <span class="field-value condition-value">{{ log.post_feed_condition }}</span>
+                  </div>
                 </f7-card-content>
               </f7-card>
             </div>
@@ -257,9 +272,7 @@
         </f7-block>
 
         <!-- Prepupae Page -->
-        <f7-block v-if="currentPage === 'prepupae'" class="prepupae-theme">
-          <f7-block-title></f7-block-title>
-          
+        <f7-block v-if="currentPage === 'prepupae'">
           <f7-segmented raised class="prepupae-segmented">
             <f7-button :class="{ 'button-active prepupae-active': prepupaeTab === 'form' }" @click="prepupaeTab = 'form'">New Log</f7-button>
             <f7-button :class="{ 'button-active prepupae-active': prepupaeTab === 'list' }" @click="prepupaeTab = 'list'">View Logs</f7-button>
@@ -354,9 +367,7 @@
         </f7-block>
 
         <!-- Neonates Page -->
-        <f7-block v-if="currentPage === 'neonates'" class="neonate-theme">
-          <f7-block-title></f7-block-title>
-          
+        <f7-block v-if="currentPage === 'neonates'">
           <f7-segmented raised class="neonate-segmented">
             <f7-button :class="{ 'button-active neonate-active': neonateTab === 'form' }" @click="neonateTab = 'form'">New Log</f7-button>
             <f7-button :class="{ 'button-active neonate-active': neonateTab === 'list' }" @click="neonateTab = 'list'">View Logs</f7-button>
@@ -461,9 +472,7 @@
         </f7-block>
 
         <!-- Microwave Page -->
-        <f7-block v-if="currentPage === 'microwave'" class="microwave-theme">
-          <f7-block-title></f7-block-title>
-          
+        <f7-block v-if="currentPage === 'microwave'">
           <f7-segmented raised class="microwave-segmented">
             <f7-button :class="{ 'button-active microwave-active': microwaveTab === 'new' }" @click="microwaveTab = 'new'">New Run</f7-button>
             <f7-button :class="{ 'button-active microwave-active': microwaveTab === 'view' }" @click="microwaveTab = 'view'">View Logs</f7-button>
@@ -1341,6 +1350,20 @@ const getStatusColor = (log) => {
   return 'orange'
 }
 
+const getLarvaeStatus = (log) => {
+  if (log.post_feed_condition) {
+    return 'Complete'
+  }
+  return 'In Progress'
+}
+
+const getLarvaeStatusColor = (log) => {
+  if (log.post_feed_condition) {
+    return 'green'
+  }
+  return 'orange'
+}
+
 const getLogSummary = (log) => {
   const yield_text = log.yield_percentage ? `Yield: ${log.yield_percentage.toFixed(1)}%` : 'Yield: Pending'
   const power = log.microwave_power_gen1 ? `Power: ${log.microwave_power_gen1}` : 'Power: N/A'
@@ -1658,25 +1681,25 @@ body.microwave-theme-active .framework7-root {
 .larvae-theme {
   background: rgba(76, 175, 80, 0.05);
   border-radius: 12px;
-  margin: 0.5rem;
+  margin: 0 0.5rem 0.5rem 0.5rem;
 }
 
 .prepupae-theme {
   background: rgba(33, 150, 243, 0.05);
   border-radius: 12px;
-  margin: 0.5rem;
+  margin: 0 0.5rem 0.5rem 0.5rem;
 }
 
 .neonate-theme {
   background: rgba(156, 39, 176, 0.05);
   border-radius: 12px;
-  margin: 0.5rem;
+  margin: 0 0.5rem 0.5rem 0.5rem;
 }
 
 .microwave-theme {
   background: rgba(255, 152, 0, 0.05);
   border-radius: 12px;
-  margin: 0.5rem;
+  margin: 0 0.5rem 0.5rem 0.5rem;
 }
 
 /* Mobile-friendly log cards */
@@ -1751,6 +1774,22 @@ body.microwave-theme-active .framework7-root {
 .yield-value {
   font-size: 1.1rem;
   font-weight: 700;
+  color: #4CAF50;
+}
+
+.condition-info {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.condition-value {
+  font-size: 1.0rem;
+  font-weight: 600;
   color: #4CAF50;
 }
 
