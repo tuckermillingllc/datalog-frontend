@@ -1817,5 +1817,9 @@ body.microwave-theme-active .framework7-root {
     background: linear-gradient(180deg, rgba(28, 28, 30, 0.95) 0%, rgba(255, 152, 0, 0.1) 100%);
   }
 }
+.navbar .title {
+  font-size: 22px; /* Or any size you prefer */
+  font-weight: 600;
+}
 
 </style>
