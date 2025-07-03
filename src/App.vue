@@ -9,7 +9,7 @@
     >
       <f7-view>
         <f7-page>
-          <f7-navbar title="BSFL Logger" />
+          <f7-navbar title="DataLog" />
           <f7-list menu-list>
             <f7-list-item 
               link="#" 
@@ -751,7 +751,7 @@ const selectedRun = ref(null)
 
 // Framework7 configuration
 const f7params = {
-  name: 'BSFL Logger',
+  name: 'DataLog',
   theme: 'auto',
   // Enable touch/swipe features
   touch: {
@@ -787,6 +787,7 @@ const calculatedYield = computed(() => {
   return null
 })
 
+// Lifecycle
 onMounted(() => {
   loadAllData()
   
@@ -794,23 +795,6 @@ onMounted(() => {
   setTimeout(() => {
     applyPageTheme()
   }, 100)
-  
-  // Add haptic feedback
-  f7.ready(() => {
-    // Panel haptic feedback
-    f7.panel.on('open', function(panel) {
-      f7.device.haptic('light')
-    })
-    
-    f7.panel.on('close', function(panel) {
-      f7.device.haptic('selection')
-    })
-    
-    // Optional: haptic during swipe
-    f7.panel.on('swipe', function(panel) {
-      f7.device.haptic('selection')
-    })
-  })
 })
 
 // Watch for page changes to update theme
@@ -865,13 +849,13 @@ const navigateTo = (page) => {
 
 const getPageTitle = () => {
   const titles = {
-    home: 'Tucker BSFL Logger',
+    home: 'DataLog System',
     larvae: 'Larvae Logs',
     prepupae: 'Prepupae Logs',
     neonates: 'Neonate Logs',
     microwave: 'Microwave Logs'
   }
-  return titles[currentPage.value] || 'BSFL Logger'
+  return titles[currentPage.value] || 'DataLog'
 }
 
 const getPageClass = () => {
@@ -899,62 +883,18 @@ const loadAllData = async () => {
     loadLarvaeLogs(),
     loadPrepupaeLogs(),
     loadNeonateLogs(),
-    loadMicrowaveLogs()
+    loadMicrowaveLogs(),
+    loadQuickStats()
   ])
-	await loadQuickStats()
 }
 
 const loadQuickStats = async () => {
   try {
-    // Get today's date in YYYY-MM-DD format
-    const today = new Date().toISOString().split('T')[0]
-    
-    // Count total logs across all systems
-    let total = 0
-    let todayCount = 0
-    
-    // Count larvae logs
-    if (larvaeLogs.value.length > 0) {
-      total += larvaeLogs.value.length
-      todayCount += larvaeLogs.value.filter(log => 
-        log.timestamp && log.timestamp.startsWith(today)
-      ).length
-    }
-    
-    // Count prepupae logs
-    if (prepupaeLogs.value.length > 0) {
-      total += prepupaeLogs.value.length
-      todayCount += prepupaeLogs.value.filter(log => 
-        log.timestamp && log.timestamp.startsWith(today)
-      ).length
-    }
-    
-    // Count neonate logs
-    if (neonateLogs.value.length > 0) {
-      total += neonateLogs.value.length
-      todayCount += neonateLogs.value.filter(log => 
-        log.timestamp && log.timestamp.startsWith(today)
-      ).length
-    }
-    
-    // Count microwave logs
-    if (microwaveLogs.value.length > 0) {
-      total += microwaveLogs.value.length
-      todayCount += microwaveLogs.value.filter(log => 
-        log.timestamp && log.timestamp.startsWith(today)
-      ).length
-    }
-    
-    // Update stats
-    totalLogs.value = total
-    todayLogs.value = todayCount
+    totalLogs.value = '---'
+    todayLogs.value = '---'
     runningRuns.value = incompleteRuns.value.length
-    
   } catch (error) {
     console.error('Error loading stats:', error)
-    totalLogs.value = 0
-    todayLogs.value = 0
-    runningRuns.value = 0
   }
 }
 
@@ -1641,11 +1581,4 @@ body.microwave-theme-active .framework7-root {
   font-weight: 700;
   color: #4CAF50;
 }
-
-/* Add space above first button on home page */
-.nav-buttons {
-  margin-top: 3rem !important;
-  padding-top: 2rem !important;
-}
-
 </style>
