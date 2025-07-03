@@ -1810,3 +1810,4 @@ body.microwave-theme-active .framework7-root {
     background: linear-gradient(180deg, rgba(28, 28, 30, 0.95) 0%, rgba(255, 152, 0, 0.1) 100%);
   }
 }
+</style>
