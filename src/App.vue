@@ -244,7 +244,7 @@
                 <f7-list-input
                   label="Additional Notes"
                   type="textarea"
-                  v-model:value="larvaeUpdateForm.notes"
+                  v-model:value="larvaeUpdateForm.update_notes"
                   placeholder="Additional notes..."
                 />
               </f7-list>
@@ -818,7 +818,7 @@ const updateForm = ref({
 
 const larvaeUpdateForm = ref({
   post_feed_condition: '',
-  notes: ''
+  update_notes: ''
 })
 
 // Data arrays
@@ -1108,7 +1108,7 @@ const loadSelectedLarvaeRun = () => {
 const resetLarvaeUpdateForm = () => {
   larvaeUpdateForm.value = {
     post_feed_condition: '',
-    notes: ''
+    update_notes: ''
   }
 }
 
