@@ -524,11 +524,24 @@
               />
               <f7-list-input 
                 label="Belt Speed" 
-                type="number" 
-                step="0.01"
-                placeholder="Enter belt speed"
-                v-model:value="productionForm.belt_speed"
-              />
+                type="number"
+                :value="productionForm.belt_speed"
+                @input="(e) => productionForm.belt_speed = e.target.value"
+                :step="0.5"
+                :min="0"
+                :max="100"
+                placeholder="25.0"
+              >
+                <f7-stepper 
+                  slot="input" 
+                  :min="0" 
+                  :max="100" 
+                  :step="0.5" 
+                  :value="parseFloat(productionForm.belt_speed)"
+                  @stepper:change="(value) => productionForm.belt_speed = value.toString()"
+                  :decimal-point="1"
+                />
+              </f7-list-input>
               <f7-list-input 
                 label="lb Larvae per Tub" 
                 type="number" 
@@ -886,7 +899,7 @@ const productionForm = ref({
   microwave_power_gen2: '65',
   fan_speed_cavity1: '100',
   fan_speed_cavity2: '100',
-  belt_speed: '',
+  belt_speed: '25',
   lb_larvae_per_tub: '',
   num_ramp_up_tubs: '',
   num_ramp_down_tubs: '',
@@ -1537,7 +1550,7 @@ const resetProductionForm = () => {
     microwave_power_gen2: '65',
     fan_speed_cavity1: '100',
     fan_speed_cavity2: '100',
-    belt_speed: '',
+    belt_speed: '25',
     lb_larvae_per_tub: '',
     num_ramp_up_tubs: '',
     num_ramp_down_tubs: '',
