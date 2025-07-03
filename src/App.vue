@@ -755,7 +755,7 @@ const selectedRun = ref(null)
 
 // Framework7 configuration
 const f7params = {
-  name: 'DataLog',
+  name: 'BSFL Logger',
   theme: 'auto',
   colors: {
     primary: '#42b883'
@@ -838,13 +838,13 @@ const navigateTo = (page) => {
 
 const getPageTitle = () => {
   const titles = {
-    home: 'DataLog System',
+    home: 'Tucker BSFL Logger',
     larvae: 'Larvae Logs',
     prepupae: 'Prepupae Logs',
     neonates: 'Neonate Logs',
     microwave: 'Microwave Logs'
   }
-  return titles[currentPage.value] || 'DataLog'
+  return titles[currentPage.value] || 'BSFL Logger'
 }
 
 const getPageClass = () => {
