@@ -522,29 +522,16 @@
                 placeholder="Enter fan speed"
                 v-model:value="productionForm.fan_speed_cavity2"
               />
-              <f7-list-input 
-                label="Belt Speed" 
-                type="text"
-                readonly
-                class="belt-speed-input"
-              >
-                <template v-slot:input>
-                  <div class="belt-speed-stepper" :key="'belt-speed-' + productionForm.belt_speed">
-                    <button class="stepper-btn" @click="decrementBeltSpeed" :disabled="parseFloat(productionForm.belt_speed) <= 0">−</button>
-                    <input 
-                      type="number" 
-                      class="belt-speed-value" 
-                      :value="productionForm.belt_speed" 
-                      @input="(e) => productionForm.belt_speed = e.target.value"
-                      step="0.5" 
-                      min="0" 
-                      max="100"
-                    >
-                    <span class="belt-speed-unit">cm/min</span>
-                    <button class="stepper-btn" @click="incrementBeltSpeed" :disabled="parseFloat(productionForm.belt_speed) >= 100">+</button>
-                  </div>
-                </template>
-              </f7-list-input>
+              <f7-list-input label="Belt Speed" type="text" readonly>
+              <template v-slot:input>
+                <div class="belt-speed-stepper">
+                  <button class="stepper-btn" @click="decrementBeltSpeed">−</button>
+                  <div class="stepper-value">{{ productionForm.belt_speed }}</div>
+                  <span class="stepper-unit">cm/min</span>
+                  <button class="stepper-btn" @click="incrementBeltSpeed">+</button>
+                </div>
+              </template>
+            </f7-list-input>
               <f7-list-input 
                 label="lb Larvae per Tub" 
                 type="number" 
@@ -2270,14 +2257,15 @@ body.microwave-theme-active .framework7-root {
 .belt-speed-stepper {
   display: flex;
   align-items: center;
-  gap: 0;
-  background: rgba(255, 152, 0, 0.15);
-  border: 1px solid rgba(255, 152, 0, 0.3);
-  border-radius: 10px;
-  padding: 0;
-  width: fit-content;
-  justify-self: flex-start;
-  margin-top: -8px;
+  justify-content: center;
+  background: #FFF3E0; /* light orange */
+  border-radius: 12px;
+  padding: 8px 16px; /* Add horizontal breathing room */
+  gap: 10px;
+  margin: 0 auto; /* Centers in container */
+  box-shadow: inset 0 0 0 1px #FF9800;
+  width: max-content;
+  min-width: 180px;
 }
 
 .stepper-btn {
