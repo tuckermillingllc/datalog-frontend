@@ -889,9 +889,19 @@ const loadAllData = async () => {
 
 const loadQuickStats = async () => {
   try {
-    totalLogs.value = '---'
-    todayLogs.value = '---'
-    runningRuns.value = incompleteRuns.value.length
+    // Calculate total logs from all arrays
+    const total = larvaeLogs.value.length + prepupaeLogs.value.length + 
+                  neonateLogs.value.length + microwaveLogs.value.length;
+    totalLogs.value = total;
+    
+    // Calculate today's logs
+    const today = new Date().toDateString();
+    const todayCount = [...larvaeLogs.value, ...prepupaeLogs.value, ...neonateLogs.value, ...microwaveLogs.value]
+      .filter(log => new Date(log.timestamp).toDateString() === today).length;
+    todayLogs.value = todayCount;
+    
+    // Active runs
+    runningRuns.value = incompleteRuns.value.length;
   } catch (error) {
     console.error('Error loading stats:', error)
   }
@@ -1509,7 +1519,7 @@ body.microwave-theme-active .framework7-root {
 
 /* Center the block titles on log pages */
 .block-title {
-  text-align: center;
+  text-align: center !important;
 }
 
 .card-header-content {
