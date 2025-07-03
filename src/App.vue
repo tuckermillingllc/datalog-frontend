@@ -8,7 +8,7 @@
         </f7-navbar>
 
         <!-- Home Page -->
-          <f7-block v-if="currentPage === 'home'">
+        <f7-block v-if="currentPage === 'home'">
           <div style="height: 20px;"></div>
           <f7-block>
             <div class="nav-buttons">
@@ -755,7 +755,7 @@ const selectedRun = ref(null)
 
 // Framework7 configuration
 const f7params = {
-  name: 'BSFL Logger',
+  name: 'DataLog',
   theme: 'auto',
   colors: {
     primary: '#42b883'
@@ -838,13 +838,13 @@ const navigateTo = (page) => {
 
 const getPageTitle = () => {
   const titles = {
-    home: 'Tucker BSFL Logger',
+    home: 'Tucker BSFL Data Logger',
     larvae: 'Larvae Logs',
     prepupae: 'Prepupae Logs',
     neonates: 'Neonate Logs',
     microwave: 'Microwave Logs'
   }
-  return titles[currentPage.value] || 'BSFL Logger'
+  return titles[currentPage.value] || 'DataLog'
 }
 
 const getPageClass = () => {
@@ -1505,6 +1505,11 @@ body.microwave-theme-active .framework7-root {
   margin-bottom: 1rem;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Center the block titles on log pages */
+.block-title {
+  text-align: center;
 }
 
 .card-header-content {
