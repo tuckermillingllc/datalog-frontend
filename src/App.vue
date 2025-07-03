@@ -906,11 +906,55 @@ const loadAllData = async () => {
 
 const loadQuickStats = async () => {
   try {
-    totalLogs.value = '---'
-    todayLogs.value = '---'
+    // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().split('T')[0]
+    
+    // Count total logs across all systems
+    let total = 0
+    let todayCount = 0
+    
+    // Count larvae logs
+    if (larvaeLogs.value.length > 0) {
+      total += larvaeLogs.value.length
+      todayCount += larvaeLogs.value.filter(log => 
+        log.timestamp && log.timestamp.startsWith(today)
+      ).length
+    }
+    
+    // Count prepupae logs
+    if (prepupaeLogs.value.length > 0) {
+      total += prepupaeLogs.value.length
+      todayCount += prepupaeLogs.value.filter(log => 
+        log.timestamp && log.timestamp.startsWith(today)
+      ).length
+    }
+    
+    // Count neonate logs
+    if (neonateLogs.value.length > 0) {
+      total += neonateLogs.value.length
+      todayCount += neonateLogs.value.filter(log => 
+        log.timestamp && log.timestamp.startsWith(today)
+      ).length
+    }
+    
+    // Count microwave logs
+    if (microwaveLogs.value.length > 0) {
+      total += microwaveLogs.value.length
+      todayCount += microwaveLogs.value.filter(log => 
+        log.timestamp && log.timestamp.startsWith(today)
+      ).length
+    }
+    
+    // Update stats
+    totalLogs.value = total
+    todayLogs.value = todayCount
     runningRuns.value = incompleteRuns.value.length
+    
   } catch (error) {
     console.error('Error loading stats:', error)
+    totalLogs.value = 0
+    todayLogs.value = 0
+    runningRuns.value = 0
   }
 }
 
