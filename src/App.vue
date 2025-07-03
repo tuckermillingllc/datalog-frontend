@@ -1641,4 +1641,40 @@ body.microwave-theme-active .framework7-root {
   font-weight: 700;
   color: #4CAF50;
 }
+.larvae-page {
+  background: var(--larvae-color) !important;
+}
+
+.prepupae-page {
+  background: var(--prepupae-color) !important;
+}
+
+.neonate-page {
+  background: var(--neonate-color) !important;
+}
+
+.microwave-page {
+  background: var(--microwave-color) !important;
+}
+
+/* Also target the page content area */
+.larvae-page .page-content {
+  background: #f7f7f8 !important;
+  margin-top: 0;
+}
+
+.prepupae-page .page-content {
+  background: #f7f7f8 !important;
+  margin-top: 0;
+}
+
+.neonate-page .page-content {
+  background: #f7f7f8 !important;
+  margin-top: 0;
+}
+
+.microwave-page .page-content {
+  background: #f7f7f8 !important;
+  margin-top: 0;
+}
 </style>
