@@ -1522,8 +1522,11 @@ body.microwave-theme-active .framework7-root {
 .larvae-theme .f7-block-title,
 .prepupae-theme .f7-block-title,
 .neonate-theme .f7-block-title,
-.microwave-theme .f7-block-title {
+.microwave-theme .f7-block-title,
+.f7-block .f7-block-title {
   text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .card-header-content {
