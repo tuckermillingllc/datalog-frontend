@@ -83,6 +83,7 @@
           <f7-segmented raised class="larvae-segmented">
             <f7-button :class="{ 'button-active larvae-active': larvaeTab === 'form' }" @click="larvaeTab = 'form'">New Log</f7-button>
             <f7-button :class="{ 'button-active larvae-active': larvaeTab === 'list' }" @click="larvaeTab = 'list'">View Logs</f7-button>
+            <f7-button :class="{ 'button-active larvae-active': larvaeTab === 'update' }" @click="larvaeTab = 'update'">Update Results</f7-button>
           </f7-segmented>
           
           <div v-if="larvaeTab === 'form'">
@@ -200,6 +201,69 @@
             <f7-block v-else>
               <p class="text-align-center color-gray">No larvae logs found.</p>
             </f7-block>
+          </div>
+
+          <div v-if="larvaeTab === 'update'">
+            <f7-list v-if="incompleteLarvaeRuns.length > 0">
+              <f7-list-input
+                label="Select Larvae Run"
+                type="select"
+                v-model:value="selectedLarvaeRunId"
+                @change="loadSelectedLarvaeRun"
+              >
+                <option value="">Select a run...</option>
+                <option 
+                  v-for="log in incompleteLarvaeRuns" 
+                  :key="log.id" 
+                  :value="log.id"
+                >
+                  {{ formatDate(log.timestamp) }} - {{ log.username }}
+                </option>
+              </f7-list-input>
+            </f7-list>
+
+            <f7-block v-else>
+              <p class="text-align-center color-gray">No incomplete larvae runs found.</p>
+            </f7-block>
+
+            <div v-if="selectedLarvaeRunId">
+              <f7-list>
+                <f7-list-input
+                  label="Final Weight (lb)"
+                  type="number"
+                  step="0.01"
+                  v-model:value="larvaeUpdateForm.final_weight"
+                  placeholder="Enter final weight"
+                  required
+                />
+                <f7-list-input
+                  label="Survival Rate (%)"
+                  type="number"
+                  step="0.1"
+                  v-model:value="larvaeUpdateForm.survival_rate"
+                  placeholder="Enter survival rate"
+                  required
+                />
+                <f7-list-input
+                  label="Additional Notes"
+                  type="textarea"
+                  v-model:value="larvaeUpdateForm.notes"
+                  placeholder="Additional notes..."
+                />
+              </f7-list>
+              
+              <f7-block v-if="calculatedGrowthRate">
+                <f7-card>
+                  <f7-card-content class="yield-card larvae-yield">
+                    <h3>Growth Rate: {{ calculatedGrowthRate }}%</h3>
+                  </f7-card-content>
+                </f7-card>
+              </f7-block>
+
+              <f7-button fill class="larvae-button-fill" @click="updateLarvaeRun" :disabled="submitting">
+                {{ submitting ? 'Updating...' : 'Update Results' }}
+              </f7-button>
+            </div>
           </div>
         </f7-block>
 
@@ -705,6 +769,7 @@ const microwaveTab = ref('new')
 // Form state
 const submitting = ref(false)
 const selectedRunId = ref('')
+const selectedLarvaeRunId = ref('')
 
 // Stats
 const totalLogs = ref('---')
@@ -762,12 +827,19 @@ const updateForm = ref({
   notes: ''
 })
 
+const larvaeUpdateForm = ref({
+  final_weight: '',
+  survival_rate: '',
+  notes: ''
+})
+
 // Data arrays
 const larvaeLogs = ref([])
 const prepupaeLogs = ref([])
 const neonateLogs = ref([])
 const microwaveLogs = ref([])
 const selectedRun = ref(null)
+const selectedLarvaeRun = ref(null)
 
 // Framework7 configuration
 const f7params = {
@@ -783,11 +855,26 @@ const incompleteRuns = computed(() => {
   return microwaveLogs.value.filter(log => !log.tubs_live_larvae || !log.lb_dried_larvae)
 })
 
+const incompleteLarvaeRuns = computed(() => {
+  return larvaeLogs.value.filter(log => !log.final_weight || !log.survival_rate)
+})
+
 const calculatedYield = computed(() => {
   if (selectedRun.value && updateForm.value.tubs_live_larvae && updateForm.value.lb_dried_larvae) {
     const totalLarvae = selectedRun.value.lb_larvae_per_tub * updateForm.value.tubs_live_larvae
     if (totalLarvae > 0) {
       return ((updateForm.value.lb_dried_larvae / totalLarvae) * 100).toFixed(1)
+    }
+  }
+  return null
+})
+
+const calculatedGrowthRate = computed(() => {
+  if (selectedLarvaeRun.value && larvaeUpdateForm.value.final_weight && selectedLarvaeRun.value.lb_larvae) {
+    const initialWeight = parseFloat(selectedLarvaeRun.value.lb_larvae)
+    const finalWeight = parseFloat(larvaeUpdateForm.value.final_weight)
+    if (initialWeight > 0) {
+      return (((finalWeight - initialWeight) / initialWeight) * 100).toFixed(1)
     }
   }
   return null
@@ -979,6 +1066,54 @@ const resetLarvaeForm = () => {
   }
 }
 
+const updateLarvaeRun = async () => {
+  submitting.value = true
+  try {
+    const response = await fetch(`https://datalog-backend.onrender.com/api/logs/${selectedLarvaeRunId.value}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(prepareFormData(larvaeUpdateForm.value))
+    })
+    
+    if (response.ok) {
+      resetLarvaeUpdateForm()
+      selectedLarvaeRunId.value = ''
+      selectedLarvaeRun.value = null
+      await loadLarvaeLogs()
+      f7.toast.create({
+        text: 'Larvae run updated successfully!',
+        closeTimeout: 2000,
+      }).open()
+    } else {
+      throw new Error('Failed to update larvae run')
+    }
+  } catch (error) {
+    console.error('Error updating larvae run:', error)
+    f7.dialog.alert('Error updating larvae run. Please try again.')
+  } finally {
+    submitting.value = false
+  }
+}
+
+const loadSelectedLarvaeRun = () => {
+  if (selectedLarvaeRunId.value) {
+    selectedLarvaeRun.value = larvaeLogs.value.find(log => log.id === selectedLarvaeRunId.value)
+    resetLarvaeUpdateForm()
+  } else {
+    selectedLarvaeRun.value = null
+  }
+}
+
+const resetLarvaeUpdateForm = () => {
+  larvaeUpdateForm.value = {
+    final_weight: '',
+    survival_rate: '',
+    notes: ''
+  }
+}
+
 // Prepupae methods
 const submitPrepupaeLog = async () => {
   submitting.value = true
@@ -1163,6 +1298,21 @@ const loadSelectedRun = () => {
     resetUpdateForm()
   } else {
     selectedRun.value = null
+  }
+}
+
+const resetProductionForm = () => {
+  productionForm.value = {
+    username: '',
+    microwave_power_gen1: '75',
+    microwave_power_gen2: '65',
+    fan_speed_cavity1: '100',
+    fan_speed_cavity2: '100',
+    belt_speed: '',
+    lb_larvae_per_tub: '',
+    num_ramp_up_tubs: '',
+    num_ramp_down_tubs: '',
+    notes: ''
   }
 }
 
@@ -1442,6 +1592,10 @@ body.microwave-theme-active .framework7-root {
 
 .microwave-yield {
   background: linear-gradient(135deg, var(--microwave-color), var(--microwave-color-light)) !important;
+}
+
+.larvae-yield {
+  background: linear-gradient(135deg, var(--larvae-color), var(--larvae-color-light)) !important;
 }
 
 .yield-card h3 {
@@ -1817,9 +1971,9 @@ body.microwave-theme-active .framework7-root {
     background: linear-gradient(180deg, rgba(28, 28, 30, 0.95) 0%, rgba(255, 152, 0, 0.1) 100%);
   }
 }
+
 .navbar .title {
-  font-size: 22px; /* Or any size you prefer */
+  font-size: 22px;
   font-weight: 600;
 }
-
 </style>
