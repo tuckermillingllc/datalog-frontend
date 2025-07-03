@@ -523,25 +523,32 @@
                 v-model:value="productionForm.fan_speed_cavity2"
               />
               <f7-list-input 
-                label="Belt Speed" 
-                type="number"
-                :value="productionForm.belt_speed"
-                @input="(e) => productionForm.belt_speed = e.target.value"
-                :step="0.5"
-                :min="0"
-                :max="100"
-                placeholder="25.0"
-              >
-                <f7-stepper 
-                  slot="input" 
-                  :min="0" 
-                  :max="100" 
-                  :step="0.5" 
-                  :value="parseFloat(productionForm.belt_speed)"
-                  @stepper:change="(value) => productionForm.belt_speed = value.toString()"
-                  :decimal-point="1"
-                />
-              </f7-list-input>
+                  label="Belt Speed" 
+                  type="number"
+                  :value="productionForm.belt_speed"
+                  @input="(e) => productionForm.belt_speed = e.target.value"
+                  :step="0.5"
+                  :min="0"
+                  :max="100"
+                  placeholder="25.0"
+                >
+                  <template v-slot:input>
+                    <div class="belt-speed-stepper">
+                      <button class="stepper-btn" @click="decrementBeltSpeed" :disabled="parseFloat(productionForm.belt_speed) <= 0">−</button>
+                      <input 
+                        type="number" 
+                        class="belt-speed-value" 
+                        :value="productionForm.belt_speed" 
+                        @input="(e) => productionForm.belt_speed = e.target.value"
+                        step="0.5" 
+                        min="0" 
+                        max="100"
+                      >
+                      <span class="belt-speed-unit">%</span>
+                      <button class="stepper-btn" @click="incrementBeltSpeed" :disabled="parseFloat(productionForm.belt_speed) >= 100">+</button>
+                    </div>
+                  </template>
+                </f7-list-input>
               <f7-list-input 
                 label="lb Larvae per Tub" 
                 type="number" 
