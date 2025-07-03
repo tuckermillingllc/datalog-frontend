@@ -1644,8 +1644,8 @@ body.microwave-theme-active .framework7-root {
 
 /* Add space above first button on home page */
 .nav-buttons {
-  margin-top: 2rem !important;
-  padding-top: 1rem !important;
+  margin-top: 3rem !important;
+  padding-top: 2rem !important;
 }
 
 </style>
