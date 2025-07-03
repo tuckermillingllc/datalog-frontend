@@ -529,7 +529,7 @@
                 class="belt-speed-input"
               >
                 <template v-slot:input>
-                  <div class="belt-speed-stepper">
+                  <div class="belt-speed-stepper" :key="'belt-speed-' + productionForm.belt_speed">
                     <button class="stepper-btn" @click="decrementBeltSpeed" :disabled="parseFloat(productionForm.belt_speed) <= 0">−</button>
                     <input 
                       type="number" 
@@ -903,9 +903,9 @@ const productionForm = ref({
   fan_speed_cavity1: '100',
   fan_speed_cavity2: '100',
   belt_speed: '25',
-  lb_larvae_per_tub: '',
-  num_ramp_up_tubs: '',
-  num_ramp_down_tubs: '',
+  lb_larvae_per_tub: '20',
+  num_ramp_up_tubs: '7',
+  num_ramp_down_tubs: '7',
   notes: ''
 })
 
@@ -1320,8 +1320,8 @@ const resetLarvaeForm = () => {
     larva_weight: '',
     larva_pct: '',
     lb_larvae: '',
-    lb_feed: '',
-    lb_water: '',
+    lb_feed: '20',
+    lb_water: '34',
     row_number: '',
     notes: ''
   }
@@ -1459,8 +1459,8 @@ const loadNeonateLogs = async () => {
 const resetPrepupaeForm = () => {
   prepupaeForm.value = {
     username: currentUser.value || '',
-    temperature: '',
-    humidity: '',
+    temperature: '84',
+    humidity: '74',
     prepupae_tubs_added: '',
     egg_nests_replaced: '',
     notes: ''
@@ -1470,8 +1470,8 @@ const resetPrepupaeForm = () => {
 const resetNeonateForm = () => {
   neonateForm.value = {
     username: currentUser.value || '',
-    temperature: '',
-    humidity: '',
+    temperature: '84',
+    humidity: '74',
     bait_tubs_replaced: '',
     shelf_tubs_removed: '',
     egg_nests_replaced: '',
@@ -1569,9 +1569,9 @@ const resetProductionForm = () => {
     fan_speed_cavity1: '100',
     fan_speed_cavity2: '100',
     belt_speed: '25',
-    lb_larvae_per_tub: '',
-    num_ramp_up_tubs: '',
-    num_ramp_down_tubs: '',
+    lb_larvae_per_tub: '20',
+    num_ramp_up_tubs: '7',
+    num_ramp_down_tubs: '7',
     notes: ''
   }
 }
@@ -2276,7 +2276,7 @@ body.microwave-theme-active .framework7-root {
   border: 1px solid rgba(255, 152, 0, 0.2);
   border-radius: 10px;
   padding: 4px;
-  width: 120px;
+  width: 140px;
   justify-self: flex-start;
 }
 
@@ -2316,19 +2316,21 @@ body.microwave-theme-active .framework7-root {
 .belt-speed-value {
   font-size: 16px;
   font-weight: 600;
-  width: 40px;
+  width: 35px;
   text-align: center;
   color: #333;
   background: transparent;
   border: none;
   outline: none;
+  flex-shrink: 0;
 }
 
 .belt-speed-unit {
-  font-size: 14px;
+  font-size: 12px;
   color: #666;
   font-weight: 500;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* Remove extra spacing above Belt Speed field */
