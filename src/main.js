@@ -19,4 +19,14 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
 }
 
 app.use(pinia)
+
+// Add haptic feedback globally
+f7.panel.on('open', function(panel) {
+  f7.device.haptic('light')
+})
+
+f7.panel.on('close', function(panel) {
+  f7.device.haptic('selection')
+})
+
 app.mount('#app');
