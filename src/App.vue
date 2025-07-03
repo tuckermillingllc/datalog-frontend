@@ -1797,4 +1797,17 @@ body.microwave-theme-active .framework7-root {
     background: linear-gradient(180deg, rgba(28, 28, 30, 0.95) 0%, rgba(255, 152, 0, 0.1) 100%);
   }
 }
+
+.navbar .nav-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+}
+
+.f7-block-title {
+  text-align: center !important;
+}
+
 </style>
