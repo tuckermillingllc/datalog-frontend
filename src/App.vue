@@ -76,7 +76,7 @@
 
         <!-- Larvae Page -->
         <f7-block v-if="currentPage === 'larvae'" class="larvae-theme">
-          <f7-block-title>Larvae Logs</f7-block-title>
+          <f7-block-title class="text-align-center">Larvae Logs</f7-block-title>
           
           <f7-segmented raised class="larvae-segmented">
             <f7-button :class="{ 'button-active larvae-active': larvaeTab === 'form' }" @click="larvaeTab = 'form'">New Log</f7-button>
@@ -203,7 +203,7 @@
 
         <!-- Prepupae Page -->
         <f7-block v-if="currentPage === 'prepupae'" class="prepupae-theme">
-          <f7-block-title>Prepupae Logs</f7-block-title>
+          <f7-block-title class="text-align-center">Prepupae Logs</f7-block-title>
           
           <f7-segmented raised class="prepupae-segmented">
             <f7-button :class="{ 'button-active prepupae-active': prepupaeTab === 'form' }" @click="prepupaeTab = 'form'">New Log</f7-button>
@@ -300,7 +300,7 @@
 
         <!-- Neonates Page -->
         <f7-block v-if="currentPage === 'neonates'" class="neonate-theme">
-          <f7-block-title>Neonate Logs</f7-block-title>
+          <f7-block-title class="text-align-center">Neonate Logs</f7-block-title>
           
           <f7-segmented raised class="neonate-segmented">
             <f7-button :class="{ 'button-active neonate-active': neonateTab === 'form' }" @click="neonateTab = 'form'">New Log</f7-button>
@@ -407,7 +407,7 @@
 
         <!-- Microwave Page -->
         <f7-block v-if="currentPage === 'microwave'" class="microwave-theme">
-          <f7-block-title>Microwave Logs</f7-block-title>
+          <f7-block-title class="text-align-center">Microwave Logs</f7-block-title>
           
           <f7-segmented raised class="microwave-segmented">
             <f7-button :class="{ 'button-active microwave-active': microwaveTab === 'new' }" @click="microwaveTab = 'new'">New Run</f7-button>
