@@ -1641,11 +1641,9 @@ body.microwave-theme-active .framework7-root {
   font-weight: 700;
   color: #4CAF50;
 }
-.larvae-page .navbar ~ *,
-.prepupae-page .navbar ~ *,
-.neonate-page .navbar ~ *,
-.microwave-page .navbar ~ * {
-  background: transparent !important;
-}
 
+.ios .navbar {
+  padding-top: env(safe-area-inset-top) !important;
+  margin-top: calc(-1 * env(safe-area-inset-top)) !important;
+}
 </style>
