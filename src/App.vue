@@ -4,7 +4,9 @@
     <f7-view main>
       <f7-page :class="getPageClass()">
         <f7-navbar :class="getNavbarClass()">
+          <f7-nav-left></f7-nav-left>
           <f7-nav-title>{{ getPageTitle() }}</f7-nav-title>
+          <f7-nav-right></f7-nav-right>
         </f7-navbar>
 
         <!-- Home Page -->
@@ -1814,21 +1816,6 @@ body.microwave-theme-active .framework7-root {
   .bottom-tabs.microwave-tabs {
     background: linear-gradient(180deg, rgba(28, 28, 30, 0.95) 0%, rgba(255, 152, 0, 0.1) 100%);
   }
-}
-
-.navbar .nav-title {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-  text-align: center;
-}
-
-.f7-block-title {
-  text-align: center !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  width: fit-content !important;
 }
 
 </style>
