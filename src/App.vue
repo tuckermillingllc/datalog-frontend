@@ -899,9 +899,9 @@ const loadAllData = async () => {
     loadLarvaeLogs(),
     loadPrepupaeLogs(),
     loadNeonateLogs(),
-    loadMicrowaveLogs(),
-    loadQuickStats()
+    loadMicrowaveLogs()
   ])
+	await loadQuickStats()
 }
 
 const loadQuickStats = async () => {
