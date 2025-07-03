@@ -1534,7 +1534,11 @@ body.microwave-theme-active .framework7-root {
 
 /* Center all block titles globally */
 .f7-block-title {
-  text-align: center !important;
+  width: 100%;
+  text-align: center;
+  padding: 0;
+  margin: 0 auto;
+  font-weight: bold;
 }
 
 .card-header-content {
