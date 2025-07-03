@@ -4,9 +4,15 @@
     <f7-view main>
       <f7-page :class="getPageClass()">
         <f7-navbar :class="getNavbarClass()">
-          <f7-nav-left></f7-nav-left>
+          <f7-nav-left>
+            <f7-link @click="showUserSelector" class="user-button">
+              <f7-icon f7="person_circle" size="24px"></f7-icon>
+            </f7-link>
+          </f7-nav-left>
           <f7-nav-title>{{ getPageTitle() }}</f7-nav-title>
-          <f7-nav-right></f7-nav-right>
+          <f7-nav-right>
+            <span class="current-user">{{ currentUser || 'No User' }}</span>
+          </f7-nav-right>
         </f7-navbar>
 
         <!-- Home Page -->
@@ -733,9 +739,70 @@
           <i class="f7-icons">bolt_fill</i>
         </div>
         <div class="tab-label">Microwave</div>
-        <div class="tab-indicator microwave-indicator"></div>
+        <div class="tab-indicator microwave-indicator">        </div>
       </div>
     </div>
+
+    <!-- User Selection Modal -->
+    <f7-popup class="user-popup" :opened="userPopupOpen" @popup:closed="userPopupOpen = false">
+      <f7-page>
+        <f7-navbar title="Select User">
+          <f7-nav-right>
+            <f7-link popup-close>Done</f7-link>
+          </f7-nav-right>
+        </f7-navbar>
+        
+        <f7-block>
+          <f7-block-title>Current User</f7-block-title>
+          <f7-list>
+            <f7-list-item v-if="currentUser" :title="currentUser" badge="Active" badge-color="green">
+              <f7-icon slot="media" f7="person_fill" color="green"></f7-icon>
+            </f7-list-item>
+            <f7-list-item v-else title="No user selected" text-color="red">
+              <f7-icon slot="media" f7="person" color="red"></f7-icon>
+            </f7-list-item>
+          </f7-list>
+        </f7-block>
+
+        <f7-block>
+          <f7-block-title>Add New User</f7-block-title>
+          <f7-list>
+            <f7-list-input
+              label="Username"
+              type="text"
+              placeholder="Enter username"
+              v-model:value="newUsername"
+              @keyup.enter="addUser"
+            />
+          </f7-list>
+          <f7-button fill @click="addUser" :disabled="!newUsername.trim()">
+            Add User
+          </f7-button>
+        </f7-block>
+
+        <f7-block v-if="recentUsers.length > 0">
+          <f7-block-title>Recent Users</f7-block-title>
+          <f7-list>
+            <f7-list-item 
+              v-for="user in recentUsers" 
+              :key="user.username"
+              :title="user.username"
+              :after="formatLastActive(user.last_active)"
+              @click="selectUser(user.username)"
+              link
+            >
+              <f7-icon slot="media" f7="person_circle"></f7-icon>
+            </f7-list-item>
+          </f7-list>
+        </f7-block>
+
+        <f7-block v-if="currentUser">
+          <f7-button color="red" @click="clearUser">
+            Clear Current User
+          </f7-button>
+        </f7-block>
+      </f7-page>
+    </f7-popup>
   </f7-app>
 </template>
 
@@ -756,6 +823,13 @@ for (const [key, value] of Object.entries(form)) {
   }
   return cleaned
 }
+
+// User management state
+const currentUser = ref('')
+const userPopupOpen = ref(false)
+const newUsername = ref('')
+const recentUsers = ref([])
+const browserFingerprint = ref('')
 
 // Navigation state
 const currentPage = ref('home')
@@ -873,6 +947,7 @@ const calculatedGrowthRate = computed(() => {
 
 // Lifecycle
 onMounted(() => {
+  initializeUser()
   loadAllData()
   
   // Apply dynamic theming after F7 initialization
@@ -923,6 +998,153 @@ const applyPageTheme = () => {
       root.style.setProperty('--f7-navbar-bg-color', '#f7f7f8')
       root.style.setProperty('--f7-bars-bg-color', '#f7f7f8')
   }
+}
+
+// User Management Functions
+const generateBrowserFingerprint = () => {
+  const fingerprint = btoa(JSON.stringify({
+    userAgent: navigator.userAgent.substring(0, 100),
+    language: navigator.language,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    screen: `${screen.width}x${screen.height}`,
+    timestamp: Date.now()
+  }))
+  return fingerprint.substring(0, 50)
+}
+
+const initializeUser = () => {
+  // Generate browser fingerprint
+  browserFingerprint.value = generateBrowserFingerprint()
+  
+  // Load current user from localStorage
+  const savedUser = localStorage.getItem('bsfl_current_user')
+  if (savedUser) {
+    currentUser.value = savedUser
+    updateUserActivity()
+    populateUsernameForms()
+  } else {
+    // Show user selector on first visit
+    setTimeout(() => {
+      userPopupOpen.value = true
+    }, 500)
+  }
+  
+  // Load recent users
+  loadRecentUsers()
+}
+
+const loadRecentUsers = () => {
+  const saved = localStorage.getItem('bsfl_recent_users')
+  if (saved) {
+    recentUsers.value = JSON.parse(saved)
+  }
+}
+
+const saveRecentUsers = () => {
+  localStorage.setItem('bsfl_recent_users', JSON.stringify(recentUsers.value))
+}
+
+const selectUser = (username) => {
+  currentUser.value = username
+  localStorage.setItem('bsfl_current_user', username)
+  updateUserActivity()
+  populateUsernameForms()
+  userPopupOpen.value = false
+  
+  f7.toast.create({
+    text: `Switched to user: ${username}`,
+    closeTimeout: 2000,
+  }).open()
+}
+
+const addUser = () => {
+  const username = newUsername.value.trim()
+  if (!username) return
+  
+  // Add to recent users if not already there
+  const existingIndex = recentUsers.value.findIndex(u => u.username === username)
+  if (existingIndex >= 0) {
+    recentUsers.value.splice(existingIndex, 1)
+  }
+  
+  recentUsers.value.unshift({
+    username: username,
+    last_active: new Date().toISOString(),
+    device_id: browserFingerprint.value
+  })
+  
+  // Keep only last 10 users
+  recentUsers.value = recentUsers.value.slice(0, 10)
+  saveRecentUsers()
+  
+  // Select this user
+  selectUser(username)
+  newUsername.value = ''
+}
+
+const updateUserActivity = () => {
+  const now = new Date().toISOString()
+  
+  // Update in recent users
+  const userIndex = recentUsers.value.findIndex(u => u.username === currentUser.value)
+  if (userIndex >= 0) {
+    recentUsers.value[userIndex].last_active = now
+  } else if (currentUser.value) {
+    recentUsers.value.unshift({
+      username: currentUser.value,
+      last_active: now,
+      device_id: browserFingerprint.value
+    })
+  }
+  
+  saveRecentUsers()
+  localStorage.setItem('bsfl_last_active', now)
+}
+
+const populateUsernameForms = () => {
+  if (currentUser.value) {
+    larvaeForm.value.username = currentUser.value
+    prepupaeForm.value.username = currentUser.value
+    neonateForm.value.username = currentUser.value
+    productionForm.value.username = currentUser.value
+  }
+}
+
+const showUserSelector = () => {
+  userPopupOpen.value = true
+}
+
+const clearUser = () => {
+  currentUser.value = ''
+  localStorage.removeItem('bsfl_current_user')
+  
+  // Clear username from all forms
+  larvaeForm.value.username = ''
+  prepupaeForm.value.username = ''
+  neonateForm.value.username = ''
+  productionForm.value.username = ''
+  
+  userPopupOpen.value = false
+  
+  f7.toast.create({
+    text: 'User cleared',
+    closeTimeout: 2000,
+  }).open()
+}
+
+const formatLastActive = (dateString) => {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now - date
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMins / 60)
+  const diffDays = Math.floor(diffHours / 24)
+  
+  if (diffMins < 1) return 'Just now'
+  if (diffMins < 60) return `${diffMins}m ago`
+  if (diffHours < 24) return `${diffHours}h ago`
+  if (diffDays < 7) return `${diffDays}d ago`
+  return date.toLocaleDateString()
 }
 
 // Methods
@@ -1062,7 +1284,7 @@ const loadLarvaeLogs = async () => {
 
 const resetLarvaeForm = () => {
   larvaeForm.value = {
-    username: '',
+    username: currentUser.value || '',
     days_of_age: '',
     larva_weight: '',
     larva_pct: '',
@@ -1205,7 +1427,7 @@ const loadNeonateLogs = async () => {
 
 const resetPrepupaeForm = () => {
   prepupaeForm.value = {
-    username: '',
+    username: currentUser.value || '',
     temperature: '',
     humidity: '',
     prepupae_tubs_added: '',
@@ -1216,7 +1438,7 @@ const resetPrepupaeForm = () => {
 
 const resetNeonateForm = () => {
   neonateForm.value = {
-    username: '',
+    username: currentUser.value || '',
     temperature: '',
     humidity: '',
     bait_tubs_replaced: '',
@@ -1310,7 +1532,7 @@ const loadSelectedRun = () => {
 
 const resetProductionForm = () => {
   productionForm.value = {
-    username: '',
+    username: currentUser.value || '',
     microwave_power_gen1: '75',
     microwave_power_gen2: '65',
     fan_speed_cavity1: '100',
@@ -2012,5 +2234,47 @@ body.microwave-theme-active .framework7-root {
 .navbar .title {
   font-size: 22px;
   font-weight: 600;
+}
+
+/* User Management Styles */
+.user-button {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.user-button:active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.current-user {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-popup .popup {
+  background: var(--f7-page-bg-color);
+}
+
+.user-popup .navbar {
+  background: var(--f7-navbar-bg-color);
+}
+
+/* Dark mode user interface */
+@media (prefers-color-scheme: dark) {
+  .current-user {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .user-button:active {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 }
 </style>
