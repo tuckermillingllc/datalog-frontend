@@ -1015,12 +1015,15 @@ const loadQuickStats = async () => {
 const submitLarvaeLog = async () => {
   submitting.value = true
   try {
+    const formData = prepareFormData(larvaeForm.value)
+    console.log('Submitting larvae data:', formData)
+    
     const response = await fetch('https://datalog-backend.onrender.com/api/logs', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(prepareFormData(larvaeForm.value))
+      body: JSON.stringify(formData)
     })
     
     if (response.ok) {
@@ -1031,11 +1034,13 @@ const submitLarvaeLog = async () => {
         closeTimeout: 2000,
       }).open()
     } else {
-      throw new Error('Failed to save log')
+      const errorData = await response.text()
+      console.error('Server response:', response.status, errorData)
+      throw new Error(`Server error: ${response.status}`)
     }
   } catch (error) {
     console.error('Error saving larvae log:', error)
-    f7.dialog.alert('Error saving log. Please try again.')
+    f7.dialog.alert(`Error saving log: ${error.message}. Please try again.`)
   } finally {
     submitting.value = false
   }
