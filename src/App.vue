@@ -1822,6 +1822,9 @@ body.microwave-theme-active .framework7-root {
 
 .f7-block-title {
   text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: fit-content !important;
 }
 
 </style>
