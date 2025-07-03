@@ -524,13 +524,9 @@
               />
               <f7-list-input 
                 label="Belt Speed" 
-                type="number"
-                :value="productionForm.belt_speed"
-                @input="(e) => productionForm.belt_speed = e.target.value"
-                :step="0.5"
-                :min="0"
-                :max="100"
-                placeholder="25.0"
+                type="text"
+                readonly
+                class="belt-speed-input"
               >
                 <template v-slot:input>
                   <div class="belt-speed-stepper">
@@ -544,7 +540,7 @@
                       min="0" 
                       max="100"
                     >
-                    <span class="belt-speed-unit">%</span>
+                    <span class="belt-speed-unit">cm/min</span>
                     <button class="stepper-btn" @click="incrementBeltSpeed" :disabled="parseFloat(productionForm.belt_speed) >= 100">+</button>
                   </div>
                 </template>
@@ -2272,17 +2268,16 @@ body.microwave-theme-active .framework7-root {
 }
 
 /* Belt Speed Custom Stepper */
-/* Belt Speed Custom Stepper */
 .belt-speed-stepper {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(0, 122, 255, 0.1);
-  border: 1px solid rgba(0, 122, 255, 0.2);
+  background: rgba(255, 152, 0, 0.1);
+  border: 1px solid rgba(255, 152, 0, 0.2);
   border-radius: 10px;
   padding: 4px;
-  max-width: 140px;
-  margin: 0 auto;
+  width: 120px;
+  justify-self: flex-start;
 }
 
 .stepper-btn {
@@ -2321,13 +2316,12 @@ body.microwave-theme-active .framework7-root {
 .belt-speed-value {
   font-size: 16px;
   font-weight: 600;
-  min-width: 40px;
+  width: 40px;
   text-align: center;
   color: #333;
   background: transparent;
   border: none;
   outline: none;
-  flex: 1;
 }
 
 .belt-speed-unit {
@@ -2335,6 +2329,11 @@ body.microwave-theme-active .framework7-root {
   color: #666;
   font-weight: 500;
   flex-shrink: 0;
+}
+
+/* Remove extra spacing above Belt Speed field */
+.belt-speed-stepper {
+  margin-top: -8px;
 }
 
 /* User Management Styles */
