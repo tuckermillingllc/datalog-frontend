@@ -2266,28 +2266,27 @@ body.microwave-theme-active .framework7-root {
   font-size: 22px;
   font-weight: 600;
 }
-
 /* Belt Speed Custom Stepper */
 .belt-speed-stepper {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 152, 0, 0.1);
-  border: 1px solid rgba(255, 152, 0, 0.2);
+  gap: 0;
+  background: rgba(255, 152, 0, 0.15);
+  border: 1px solid rgba(255, 152, 0, 0.3);
   border-radius: 10px;
-  padding: 4px;
-  width: 140px;
+  padding: 0;
+  width: fit-content;
   justify-self: flex-start;
+  margin-top: -8px;
 }
 
 .stepper-btn {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border: none;
-  border-radius: 6px;
   background: #FF9800;
   color: white;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -2297,45 +2296,49 @@ body.microwave-theme-active .framework7-root {
   flex-shrink: 0;
 }
 
+.stepper-btn:first-child {
+  border-radius: 9px 0 0 9px;
+}
+
+.stepper-btn:last-child {
+  border-radius: 0 9px 9px 0;
+}
+
 .stepper-btn:hover {
   background: #F57C00;
-  transform: scale(1.05);
 }
 
 .stepper-btn:active {
   background: #E65100;
-  transform: scale(0.95);
 }
 
 .stepper-btn:disabled {
   background: #ccc;
   cursor: not-allowed;
-  transform: none;
 }
 
 .belt-speed-value {
   font-size: 16px;
   font-weight: 600;
-  width: 35px;
+  width: 50px;
   text-align: center;
   color: #333;
-  background: transparent;
+  background: rgba(255, 152, 0, 0.1);
   border: none;
   outline: none;
-  flex-shrink: 0;
+  height: 32px;
+  line-height: 32px;
 }
 
 .belt-speed-unit {
-  font-size: 12px;
+  font-size: 11px;
   color: #666;
   font-weight: 500;
-  flex-shrink: 0;
+  background: rgba(255, 152, 0, 0.1);
+  padding: 0 8px;
+  height: 32px;
+  line-height: 32px;
   white-space: nowrap;
-}
-
-/* Remove extra spacing above Belt Speed field */
-.belt-speed-stepper {
-  margin-top: -8px;
 }
 
 /* User Management Styles */
