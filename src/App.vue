@@ -1523,10 +1523,13 @@ body.microwave-theme-active .framework7-root {
 .prepupae-theme .f7-block-title,
 .neonate-theme .f7-block-title,
 .microwave-theme .f7-block-title,
-.f7-block .f7-block-title {
+.f7-block .f7-block-title,
+.block-title {
   text-align: center !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  width: 100% !important;
+  display: block !important;
 }
 
 .card-header-content {
