@@ -865,7 +865,7 @@ const navigateTo = (page) => {
 
 const getPageTitle = () => {
   const titles = {
-    home: 'DataLog System',
+    home: 'Tucker BSFL Logger',
     larvae: 'Larvae Logs',
     prepupae: 'Prepupae Logs',
     neonates: 'Neonate Logs',
