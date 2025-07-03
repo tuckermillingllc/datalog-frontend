@@ -1,72 +1,10 @@
 <template>
   <f7-app :params="f7params">
-    <!-- Left Panel with swipe enabled -->
-    <f7-panel 
-      left 
-      reveal 
-      :swipe="true"
-      :swipe-active-area="50"
-    >
-      <f7-view>
-        <f7-page>
-          <f7-navbar title="DataLog" />
-          <f7-list menu-list>
-            <f7-list-item 
-              link="#" 
-              title="Home" 
-              @click="navigateTo('home')"
-              :class="{ 'item-selected': currentPage === 'home' }"
-            >
-              <f7-icon slot="media" f7="house" />
-            </f7-list-item>
-            <f7-list-item 
-              link="#" 
-              title="Larvae Logs" 
-              @click="navigateTo('larvae')"
-              :class="{ 'item-selected larvae-selected': currentPage === 'larvae' }"
-            >
-              <f7-icon slot="media" ios="f7:ant"/>
-            </f7-list-item>
-            <f7-list-item 
-              link="#" 
-              title="Prepupae Logs" 
-              @click="navigateTo('prepupae')"
-              :class="{ 'item-selected prepupae-selected': currentPage === 'prepupae' }"
-            >
-              <f7-icon slot="media" ios="f7:cube_box"/>
-            </f7-list-item>
-            <f7-list-item 
-              link="#" 
-              title="Neonate Logs" 
-              @click="navigateTo('neonates')"
-              :class="{ 'item-selected neonate-selected': currentPage === 'neonates' }"
-            >
-              <f7-icon slot="media" ios="f7:circle_grid_3x3"/>
-            </f7-list-item>
-            <f7-list-item 
-              link="#" 
-              title="Microwave Logs" 
-              @click="navigateTo('microwave')"
-              :class="{ 'item-selected microwave-selected': currentPage === 'microwave' }"
-            >
-              <f7-icon slot="media" ios="f7:bolt"/>
-            </f7-list-item>
-          </f7-list>
-        </f7-page>
-      </f7-view>
-    </f7-panel>
-
     <!-- Main View -->
     <f7-view main>
       <f7-page :class="getPageClass()">
         <f7-navbar :class="getNavbarClass()">
-          <f7-nav-left>
-            <f7-link panel-open="left" icon-f7="bars" />
-          </f7-nav-left>
           <f7-nav-title>{{ getPageTitle() }}</f7-nav-title>
-          <f7-nav-right>
-            <!-- Empty right side -->
-          </f7-nav-right>
         </f7-navbar>
 
         <!-- Home Page -->
@@ -666,8 +604,73 @@
             </f7-block>
           </div>
         </f7-block>
+
+        <!-- Bottom padding to prevent content from being hidden behind tabs -->
+        <div class="bottom-tab-spacer"></div>
       </f7-page>
     </f7-view>
+
+    <!-- Bottom Tab Navigation -->
+    <div class="bottom-tabs" :class="getBottomTabsClass()">
+      <div 
+        class="tab-item" 
+        :class="{ 'tab-active': currentPage === 'home' }"
+        @click="navigateTo('home')"
+      >
+        <div class="tab-icon">
+          <i class="f7-icons">house_fill</i>
+        </div>
+        <div class="tab-label">Home</div>
+      </div>
+      
+      <div 
+        class="tab-item larvae-tab" 
+        :class="{ 'tab-active': currentPage === 'larvae' }"
+        @click="navigateTo('larvae')"
+      >
+        <div class="tab-icon">
+          <i class="f7-icons">ant_fill</i>
+        </div>
+        <div class="tab-label">Larvae</div>
+        <div class="tab-indicator larvae-indicator"></div>
+      </div>
+      
+      <div 
+        class="tab-item prepupae-tab" 
+        :class="{ 'tab-active': currentPage === 'prepupae' }"
+        @click="navigateTo('prepupae')"
+      >
+        <div class="tab-icon">
+          <i class="f7-icons">cube_box_fill</i>
+        </div>
+        <div class="tab-label">Prepupae</div>
+        <div class="tab-indicator prepupae-indicator"></div>
+      </div>
+      
+      <div 
+        class="tab-item neonate-tab" 
+        :class="{ 'tab-active': currentPage === 'neonates' }"
+        @click="navigateTo('neonates')"
+      >
+        <div class="tab-icon">
+          <i class="f7-icons">circle_grid_3x3_fill</i>
+        </div>
+        <div class="tab-label">Neonates</div>
+        <div class="tab-indicator neonate-indicator"></div>
+      </div>
+      
+      <div 
+        class="tab-item microwave-tab" 
+        :class="{ 'tab-active': currentPage === 'microwave' }"
+        @click="navigateTo('microwave')"
+      >
+        <div class="tab-icon">
+          <i class="f7-icons">bolt_fill</i>
+        </div>
+        <div class="tab-label">Microwave</div>
+        <div class="tab-indicator microwave-indicator"></div>
+      </div>
+    </div>
   </f7-app>
 </template>
 
@@ -725,16 +728,31 @@ const neonateForm = ref({
 
 const productionForm = ref({
   username: '',
-  microwave_power_gen1: '',
-  microwave_power_gen2: '',
-  fan_speed_cavity1: '',
-  fan_speed_cavity2: '',
+  microwave_power_gen1: '75',
+  microwave_power_gen2: '65',
+  fan_speed_cavity1: '100',
+  fan_speed_cavity2: '100',
   belt_speed: '',
   lb_larvae_per_tub: '',
   num_ramp_up_tubs: '',
   num_ramp_down_tubs: '',
   notes: ''
 })
+
+const resetProductionForm = () => {
+  productionForm.value = {
+    username: '',
+    microwave_power_gen1: '75',
+    microwave_power_gen2: '65',
+    fan_speed_cavity1: '100',
+    fan_speed_cavity2: '100',
+    belt_speed: '',
+    lb_larvae_per_tub: '',
+    num_ramp_up_tubs: '',
+    num_ramp_down_tubs: '',
+    notes: ''
+  }
+}
 
 const updateForm = ref({
   tubs_live_larvae: '',
@@ -753,20 +771,6 @@ const selectedRun = ref(null)
 const f7params = {
   name: 'DataLog',
   theme: 'auto',
-  // Enable touch/swipe features
-  touch: {
-    fastClicks: true,
-    tapHold: true,
-    tapHoldDelay: 250,
-    iosTouchRipple: false
-  },
-  // Panel settings for iOS swipe
-  panel: {
-    swipe: true,
-    swipeActiveArea: 50,
-    swipeCloseOpposite: true
-  },
-  // Theme configuration
   colors: {
     primary: '#42b883'
   }
@@ -844,7 +848,6 @@ const applyPageTheme = () => {
 // Methods
 const navigateTo = (page) => {
   currentPage.value = page
-  f7.panel.close()
 }
 
 const getPageTitle = () => {
@@ -874,6 +877,16 @@ const getNavbarClass = () => {
     prepupae: 'prepupae-navbar',
     neonates: 'neonate-navbar',
     microwave: 'microwave-navbar'
+  }
+  return classes[currentPage.value] || ''
+}
+
+const getBottomTabsClass = () => {
+  const classes = {
+    larvae: 'larvae-tabs',
+    prepupae: 'prepupae-tabs',
+    neonates: 'neonate-tabs',
+    microwave: 'microwave-tabs'
   }
   return classes[currentPage.value] || ''
 }
@@ -1581,4 +1594,219 @@ body.microwave-theme-active .framework7-root {
   font-weight: 700;
   color: #4CAF50;
 }
-</style>
+
+/* Bottom Tab Navigation Styles */
+.bottom-tabs {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.bottom-tab-spacer {
+  height: calc(80px + env(safe-area-inset-bottom));
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  flex: 1;
+  padding: 8px 4px;
+}
+
+.tab-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #8e8e93;
+}
+
+.tab-label {
+  font-size: 10px;
+  font-weight: 500;
+  text-align: center;
+  transition: color 0.3s ease;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tab-indicator {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Active tab states */
+.tab-item.tab-active .tab-icon {
+  transform: scale(1.1);
+}
+
+.tab-item.tab-active .tab-label {
+  font-weight: 600;
+}
+
+.tab-item.tab-active .tab-indicator {
+  opacity: 1;
+}
+
+/* Home tab active state */
+.tab-item.tab-active:not(.larvae-tab):not(.prepupae-tab):not(.neonate-tab):not(.microwave-tab) .tab-icon,
+.tab-item.tab-active:not(.larvae-tab):not(.prepupae-tab):not(.neonate-tab):not(.microwave-tab) .tab-label {
+  color: #42b883;
+}
+
+/* Themed tab states */
+.larvae-tab.tab-active .tab-icon,
+.larvae-tab.tab-active .tab-label {
+  color: var(--larvae-color);
+}
+
+.larvae-indicator {
+  background: var(--larvae-color);
+}
+
+.prepupae-tab.tab-active .tab-icon,
+.prepupae-tab.tab-active .tab-label {
+  color: var(--prepupae-color);
+}
+
+.prepupae-indicator {
+  background: var(--prepupae-color);
+}
+
+.neonate-tab.tab-active .tab-icon,
+.neonate-tab.tab-active .tab-label {
+  color: var(--neonate-color);
+}
+
+.neonate-indicator {
+  background: var(--neonate-color);
+}
+
+.microwave-tab.tab-active .tab-icon,
+.microwave-tab.tab-active .tab-label {
+  color: var(--microwave-color);
+}
+
+.microwave-indicator {
+  background: var(--microwave-color);
+}
+
+/* Tab bar theming based on current page */
+.bottom-tabs.larvae-tabs {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(76, 175, 80, 0.05) 100%);
+  border-top-color: rgba(76, 175, 80, 0.2);
+}
+
+.bottom-tabs.prepupae-tabs {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(33, 150, 243, 0.05) 100%);
+  border-top-color: rgba(33, 150, 243, 0.2);
+}
+
+.bottom-tabs.neonate-tabs {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(156, 39, 176, 0.05) 100%);
+  border-top-color: rgba(156, 39, 176, 0.2);
+}
+
+.bottom-tabs.microwave-tabs {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 152, 0, 0.05) 100%);
+  border-top-color: rgba(255, 152, 0, 0.2);
+}
+
+/* Hover effects for desktop */
+@media (hover: hover) {
+  .tab-item:hover .tab-icon {
+    transform: scale(1.05);
+  }
+  
+  .tab-item:hover:not(.tab-active) .tab-icon,
+  .tab-item:hover:not(.tab-active) .tab-label {
+    color: #666;
+  }
+}
+
+/* Touch feedback */
+.tab-item:active {
+  transform: scale(0.95);
+}
+
+.tab-item:active .tab-icon {
+  transform: scale(1.0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 375px) {
+  .tab-label {
+    font-size: 9px;
+  }
+  
+  .tab-icon {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 320px) {
+  .tab-label {
+    font-size: 8px;
+  }
+  
+  .tab-icon {
+    font-size: 20px;
+  }
+  
+  .tab-item {
+    padding: 6px 2px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .bottom-tabs {
+    background: rgba(28, 28, 30, 0.95);
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .tab-icon,
+  .tab-label {
+    color: #8e8e93;
+  }
+  
+  .bottom-tabs.larvae-tabs {
+    background: linear-gradient(180deg, rgba(28, 28, 30, 0.95) 0%, rgba(76, 175, 80, 0.1) 100%);
+  }
+  
+  .bottom-tabs.prepupae-tabs {
+    background: linear-gradient(180deg, rgba(28, 28, 30, 0.95) 0%, rgba(33, 150, 243, 0.1) 100%);
+  }
+  
+  .bottom-tabs.neonate-tabs {
+    background: linear-gradient(180deg, rgba(28, 28, 30, 0.95) 0%, rgba(156, 39, 176, 0.1) 100%);
+  }
+  
+  .bottom-tabs.microwave-tabs {
+    background: linear-gradient(180deg, rgba(28, 28, 30, 0.95) 0%, rgba(255, 152, 0, 0.1) 100%);
+  }
+}
