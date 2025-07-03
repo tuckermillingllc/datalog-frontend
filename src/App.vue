@@ -679,6 +679,20 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { f7 } from 'framework7-vue'
 
+const prepareFormData = (form) => {
+const cleaned = {}
+for (const [key, value] of Object.entries(form)) {
+  if (value === '' || value === null || value === undefined) {
+      cleaned[key] = null
+    } else if (!isNaN(value) && value !== true && value !== false) {
+      cleaned[key] = Number(value)
+    } else {
+      cleaned[key] = value
+    }
+  }
+  return cleaned
+}
+
 // Navigation state
 const currentPage = ref('home')
 const larvaeTab = ref('form')
@@ -917,7 +931,7 @@ const submitLarvaeLog = async () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(larvaeForm.value)
+      body: JSON.stringify(prepareFormData(larvaeForm.value))
     })
     
     if (response.ok) {
@@ -972,7 +986,7 @@ const submitPrepupaeLog = async () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(prepupaeForm.value)
+      body: JSON.stringify(prepareFormData(prepupaeForm.value))
     })
     
     if (response.ok) {
@@ -1002,7 +1016,7 @@ const submitNeonateLog = async () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(neonateForm.value)
+      body: JSON.stringify(prepareFormData(neonateForm.value))
     })
     
     if (response.ok) {
@@ -1077,7 +1091,7 @@ const submitProductionRun = async () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(productionForm.value)
+      body: JSON.stringify(prepareFormData(productionForm.value))
     })
     
     if (response.ok) {
@@ -1106,7 +1120,7 @@ const updateProductionRun = async () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(updateForm.value)
+      body: JSON.stringify(prepareFormData(updateForm.value))
     })
     
     if (response.ok) {
