@@ -1642,8 +1642,4 @@ body.microwave-theme-active .framework7-root {
   color: #4CAF50;
 }
 
-.ios .navbar {
-  padding-top: env(safe-area-inset-top) !important;
-  margin-top: calc(-1 * env(safe-area-inset-top)) !important;
-}
 </style>
